@@ -5,7 +5,7 @@ class MainMenu : public Menu {
 private:
     void initButtons() override;
 public:
-    MainMenu(std::shared_ptr<Font> sharedFont);
+    MainMenu();
 
     int handleInput(RenderWindow& window, const Event& event) override;
 };

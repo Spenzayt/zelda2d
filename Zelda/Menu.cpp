@@ -1,6 +1,16 @@
 #include "Menu.hpp"
 
-Menu::Menu(std::shared_ptr<Font> sharedFont) : font(sharedFont) {}
+void Menu::initFont()
+{
+    if (!font.loadFromFile("assets/font/test.otf")) {
+    }
+}
+
+Menu::Menu() {
+    initFont();
+}
+
+
 
 void Menu::handleMouseHover(const RenderWindow& window)
 {

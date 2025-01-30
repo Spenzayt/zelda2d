@@ -4,13 +4,23 @@
 #include <SFML/Graphics.hpp>
 #include "map.hpp"
 #include "Player.hpp"
+#include "Menu.hpp"
+#include "MainMenu.hpp"
 
 class Game {
 public:
+    enum GameState {
+        MAIN_MENU,
+        PLAYING,
+        PAUSE,
+        VICTORY,
+        GAMEOVER
+    };
     Game();
     ~Game();
 
     void run();
+    void handleGameState(Event& event);
 
 private:
     void createWindow();
@@ -23,6 +33,9 @@ private:
 
     Map map;
     Player player;
+
+    GameState currentState;
+    MainMenu mainMenu;
 };
 
 #endif // GAME_H

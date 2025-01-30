@@ -1,6 +1,7 @@
 #include "game.hpp"
+#include "Player.hpp"
 
-Game::Game() : isRunning(false) {
+Game::Game() : isRunning(false),player(sf::Vector2f(100, 100), 100, "Asset\\Link.png") {
     createWindow();
 }
 
@@ -22,13 +23,13 @@ void Game::processEvents() {
 }
 
 void Game::update(float deltaTime) {
-
+    player.update(deltaTime);
 }
 
 void Game::render() {
     window.clear();
 
-    // Draw
+    player.draw(window);
 
     window.display();
 }

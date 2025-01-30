@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\rmeudec\Documents\GitHub\zelda2d\Zelda\SFML-2.6.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\rmeudec\Documents\GitHub\zelda2d\Zelda\SFML-2.6.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>SFML-2.6.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>SFML-2.6.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -134,10 +134,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entity.hpp" />
     <ClInclude Include="game.hpp" />
+    <ClInclude Include="InputHandler.hpp" />
+    <ClInclude Include="Physics.hpp" />
+    <ClInclude Include="Player.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

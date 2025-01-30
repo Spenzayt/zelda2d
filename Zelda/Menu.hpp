@@ -7,6 +7,7 @@ protected:
 
     // temps entre chaque clic 
     Clock cooldownMouseClock;
+    const Time cooldownMouse;
 
     virtual void initButtons() = 0;
 void initFont();
@@ -17,5 +18,8 @@ public:
     virtual void handleMouseHover(const RenderWindow& window);
 
     virtual void render(RenderWindow& window);
+
+    bool isCooldownActive();
+    void resetCooldown();
 };
 

@@ -6,6 +6,7 @@
 #include "Player.hpp"
 #include "Menu.hpp"
 #include "MainMenu.hpp"
+#include "PauseMenu.hpp"
 
 class Game {
 public:
@@ -34,8 +35,13 @@ private:
     Map map;
     Player player;
 
+    // etats du jeu
     GameState currentState;
     MainMenu mainMenu;
+    PauseMenu pauseMenu;
+
+    RectangleShape overlay;
+    void drawPauseMenu();
 };
 
 #endif // GAME_H

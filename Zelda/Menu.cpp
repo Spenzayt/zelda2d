@@ -31,3 +31,13 @@ void Menu::render(RenderWindow& window)
         window.draw(button);
     }
 }
+
+bool Menu::isCooldownActive()
+{
+    return cooldownMouseClock.getElapsedTime() < cooldownMouse;
+}
+
+void Menu::resetCooldown()
+{
+    cooldownMouseClock.restart();
+}

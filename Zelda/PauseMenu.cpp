@@ -1,30 +1,31 @@
-#include "MainMenu.hpp"
+#include "PauseMenu.hpp"
 
-void MainMenu::initButtons()
+void PauseMenu::initButtons()
 {
-    std::vector<std::string> buttonsMenu = { "Jouer", "Options", "Quitter" };
+    std::vector<std::string> buttonsPauseMenu = { "Reprendre", "Options", "Retour au menu" };
     float windowWidth = 1920.0f;
-    for (size_t i = 0; i < buttonsMenu.size(); i++) {
+    for (size_t i = 0; i < buttonsPauseMenu.size(); i++) {
 
         Text button;
         button.setFont(font);
-        button.setString(buttonsMenu[i]);
+        button.setString(buttonsPauseMenu[i]);
         button.setCharacterSize(50);
         button.setFillColor(Color(168, 168, 168));
 
         FloatRect boundsText = button.getLocalBounds();
         float x = (windowWidth / 2.f) - (boundsText.width / 2.f) - boundsText.left;
-        button.setPosition(x, 400 + static_cast<float>(i)* 80);
+        button.setPosition(x, 400 + static_cast<float>(i) * 80);
         buttons.push_back(button);
     }
 }
 
-MainMenu::MainMenu()
+PauseMenu::PauseMenu()
 {
     initButtons();
 }
 
-int MainMenu::handleInput(RenderWindow& window, const Event& event) {
+int PauseMenu::handleInput(RenderWindow& window, const Event& event)
+{
     if (event.type == Event::MouseButtonReleased && event.mouseButton.button == Mouse::Left) {
         if (!isCooldownActive()) {
             Vector2i mousePos = Mouse::getPosition(window);

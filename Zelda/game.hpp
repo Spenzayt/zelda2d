@@ -1,8 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
-#include "Player.hpp"
 
 #include <SFML/Graphics.hpp>
+#include "map.hpp"
+#include "Player.hpp"
 
 class Game {
 public:
@@ -20,6 +21,7 @@ private:
     sf::RenderWindow window;
     bool isRunning;
 
+    Map map;
     Player player;
 };
 

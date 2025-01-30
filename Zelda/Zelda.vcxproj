@@ -136,13 +136,16 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="config.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="InputHandler.hpp" />
+    <ClInclude Include="map.hpp" />
     <ClInclude Include="Physics.hpp" />
     <ClInclude Include="Player.hpp" />
   </ItemGroup>

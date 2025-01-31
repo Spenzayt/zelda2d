@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\core">
+      <UniqueIdentifier>{fe731665-850f-40d0-9f70-612fb9bfd75b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\entities">
+      <UniqueIdentifier>{deaf4391-c445-450d-a8ba-ae9ee163c6ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\map">
+      <UniqueIdentifier>{db46c96d-be2b-4bd8-8921-2e64f9d52739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\systems">
+      <UniqueIdentifier>{ad47fcda-98ec-4dc6-963d-51dd9456faa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\ui">
+      <UniqueIdentifier>{79b79c45-042d-4672-8112-f9128d507acb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\core">
+      <UniqueIdentifier>{ba39960f-e972-4274-ab39-d840d8ea6390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\entities">
+      <UniqueIdentifier>{94f601d5-9d7f-4bc6-8113-32ae98b5153e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\map">
+      <UniqueIdentifier>{f72a2c96-0878-40e4-b0fb-051ec49b8cee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\systems">
+      <UniqueIdentifier>{a432cf3e-fb5c-444e-903c-b3a7f7185e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\ui">
+      <UniqueIdentifier>{09b67357-ced3-46da-bde5-436f96dd2d53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\utils">
+      <UniqueIdentifier>{c6c36407-0de0-414a-94be-454a01af776e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\systems\physics.cpp">
+      <Filter>Fichiers sources\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\camera.cpp">
+      <Filter>Fichiers sources\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\map.cpp">
+      <Filter>Fichiers sources\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\player.cpp">
+      <Filter>Fichiers sources\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\bokoblin.cpp">
+      <Filter>Fichiers sources\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\game.cpp">
+      <Filter>Fichiers sources\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\inputHandler.cpp">
+      <Filter>Fichiers sources\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\core\Game.hpp">
+      <Filter>Fichiers d%27en-tête\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\InputHandler.hpp">
+      <Filter>Fichiers d%27en-tête\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Player.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Bokoblin.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Entity.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\map\Map.hpp">
+      <Filter>Fichiers d%27en-tête\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\Physics.hpp">
+      <Filter>Fichiers d%27en-tête\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\Camera.hpp">
+      <Filter>Fichiers d%27en-tête\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\Config.hpp">
+      <Filter>Fichiers d%27en-tête\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

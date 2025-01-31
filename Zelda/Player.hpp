@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
+#include "InputHandler.hpp"
 
 class Player : public Entity
 {
@@ -15,10 +16,12 @@ public:
     void checkCollisionWithWalls(const std::vector<sf::RectangleShape>& walls);
 
     const sf::Sprite& getSprite() const { return player; }
-    bool hasKey;
-
+    bool hasKey;  
+  
 protected:
     sf::Sprite player;
     sf::Texture texture;
     sf::Vector2f previousPosition;
+
+    InputHandler inputHandler;
 };

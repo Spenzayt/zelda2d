@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.hpp"
 #include "Menu.hpp"
+#include "InputHandler.hpp"
 class OptionsMenu : public Menu
 {
 public:
@@ -26,8 +27,13 @@ private:
 	void initButtons() override;
 	void initVolumeMenu();
 	void initVolumeControl();
+	void initChangeKeysMenu();
 
 	MenuType currentMenu;
+
+	bool waitingForKey;
+	int waitingForAction;
+	InputHandler inputHandler;
 public:
 
 	OptionsMenu();
@@ -38,7 +44,11 @@ public:
 	void updateCursorVolumeSound();
 	void updateMusicVolume(Vector2i mousePos);
 	void updateSoundVolume(Vector2i mousePos);
+
+	void handleKeyChange(int actionIndex, Keyboard::Key newKey);
 	int handleInput(RenderWindow& window, const Event& event) override;
+
+	void renderChangeKeysMenu(RenderWindow& window);
 	void render(RenderWindow& window) override;
 };
 

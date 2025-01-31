@@ -4,7 +4,7 @@
 #include "InputHandler.hpp"
 #include "Physics.hpp"
 
-Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath) : hasKey(false)
+Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath) : hasKey(false), inputHandler()
 {
     position = spawnposition;
     previousPosition = position;

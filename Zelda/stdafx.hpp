@@ -5,6 +5,8 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <cmath>
+#include <map>
 using namespace sf;
 using namespace std;
 

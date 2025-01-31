@@ -68,6 +68,27 @@ void OptionsMenu::initVolumeControl()
 	soundVolumeText.setPosition(volumeSoundBar.getPosition().x + volumeSoundBar.getSize().x + 20.f, volumeSoundBar.getPosition().y - 15);
 }
 
+void OptionsMenu::initChangeKeysMenu()
+{
+	vector<string> changeKeysButtons = { "Aller vers le haut", "Aller vers le bas", "Aller vers la gauche", "Aller vers la droite", "Retour" };
+	float windowWidth = 1920.f;
+
+	for (size_t i = 0; i < changeKeysButtons.size(); i++) {
+		Text button;
+		button.setFont(font);
+		button.setString(changeKeysButtons[i]);
+		button.setCharacterSize(50);
+		button.setFillColor(Color(168, 168, 168));
+
+		FloatRect textBounds = button.getLocalBounds();
+		float x = (windowWidth / 2.f) - (textBounds.width / 2.f) - textBounds.left;
+		button.setPosition(x, 200 + static_cast<float>(i) * 80);
+		buttons.push_back(button);
+	}
+	waitingForKey = false;
+	waitingForAction = -1;
+}
+
 void OptionsMenu::updateTextVolumeMusic()
 {
 	musicVolumeText.setString(to_string((int)musicVolumeLevel));
@@ -113,6 +134,24 @@ OptionsMenu::OptionsMenu() : musicVolumeLevel(100), soundVolumeLevel(100),isDrag
 	initButtons();
 }
 
+void OptionsMenu::handleKeyChange(int actionIndex, Keyboard::Key newKey)
+{
+	switch (actionIndex) {
+	case 0:
+		inputHandler.remapKey(InputHandler::Action::UP, newKey);
+		break;
+	case 1:
+		inputHandler.remapKey(InputHandler::Action::DOWN, newKey);
+		break;
+	case 2:
+		inputHandler.remapKey(InputHandler::Action::LEFT, newKey);
+		break;
+	case 3:
+		inputHandler.remapKey(InputHandler::Action::RIGHT, newKey);
+		break;
+	}
+}
+
 int OptionsMenu::handleInput(RenderWindow& window, const Event& event)
 {
 	Vector2i mousePos = Mouse::getPosition(window);
@@ -123,6 +162,11 @@ int OptionsMenu::handleInput(RenderWindow& window, const Event& event)
 				currentMenu = MenuType::VOLUME;
 				buttons.clear();
 				initVolumeMenu();
+			}
+			else if (buttons[1].getGlobalBounds().contains(static_cast<Vector2f>(mousePos))) {
+				currentMenu = MenuType::KEYS;
+				buttons.clear();
+				initChangeKeysMenu();
 			}
 			else if (buttons[2].getGlobalBounds().contains(static_cast<Vector2f>(mousePos))) {
 				return 2;
@@ -163,25 +207,45 @@ int OptionsMenu::handleInput(RenderWindow& window, const Event& event)
 		}
 		
 	}
-
- 	/*if (event.type == Event::MouseButtonPressed) {
-		if (volumeMusicSlider.getGlobalBounds().contains(static_cast<Vector2f>(mousePos)) ||
-			volumeMusicBar.getGlobalBounds().contains(static_cast<Vector2f>(mousePos))) {
-			isDragging = true;
-			updateMusicVolume(mousePos);
-		}
-
-		for (size_t i = 0; i < buttons.size(); i++) {
-			if (buttons[i].getGlobalBounds().contains(static_cast<Vector2f>(mousePos))) {
-				resetCooldown();
-				if (i == 2) { 
-					return 2;
+	else if (currentMenu == MenuType::KEYS) {
+		if (event.type == Event::MouseButtonPressed) {
+			for (size_t i = 0; i < buttons.size(); i++) {
+				if (buttons[i].getGlobalBounds().contains(static_cast<Vector2f>(mousePos))) {
+					waitingForKey = true;
+					waitingForAction = i;
 				}
 			}
 		}
-	}*/
+		if (event.type == Event::KeyPressed && waitingForKey) {
+	
+			handleKeyChange(waitingForAction, event.key.code);
+			waitingForKey = false;
+		}
+
+		if (event.type == Event::MouseButtonReleased) {
+			if (buttons[4].getGlobalBounds().contains(static_cast<Vector2f>(mousePos))) {
+	
+				currentMenu = MenuType::OPTIONS;
+				buttons.clear();
+				initButtons();
+			}
+		}
+	}
 
 	return -1;
+}
+
+void OptionsMenu::renderChangeKeysMenu(RenderWindow& window)
+{
+	if (waitingForKey) {
+		Text waitText;
+		waitText.setFont(font);
+		waitText.setString("Appuyez sur une touche...");
+		waitText.setFillColor(Color::White);
+		waitText.setCharacterSize(50);
+		waitText.setPosition(700, 700);
+		window.draw(waitText);
+	}
 }
 
 void OptionsMenu::render(RenderWindow& window)
@@ -197,6 +261,10 @@ void OptionsMenu::render(RenderWindow& window)
 		window.draw(volumeSoundBar);
 		window.draw(volumeSoundSlider);
 		window.draw(soundVolumeText);
+		Menu::render(window);
+	}
+	else if (currentMenu == MenuType::KEYS) {
+		renderChangeKeysMenu(window);
 		Menu::render(window);
 	}
 	

@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bokoblin.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="InputHandler.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bokoblin.hpp" />
     <ClInclude Include="camera.hpp" />
     <ClInclude Include="config.hpp" />
     <ClInclude Include="Entity.hpp" />

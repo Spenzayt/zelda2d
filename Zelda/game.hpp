@@ -7,6 +7,7 @@
 #include "Menu.hpp"
 #include "MainMenu.hpp"
 #include "PauseMenu.hpp"
+#include "OptionsMenu.hpp"
 
 class Game {
 public:
@@ -15,7 +16,8 @@ public:
         PLAYING,
         PAUSE,
         VICTORY,
-        GAMEOVER
+        GAMEOVER,
+        OPTIONS
     };
     Game();
     ~Game();
@@ -39,10 +41,12 @@ private:
     GameState currentState;
     MainMenu mainMenu;
     PauseMenu pauseMenu;
+    OptionsMenu optionsMenu;
 
     RectangleShape overlay;
 
     bool ignoreNextClick;
+    bool isGamePaused;
 };
 
 #endif // GAME_H

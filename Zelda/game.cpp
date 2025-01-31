@@ -1,7 +1,7 @@
 #include "game.hpp"
 
 Game::Game() : isRunning(false), player(sf::Vector2f(100, 100), 100, "assets/characters/Link.png"), 
-currentState(GameState::MAIN_MENU), ignoreNextClick(false) {
+currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false) {
     createWindow();
     map.importAllTextures();
     map.loadBackgroundFromImage();
@@ -24,6 +24,7 @@ void Game::processEvents() {
     }
     if (Keyboard::isKeyPressed(Keyboard::Escape) && currentState == GameState::PLAYING) {
         currentState = GameState::PAUSE;
+        isGamePaused = true;
     }
     handleGameState(event);
 }
@@ -44,10 +45,19 @@ void Game::render() {
         map.draw(window);
         player.draw(window);
     }
+    if (currentState == GameState::OPTIONS) {
+        if (isGamePaused) {
+            map.draw(window);
+            player.draw(window);
+            drawPauseMenu();
+        }
+        optionsMenu.render(window);
+    }
     if (currentState == GameState::PAUSE) {
         map.draw(window);
         player.draw(window);
         drawPauseMenu();
+        pauseMenu.render(window);
     }
     window.display();
 }
@@ -57,7 +67,6 @@ void Game::drawPauseMenu()
     overlay.setSize(Vector2f(1920, 1080));
     overlay.setFillColor(Color(0, 0, 0, 150));
     window.draw(overlay);
-    pauseMenu.render(window);
 }
 
 void Game::run() {
@@ -88,9 +97,27 @@ void Game::handleGameState(Event& event)
         case 0:
             currentState = GameState::PLAYING;
             break;
+        case 1:
+            currentState = GameState::OPTIONS;
+            break;
         case 2:
             isRunning = false;
             break;
+        }
+    }
+    if (currentState == GameState::OPTIONS) {
+        optionsMenu.handleMouseHover(window);
+        int action = optionsMenu.handleInput(window, event);
+
+        if (action == 2) {
+            if (isGamePaused) {
+                currentState = GameState::PLAYING;
+                ignoreNextClick = true;
+            }
+            else {
+                currentState = GameState::MAIN_MENU;
+                ignoreNextClick = true;
+            }
         }
     }
     if (currentState == GameState::PAUSE) {
@@ -100,9 +127,14 @@ void Game::handleGameState(Event& event)
         switch (action) {
         case 0:
             currentState = GameState::PLAYING;
+            isGamePaused = false;
+            break;
+        case 1:
+            currentState = GameState::OPTIONS;
             break;
         case 2:
             currentState = GameState::MAIN_MENU;
+            isGamePaused = false;
             ignoreNextClick = true;
             break;
         }

@@ -10,8 +10,6 @@ Menu::Menu() {
     initFont();
 }
 
-
-
 void Menu::handleMouseHover(const RenderWindow& window)
 {
     Vector2i mousePos = Mouse::getPosition(window);

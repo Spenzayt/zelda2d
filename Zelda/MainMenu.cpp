@@ -25,7 +25,7 @@ MainMenu::MainMenu()
 }
 
 int MainMenu::handleInput(RenderWindow& window, const Event& event) {
-    if (event.type == Event::MouseButtonReleased && event.mouseButton.button == Mouse::Left) {
+    if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
         if (!isCooldownActive()) {
             Vector2i mousePos = Mouse::getPosition(window);
             for (size_t i = 0; i < buttons.size(); i++) {

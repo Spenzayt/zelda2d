@@ -22,7 +22,7 @@ public:
 
     void run();
     void handleGameState(Event& event);
-
+    void drawPauseMenu();
 private:
     void createWindow();
     void processEvents();
@@ -41,7 +41,8 @@ private:
     PauseMenu pauseMenu;
 
     RectangleShape overlay;
-    void drawPauseMenu();
+
+    bool ignoreNextClick;
 };
 
 #endif // GAME_H

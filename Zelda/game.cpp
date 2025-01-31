@@ -1,6 +1,7 @@
 #include "game.hpp"
 
-Game::Game() : isRunning(false), player(sf::Vector2f(100, 100), 100, "assets/characters/Link.png"), currentState(GameState::MAIN_MENU) {
+Game::Game() : isRunning(false), player(sf::Vector2f(100, 100), 100, "assets/characters/Link.png"), 
+currentState(GameState::MAIN_MENU), ignoreNextClick(false) {
     createWindow();
     map.importAllTextures();
     map.loadBackgroundFromImage();
@@ -73,6 +74,12 @@ void Game::run() {
 
 void Game::handleGameState(Event& event)
 {
+    if (ignoreNextClick) {
+        if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+            ignoreNextClick = false; 
+        }
+        return;
+    }
     if (currentState == GameState::MAIN_MENU) {
         mainMenu.handleMouseHover(window);
         int action = mainMenu.handleInput(window, event);
@@ -96,7 +103,7 @@ void Game::handleGameState(Event& event)
             break;
         case 2:
             currentState = GameState::MAIN_MENU;
-            pauseMenu.resetCooldown();
+            ignoreNextClick = true;
             break;
         }
     }

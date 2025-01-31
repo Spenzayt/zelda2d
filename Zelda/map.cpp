@@ -1,7 +1,15 @@
 #include "map.hpp"
 #include <iostream>
 
-Map::Map() {}
+Map::Map() : camera(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT) {
+    std::vector<sf::IntRect> rooms = {
+        {0, 0, 960, 540},
+        {960, 0, 1920, 540},
+        {0, 540, 960, 1080},
+        {960, 540, 1920, 1080},
+    };
+    camera.setRooms(rooms);
+}
 
 Map::~Map() {}
 
@@ -68,8 +76,8 @@ void Map::loadBackgroundFromImage() {
     }
 }
 
-void Map::update(float deltaTime) {
-    // update
+void Map::update(float deltaTime, const sf::Vector2f& playerPosition) {
+    camera.update(playerPosition, deltaTime);
 }
 
 void Map::draw(sf::RenderWindow& window) {
@@ -77,4 +85,6 @@ void Map::draw(sf::RenderWindow& window) {
     for (auto& sprite : dirtSpriteVector) window.draw(sprite);
     for (auto& sprite : bushSpriteVector) window.draw(sprite);
     for (auto& sprite : treeSpriteVector) window.draw(sprite);
+
+    camera.applyView(window);
 }

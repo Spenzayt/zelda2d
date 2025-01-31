@@ -1,8 +1,12 @@
 #include "game.hpp"
 
-Game::Game() : isRunning(false), player(sf::Vector2f(100, 100), 100, "assets/characters/Link.png") {
+Game::Game() 
+    : isRunning(false), 
+      player(sf::Vector2f(4850, 5200), 60, "assets/characters/Link.png"),
+    bokoblin(sf::Vector2f(300, 300), 50, { sf::Vector2f(1000, 300), sf::Vector2f(500, 500), sf::Vector2f(800, 700),sf::Vector2f(100, 600) }, "assets\\characters\\Bokoblin.png")
+{
     createWindow();
-    map.importAllTextures();
+    map.importAllTextures(window);
     map.loadBackgroundFromImage();
 }
 

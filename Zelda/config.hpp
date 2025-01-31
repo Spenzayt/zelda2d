@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace Config {
-    const float TILE_SIZE = 32.f;
+    const float TILE_SIZE = 4.f;
 
     const float TREE_SIZE_X = 64.f;
     const float TREE_SIZE_Y = 128.f;

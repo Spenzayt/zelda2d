@@ -48,6 +48,28 @@ void Player::collectKey() {
 
 void Player::draw(sf::RenderWindow& window) {
     window.draw(player);
+
+    static sf::Font font;
+    if (font.getInfo().family.empty()) {
+        if (!font.loadFromFile("assets/fonts/arial.ttf")) {
+            std::cerr << "Error loading font!" << std::endl;
+            return;
+        }
+    }
+
+    sf::Text text;
+    text.setFont(font);
+    text.setString("Player Position: (" + std::to_string((int)position.x) + ", " + std::to_string((int)position.y) + ")");
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+
+    sf::View currentView = window.getView();
+    sf::Vector2f center = currentView.getCenter();
+    text.setPosition(center.x - window.getSize().x / 2 + 10.f, center.y - window.getSize().y / 2 + 10.f);
+
+    window.draw(text);
+
+    window.draw(text);
 }
 
 

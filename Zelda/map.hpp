@@ -16,6 +16,9 @@ class Map {
 private:
     sf::Image backgroundImage;
 
+    sf::Texture backgroundTexture;
+    sf::Sprite backgroundSprite;
+
     sf::Texture grassTexture;
     sf::Sprite grassSprite;
 
@@ -40,7 +43,7 @@ public:
     Map();
     ~Map();
 
-    void importAllTextures();
+    void importAllTextures(sf::RenderWindow& window);
     void loadBackgroundFromImage();
     void update(float deltaTime, const sf::Vector2f& playerPosition);
     void draw(sf::RenderWindow& window);

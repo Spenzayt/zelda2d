@@ -29,14 +29,17 @@ void Game::processEvents() {
 
 void Game::update(float deltaTime) {
     map.update(deltaTime, player.getPosition());
-    player.update(deltaTime);
+    player.update(deltaTime, map.getTrees(), map.getBushes());
+    bokoblin.update(deltaTime, map.getTrees(), map.getBushes());
 }
+
 
 void Game::render() {
     window.clear();
 
     map.draw(window);
     player.draw(window);
+    bokoblin.draw(window);
 
     window.display();
 }

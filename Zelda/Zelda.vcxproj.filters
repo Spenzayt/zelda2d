@@ -33,6 +33,7 @@
     <ClCompile Include="map.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Bokoblin.cpp">
     <ClCompile Include="camera.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -59,6 +60,7 @@
     <ClInclude Include="map.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Bokoblin.hpp">
     <ClInclude Include="camera.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>

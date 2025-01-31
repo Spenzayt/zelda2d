@@ -3,7 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "map.hpp"
-#include "player.hpp"
+#include "Player.hpp"
+#include "Bokoblin.hpp"
 
 class Game {
 public:
@@ -23,6 +24,7 @@ private:
 
     Map map;
     Player player;
+    Patrolling bokoblin;
 };
 
 #endif // GAME_H

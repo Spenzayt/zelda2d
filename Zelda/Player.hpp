@@ -17,6 +17,8 @@ public:
     const sf::Sprite& getSprite() const { return player; }
     bool hasKey;
 
+    sf::Vector2f getPosition() const;
+
 protected:
     sf::Sprite player;
     sf::Texture texture;

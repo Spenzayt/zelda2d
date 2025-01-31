@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "map.hpp"
-#include "Player.hpp"
+#include "player.hpp"
 
 class Game {
 public:

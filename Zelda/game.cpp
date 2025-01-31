@@ -10,7 +10,7 @@ Game::~Game() {}
 
 void Game::createWindow() {
     window.create(sf::VideoMode(), "Zelda", sf::Style::Fullscreen);
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(1000);
     isRunning = true;
 }
 
@@ -24,7 +24,7 @@ void Game::processEvents() {
 }
 
 void Game::update(float deltaTime) {
-    map.update(deltaTime);
+    map.update(deltaTime, player.getPosition());
     player.update(deltaTime);
 }
 

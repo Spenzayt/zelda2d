@@ -57,3 +57,7 @@ void Player::checkCollisionWithWalls(const std::vector<sf::RectangleShape>& wall
         player.setPosition(position);
     }
 }
+
+sf::Vector2f Player::getPosition() const { 
+    return player.getPosition();
+}

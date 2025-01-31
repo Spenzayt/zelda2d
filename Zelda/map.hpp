@@ -3,6 +3,14 @@
 
 #include <SFML/Graphics.hpp>
 #include "config.hpp"
+#include "camera.hpp"
+#include <vector>
+
+class Room {
+public:
+    sf::IntRect rect;
+    Room(int x, int y, int width, int height) : rect(x, y, width, height) {}
+};
 
 class Map {
 private:
@@ -24,6 +32,9 @@ private:
     std::vector<sf::Sprite> dirtSpriteVector;
     std::vector<sf::Sprite> bushSpriteVector;
     std::vector<sf::Sprite> treeSpriteVector;
+    std::vector<Room> rooms;
+
+    Camera camera;
 
 public:
     Map();
@@ -31,7 +42,7 @@ public:
 
     void importAllTextures();
     void loadBackgroundFromImage();
-    void update(float deltaTime);
+    void update(float deltaTime, const sf::Vector2f& playerPosition);
     void draw(sf::RenderWindow& window);
 };
 

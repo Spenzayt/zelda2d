@@ -23,10 +23,12 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
     player.setScale(size / texture.getSize().x, size / texture.getSize().y);  
     player.setPosition(position);
 }
-
-void Player::update(float deltatime) {
+void Player::update(float deltatime, const std::vector<sf::Sprite>& trees, const std::vector<sf::Sprite>& bushes) {
+    previousPosition = position;
     handleInput(deltatime);
     player.setPosition(position);
+
+    checkCollisionWithMap(trees, bushes);
 }
 
 void Player::handleInput(float deltatime) {
@@ -57,3 +59,21 @@ void Player::checkCollisionWithWalls(const std::vector<sf::RectangleShape>& wall
         player.setPosition(position);
     }
 }
+void Player::checkCollisionWithMap(const std::vector<sf::Sprite>& trees, const std::vector<sf::Sprite>& bushes) {
+    for (const auto& tree : trees) {
+        if (player.getGlobalBounds().intersects(tree.getGlobalBounds())) {
+            position = previousPosition;
+            player.setPosition(position);
+            return;
+        }
+    }
+
+    for (const auto& bush : bushes) {
+        if (player.getGlobalBounds().intersects(bush.getGlobalBounds())) {
+            position = previousPosition;
+            player.setPosition(position);
+            return;
+        }
+    }
+}
+

@@ -33,6 +33,9 @@ public:
     void loadBackgroundFromImage();
     void update(float deltaTime);
     void draw(sf::RenderWindow& window);
+    const std::vector<sf::Sprite>& getTrees() const { return treeSpriteVector; }
+    const std::vector<sf::Sprite>& getBushes() const { return bushSpriteVector; }
+
 };
 
 #endif // MAP_H

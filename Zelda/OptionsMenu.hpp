@@ -20,6 +20,7 @@ private:
 
 	Text musicVolumeText;
 	Text soundVolumeText;
+	vector<Text> keys;
 	float musicVolumeLevel;
 	float soundVolumeLevel;
 	bool isDragging;
@@ -34,6 +35,8 @@ private:
 	bool waitingForKey;
 	int waitingForAction;
 	InputHandler inputHandler;
+
+	bool ignoreNextClick;
 public:
 
 	OptionsMenu();

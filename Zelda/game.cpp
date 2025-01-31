@@ -96,9 +96,11 @@ void Game::handleGameState(Event& event)
         switch (action) {
         case 0:
             currentState = GameState::PLAYING;
+            ignoreNextClick = true;
             break;
         case 1:
             currentState = GameState::OPTIONS;
+            ignoreNextClick = true;
             break;
         case 2:
             isRunning = false;
@@ -131,6 +133,7 @@ void Game::handleGameState(Event& event)
             break;
         case 1:
             currentState = GameState::OPTIONS;
+            ignoreNextClick = true;
             break;
         case 2:
             currentState = GameState::MAIN_MENU;

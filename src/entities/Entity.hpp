@@ -7,7 +7,7 @@
 class Entity {
 public:
 
-	virtual void update(float deltatime, const std::vector<sf::Sprite>& trees, const std::vector<sf::Sprite>& bushes) = 0;
+	virtual void update(float deltatime, const std::vector<sf::Sprite>& bushes) = 0;
 	virtual void draw(sf::RenderWindow& window) = 0;
 
 protected:

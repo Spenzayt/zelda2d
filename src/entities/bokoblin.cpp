@@ -19,7 +19,7 @@ Patrolling::Patrolling(const sf::Vector2f& startPosition, float size, const std:
     sprite.setPosition(position);
 }
 
-void Patrolling::update(float deltaTime, const std::vector<sf::Sprite>& trees, const std::vector<sf::Sprite>& bushes) {
+void Patrolling::update(float deltaTime, const std::vector<sf::Sprite>& bushes) {
     if (!pathPoints.empty()) {
         moveToNextPoint(deltaTime);
     }

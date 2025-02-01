@@ -23,7 +23,6 @@ void PauseMenu::initButtons()
     }
 }
 
-
 int PauseMenu::handleInput(sf::RenderWindow& window, const sf::Event& event)
 {
     if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {

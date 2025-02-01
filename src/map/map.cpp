@@ -1,4 +1,4 @@
-#include "map.hpp"
+#include "Map.hpp"
 #include <iostream>
 
 Map::Map() {}
@@ -13,11 +13,6 @@ void Map::importAllTextures(sf::RenderWindow& window) {
 
     if (!mapElements["bush"].texture.loadFromFile("assets/images/map/textures/bush.png")) {
         std::cerr << "Image Failed to Load : bush.png " << std::endl;
-        return;
-    }
-
-    if (!mapElements["tree"].texture.loadFromFile("assets/images/map/textures/tree.png")) {
-        std::cerr << "Image Failed to Load : tree.png " << std::endl;
         return;
     }
 
@@ -57,16 +52,23 @@ void Map::loadBackgroundFromImage() {
                 sprite.setPosition(x * tileSize, y * tileSize);
                 mapElements["bush"].sprites.push_back(sprite);
             }
-            else if (pixelColor == sf::Color(255, 0, 0)) {
-                sprite.setTexture(mapElements["tree"].texture);
-                sprite.setScale(160.f / mapElements["tree"].texture.getSize().x, 200.f / mapElements["tree"].texture.getSize().y);
-                float offsetX = (tileSize - 160.f) / 2.0f;
-                float offsetY = (tileSize - 200.f) / 2.0f;
-                sprite.setPosition(x * tileSize + offsetX, y * tileSize + offsetY);
-                mapElements["tree"].sprites.push_back(sprite);
-            }
         }
     }
+    addZone(sf::FloatRect(4112, 4108, 2039, 2047), "Zone1"); 
+    addZone(sf::FloatRect(2056, 4108, 2048, 2048), "Zone2"); 
+    addZone(sf::FloatRect(2056, 6164, 2048, 2048), "Zone3"); 
+    addZone(sf::FloatRect(0, 6164, 2039, 2048), "Zone4"); 
+    addZone(sf::FloatRect(0, 4108, 2039, 2048), "Zone5"); 
+    addZone(sf::FloatRect(2060, 0, 4096, 4096), "Zone6");
+}
+
+const Map::Zone* Map::getZoneContaining(const sf::Vector2f& position) const {
+    for (const auto& zone : zones) {
+        if (zone.bounds.contains(position)) {
+            return &zone;
+        }
+    }
+    return nullptr;
 }
 
 void Map::update(float deltaTime) {}
@@ -93,18 +95,10 @@ void Map::draw(sf::RenderWindow& window) {
 
     drawSprites("grass", mapElements, window);
     drawSprites("bush", mapElements, window);
-    drawSprites("tree", mapElements, window);
 }
 
-const std::vector<sf::Sprite>& Map::getTrees() const {
-    auto it = mapElements.find("tree");
-    if (it != mapElements.end()) {
-        return it->second.sprites;
-    }
-    else {
-        static std::vector<sf::Sprite> empty;
-        return empty;
-    }
+void Map::addZone(const sf::FloatRect& bounds, const std::string& name) {
+    zones.push_back({ bounds, name });
 }
 
 const std::vector<sf::Sprite>& Map::getBushes() const {

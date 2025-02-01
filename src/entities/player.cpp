@@ -22,12 +22,12 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
     player.setPosition(position);
 }
 
-void Player::update(float deltatime, const std::vector<sf::Sprite>& trees, const std::vector<sf::Sprite>& bushes) {
+void Player::update(float deltatime, const std::vector<sf::Sprite>& bushes) {
     previousPosition = position;
     handleInput(deltatime);
     player.setPosition(position);
 
-    checkCollisionWithMap(trees, bushes);
+    checkCollisionWithMap(bushes);
 }
 
 void Player::handleInput(float deltatime) {
@@ -78,15 +78,7 @@ void Player::checkCollisionWithWalls(const std::vector<sf::RectangleShape>& wall
         player.setPosition(position);
     }
 }
-void Player::checkCollisionWithMap(const std::vector<sf::Sprite>& trees, const std::vector<sf::Sprite>& bushes) {
-    for (const auto& tree : trees) {
-        if (player.getGlobalBounds().intersects(tree.getGlobalBounds())) {
-            position = previousPosition;
-            player.setPosition(position);
-            return;
-        }
-    }
-
+void Player::checkCollisionWithMap(const std::vector<sf::Sprite>& bushes) {
     for (const auto& bush : bushes) {
         if (player.getGlobalBounds().intersects(bush.getGlobalBounds())) {
             position = previousPosition;
@@ -98,4 +90,9 @@ void Player::checkCollisionWithMap(const std::vector<sf::Sprite>& trees, const s
 
 sf::Vector2f Player::getPosition() const {
     return player.getPosition();
+}
+
+void Player::setPosition(const sf::Vector2f& position) {
+    this->position = position;
+    player.setPosition(position);
 }

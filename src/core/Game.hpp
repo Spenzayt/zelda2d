@@ -5,6 +5,11 @@
 #include "../map/Map.hpp"
 #include "../entities/Player.hpp"
 #include "../entities/Bokoblin.hpp"
+#include "../ui/Menu.hpp"
+#include "../ui/MainMenu.hpp"
+#include "../ui/PauseMenu.hpp"
+#include "../ui/OptionsMenu.hpp"
+#include "../systems/camera.hpp"
 
 class Map;
 class Player;
@@ -15,7 +20,18 @@ public:
     Game();
     ~Game();
 
+    enum GameState {
+        MAIN_MENU,
+        PLAYING,
+        PAUSE,
+        VICTORY,
+        GAMEOVER,
+        OPTIONS
+    };
+
     void run();
+    void handleGameState(sf::Event& event);
+    void drawPauseMenu();
 
 private:
     void createWindow();
@@ -29,6 +45,17 @@ private:
     Map map;
     Player player;
     Patrolling bokoblin;
+
+    GameState currentState;
+    MainMenu mainMenu;
+    PauseMenu pauseMenu;
+    OptionsMenu optionsMenu;
+    Camera camera;
+
+    sf::RectangleShape overlay;
+
+    bool ignoreNextClick;
+    bool isGamePaused;
 };
 
 #endif // GAME_HPP

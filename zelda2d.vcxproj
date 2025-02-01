@@ -159,6 +159,10 @@ sfml-system.lib
     <ClCompile Include="src\map\map.cpp" />
     <ClCompile Include="src\systems\camera.cpp" />
     <ClCompile Include="src\systems\physics.cpp" />
+    <ClCompile Include="src\ui\mainMenu.cpp" />
+    <ClCompile Include="src\ui\menu.cpp" />
+    <ClCompile Include="src\ui\optionsMenu.cpp" />
+    <ClCompile Include="src\ui\pauseMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp" />
@@ -169,6 +173,10 @@ sfml-system.lib
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\systems\Camera.hpp" />
     <ClInclude Include="src\systems\Physics.hpp" />
+    <ClInclude Include="src\ui\MainMenu.hpp" />
+    <ClInclude Include="src\ui\Menu.hpp" />
+    <ClInclude Include="src\ui\OptionsMenu.hpp" />
+    <ClInclude Include="src\ui\PauseMenu.hpp" />
     <ClInclude Include="src\utils\Config.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

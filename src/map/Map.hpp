@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "../utils/Config.hpp"
-#include "../systems/camera.hpp"
 #include <vector>
 #include <map>
 
@@ -22,7 +21,6 @@ private:
 
     std::map<std::string, MapElement> mapElements;
     std::vector<Room> rooms;
-    Camera camera;
 
 public:
     Map();
@@ -30,7 +28,7 @@ public:
 
     void importAllTextures(sf::RenderWindow& window);
     void loadBackgroundFromImage();
-    void update(float deltaTime, const sf::Vector2f& playerPosition);
+    void update(float deltaTime);
     void draw(sf::RenderWindow& window);
 
     const std::vector<sf::Sprite>& getTrees() const;

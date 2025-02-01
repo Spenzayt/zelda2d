@@ -28,6 +28,8 @@ private:
 	float musicVolumeLevel;
 	float soundVolumeLevel;
 	bool isDragging;
+	bool isDraggingMusic;
+	bool isDraggingSound;
 	
 	void initButtons() override;
 	void initVolumeMenu();

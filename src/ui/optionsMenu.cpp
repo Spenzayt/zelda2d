@@ -45,17 +45,19 @@ void OptionsMenu::initVolumeMenu()
 
 		sf::FloatRect textBounds = button.getLocalBounds();
 		float x = (Config::WINDOW_WIDTH / 2.f) - (textBounds.width / 2.f) - textBounds.left;
-		button.setPosition(x, 400 + static_cast<float>(i) * 80);
+		button.setPosition(x, 400 + static_cast<float>(i) * 90);
 		buttons.push_back(button);
 	}
 	initVolumeControl();
+	updateTextVolumeMusic();
+	updateTextVolumeSound();
 }
 
 void OptionsMenu::initVolumeControl()
 {
 	volumeMusicBar.setSize(sf::Vector2f(300, 10));
 	volumeMusicBar.setFillColor(sf::Color(128, 128, 128));
-	volumeMusicBar.setPosition(810, 460);
+	volumeMusicBar.setPosition(810, 470);
 
 	volumeMusicSlider.setSize(sf::Vector2f(20, 30));
 	volumeMusicSlider.setFillColor(sf::Color::White);
@@ -63,7 +65,7 @@ void OptionsMenu::initVolumeControl()
 
 	volumeSoundBar.setSize(sf::Vector2f(300, 10));
 	volumeSoundBar.setFillColor(sf::Color(128, 128, 128));
-	volumeSoundBar.setPosition(810, 540);
+	volumeSoundBar.setPosition(810, 550);
 
 	volumeSoundSlider.setSize(sf::Vector2f(20, 30));
 	volumeSoundSlider.setFillColor(sf::Color::White);
@@ -100,9 +102,9 @@ void OptionsMenu::initChangeKeysMenu()
 
 		sf::Text key;
 		key.setFont(font);
-		key.setFillColor(sf::Color::White);
+		key.setFillColor(sf::Color(168, 168, 168));
 		key.setCharacterSize(50);
-		key.setPosition(button.getPosition().x + button.getLocalBounds().width + 10.f, button.getPosition().y);
+		key.setPosition(button.getPosition().x + button.getLocalBounds().width + 50.f, button.getPosition().y);
 		switch (i) {
 		case 0:
 			key.setString(keyNames[inputHandler.getKeyForAction(InputHandler::Action::UP)]);
@@ -167,14 +169,20 @@ void OptionsMenu::updateSoundVolume(sf::Vector2i mousePos)
 	updateTextVolumeSound();
 }
 
-OptionsMenu::OptionsMenu() : musicVolumeLevel(100), soundVolumeLevel(100),isDragging(false), ignoreNextClick(true)
+OptionsMenu::OptionsMenu() : musicVolumeLevel(100), soundVolumeLevel(100),isDragging(false), 
+ignoreNextClick(true), isDraggingMusic(false), isDraggingSound(false)
 {
 	initButtons();
 }
 
 void OptionsMenu::handleKeyChange(int actionIndex, sf::Keyboard::Key newKey)
 {
-
+	for (int i = 0; i < 4; i++) {
+		if (inputHandler.getKeyForAction(static_cast<InputHandler::Action>(i)) == newKey) {
+			inputHandler.remapKey(static_cast<InputHandler::Action>(i), sf::Keyboard::Unknown);
+			keys[i].setString("");
+		}
+	}
 	if (actionIndex < 4) {
 		inputHandler.remapKey(static_cast<InputHandler::Action>(actionIndex), newKey);
 
@@ -223,24 +231,25 @@ int OptionsMenu::handleInput(sf::RenderWindow& window, const sf::Event& event)
 			}
 			if (volumeMusicSlider.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) ||
 				volumeMusicBar.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-				isDragging = true;
+				isDraggingMusic = true;
 				updateMusicVolume(mousePos);
 			}
 			if (volumeSoundSlider.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) ||
 				volumeSoundBar.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-				isDragging = true;
+				isDraggingSound = true;
 				updateSoundVolume(mousePos);
 			}
 		}
 		if (event.type == sf::Event::MouseButtonReleased) {
-			isDragging = false;
+			isDraggingMusic = false;
+			isDraggingSound = false;
 		}
 
-		if (event.type == sf::Event::MouseMoved && isDragging) {
-			if (volumeMusicSlider.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+		if (event.type == sf::Event::MouseMoved) {
+			if (isDraggingMusic) {
 				updateMusicVolume(mousePos);
 			}
-			if (volumeSoundSlider.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+			if (isDraggingSound) {
 				updateSoundVolume(mousePos);
 			}
 		}
@@ -248,8 +257,9 @@ int OptionsMenu::handleInput(sf::RenderWindow& window, const sf::Event& event)
 	}
 	else if (currentMenu == MenuType::KEYS) {
 		if (event.type == sf::Event::MouseButtonPressed) {
-			for (size_t i = 0; i < buttons.size(); i++) {
-				if (buttons[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) && i != 4) {
+			for (size_t i = 0; i < keys.size(); i++) {
+				if (keys[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) 
+					|| buttons[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) && i != 4) {
 					waitingForKey = true;
 					waitingForAction = i;
 				}
@@ -274,6 +284,14 @@ int OptionsMenu::handleInput(sf::RenderWindow& window, const sf::Event& event)
 				initButtons();
 				waitingForKey = false;
 				waitingForAction = -1;
+			}
+		}
+		for (auto& key : keys) {
+			if (key.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+				key.setFillColor(sf::Color::White);
+			}
+			else {
+				key.setFillColor(sf::Color(168, 168, 168));
 			}
 		}
 	}

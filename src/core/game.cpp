@@ -1,8 +1,8 @@
 #include "../core/game.hpp"
 #include <iostream>
 
-Game::Game() : isRunning(false), camera(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT),
-    player(sf::Vector2f(4850, 5200), 60, "assets/images/characters/Link.png"), 
+Game::Game() : isRunning(false), camera(),
+    player(sf::Vector2f(4850, 5200), 60, "assets/images/characters/Link.png"),
     bokoblin(sf::Vector2f(300, 300), 50, { sf::Vector2f(1000, 300), sf::Vector2f(500, 500), sf::Vector2f(800, 700),sf::Vector2f(100, 600) }, "assets/images/characters/Bokoblin.png"),
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false) {
     
@@ -37,12 +37,21 @@ void Game::processEvents() {
 void Game::update(float deltaTime) {
     if (currentState == GameState::PLAYING) {
         map.update(deltaTime);
-        camera.update(player.getPosition(), deltaTime, false);
-        player.update(deltaTime, map.getTrees(), map.getBushes());
-        bokoblin.update(deltaTime, map.getTrees(), map.getBushes());
+        player.update(deltaTime, map.getBushes());
+        bokoblin.update(deltaTime, map.getBushes());
+
+        const Map::Zone* currentZone = map.getZoneContaining(player.getPosition());
+        if (currentZone) {
+            camera.update(player.getPosition(), deltaTime, false, false, currentZone->bounds);
+        }
+        else {
+            camera.resetToDefault();
+            camera.update(player.getPosition(), deltaTime, false, true);
+        }
     }
     else {
-        camera.update(player.getPosition(), deltaTime, true);
+        camera.resetToDefault();
+        camera.update(player.getPosition(), deltaTime, true, true);
     }
 }
 

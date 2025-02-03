@@ -17,6 +17,7 @@ void Game::createWindow() {
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     window.create(desktopMode, "Zelda", sf::Style::Fullscreen);
     window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
     isRunning = true;
 }
 

@@ -151,7 +151,7 @@ sfml-system.lib
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="src\core\game.cpp" />
     <ClCompile Include="src\core\inputHandler.cpp" />
     <ClCompile Include="src\entities\bokoblin.cpp" />

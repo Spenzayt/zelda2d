@@ -24,6 +24,7 @@ public:
     sf::Vector2f getPosition() const;
     void setPosition(const sf::Vector2f& position);
     sf::FloatRect getHitbox() const;
+    void drawHitBox(sf::RenderWindow& window);
 
 protected:
     sf::Sprite player;

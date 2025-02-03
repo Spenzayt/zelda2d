@@ -82,13 +82,15 @@ void Player::draw(sf::RenderWindow& window) {
     text.setPosition(center.x - window.getSize().x / 2 + 10.f, center.y - window.getSize().y / 2 + 10.f);
 
     window.draw(text);
+}
 
+void Player::drawHitBox(sf::RenderWindow& window) {
     sf::FloatRect hitbox = getHitbox();
     sf::RectangleShape hitboxShape(sf::Vector2f(hitbox.width, hitbox.height));
     hitboxShape.setPosition(hitbox.left, hitbox.top);
     hitboxShape.setFillColor(sf::Color::Transparent);
-    hitboxShape.setOutlineColor(sf::Color::Red);
-    hitboxShape.setOutlineThickness(1.f);
+    hitboxShape.setOutlineColor(sf::Color::Blue);
+    hitboxShape.setOutlineThickness(2.f);
     window.draw(hitboxShape);
 }
 

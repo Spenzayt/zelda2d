@@ -84,6 +84,9 @@
     <ClCompile Include="src\ui\menu.cpp">
       <Filter>Fichiers sources\ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\systems\konamiCode.cpp">
+      <Filter>Fichiers sources\systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="src\ui\MainMenu.hpp">
       <Filter>Fichiers d%27en-tête\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\KonamiCode.hpp">
+      <Filter>Fichiers d%27en-tête\systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

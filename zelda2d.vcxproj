@@ -158,6 +158,7 @@ sfml-system.lib
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\map\map.cpp" />
     <ClCompile Include="src\systems\camera.cpp" />
+    <ClCompile Include="src\systems\konamiCode.cpp" />
     <ClCompile Include="src\systems\physics.cpp" />
     <ClCompile Include="src\ui\mainMenu.cpp" />
     <ClCompile Include="src\ui\menu.cpp" />
@@ -172,6 +173,7 @@ sfml-system.lib
     <ClInclude Include="src\entities\Player.hpp" />
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\systems\Camera.hpp" />
+    <ClInclude Include="src\systems\KonamiCode.hpp" />
     <ClInclude Include="src\systems\Physics.hpp" />
     <ClInclude Include="src\ui\MainMenu.hpp" />
     <ClInclude Include="src\ui\Menu.hpp" />

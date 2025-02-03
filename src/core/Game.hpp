@@ -10,6 +10,7 @@
 #include "../ui/PauseMenu.hpp"
 #include "../ui/OptionsMenu.hpp"
 #include "../systems/camera.hpp"
+#include "../systems/KonamiCode.hpp"
 
 class Map;
 class Player;
@@ -33,11 +34,16 @@ public:
     void handleGameState(sf::Event& event);
     void drawPauseMenu();
 
+    bool godMode;
+    bool noclip;
+    bool showHitBox;
+
 private:
     void createWindow();
     void processEvents();
     void update(float deltaTime);
     void render();
+    void handleDebugActions(sf::Event& event);
 
     sf::RenderWindow window;
     bool isRunning;
@@ -51,6 +57,7 @@ private:
     PauseMenu pauseMenu;
     OptionsMenu optionsMenu;
     Camera camera;
+    KonamiCode konamiCode;
 
     sf::RectangleShape overlay;
 

@@ -21,6 +21,13 @@ void Map::importAllTextures(sf::RenderWindow& window) {
         return;
     }
 
+    if (!mapHitboxTexture.loadFromFile("assets/images/map/collision_map.png")) {
+        std::cerr << "Image Failed to Load : collision_map.png " << std::endl;
+        return;
+    }
+    mapHitboxSprite.setTexture(mapHitboxTexture);
+    mapHitboxSprite.setScale(4.f, 4.f);
+
     mapElements["background"].sprites.push_back(sf::Sprite(mapElements["background"].texture));
     mapElements["background"].sprites[0].setScale(4.f, 4.f);
     mapElements["background"].sprites[0].setPosition(0.f, 0.f);
@@ -110,4 +117,8 @@ const std::vector<sf::Sprite>& Map::getBushes() const {
         static std::vector<sf::Sprite> empty;
         return empty;
     }
+}
+
+void Map::drawMapHitBox(sf::RenderWindow& window) {
+    window.draw(mapHitboxSprite);
 }

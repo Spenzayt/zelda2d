@@ -151,6 +151,7 @@ sfml-system.lib
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="src\core\game.cpp" />
     <ClCompile Include="src\core\inputHandler.cpp" />
     <ClCompile Include="src\entities\bokoblin.cpp" />
@@ -165,6 +166,7 @@ sfml-system.lib
     <ClCompile Include="src\ui\pauseMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="src\core\Game.hpp" />
     <ClInclude Include="src\core\InputHandler.hpp" />
     <ClInclude Include="src\entities\Bokoblin.hpp" />

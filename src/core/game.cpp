@@ -25,7 +25,8 @@ void Game::initEnemies()
     ennemies.push_back(std::make_unique<Chaser>(5, sf::Vector2f(3000, 5000), 100, 10, 5, player));
 
     // archers
-    ennemies.push_back(std::make_unique<Archer>(-2, sf::Vector2f(4850, 5200), 100, 10, 5));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5));
 
 }
 

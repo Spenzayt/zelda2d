@@ -1,8 +1,6 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
 #include "Player.hpp"
-#include "../core/InputHandler.hpp"
-#include "../systems/Physics.hpp"
+#include <iostream>
+
 
 Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath) : hasKey(false)
 {
@@ -20,14 +18,29 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
     player.setTexture(texture);
     player.setScale(size / static_cast<float>(texture.getSize().x), size / static_cast<float>(texture.getSize().y));
     player.setPosition(position);
+
+    hitbox = sf::FloatRect(position.x, position.y, size, size);
+
+    physics.loadCollisionImage();
+    physics.resizeCollisionImage(1539*4, 2053*4);
 }
 
 void Player::update(float deltatime, const std::vector<sf::Sprite>& bushes) {
     previousPosition = position;
     handleInput(deltatime);
-    player.setPosition(position);
 
-    checkCollisionWithMap(bushes);
+    sf::Vector2f newPosition = position + getMovementDelta(deltatime);
+    hitbox.left = newPosition.x;
+    hitbox.top = newPosition.y;
+
+    if (physics.isCollidingWithMap(getHitbox())) {
+        position = previousPosition;
+    }
+    else {
+        position = newPosition;
+        player.setPosition(position);
+        checkCollisionWithMap(bushes);
+    }
 }
 
 void Player::handleInput(float deltatime) {
@@ -69,6 +82,14 @@ void Player::draw(sf::RenderWindow& window) {
     text.setPosition(center.x - window.getSize().x / 2 + 10.f, center.y - window.getSize().y / 2 + 10.f);
 
     window.draw(text);
+
+    sf::FloatRect hitbox = getHitbox();
+    sf::RectangleShape hitboxShape(sf::Vector2f(hitbox.width, hitbox.height));
+    hitboxShape.setPosition(hitbox.left, hitbox.top);
+    hitboxShape.setFillColor(sf::Color::Transparent);
+    hitboxShape.setOutlineColor(sf::Color::Red);
+    hitboxShape.setOutlineThickness(1.f);
+    window.draw(hitboxShape);
 }
 
 void Player::checkCollisionWithWalls(const std::vector<sf::RectangleShape>& walls) {
@@ -78,9 +99,10 @@ void Player::checkCollisionWithWalls(const std::vector<sf::RectangleShape>& wall
         player.setPosition(position);
     }
 }
+
 void Player::checkCollisionWithMap(const std::vector<sf::Sprite>& bushes) {
     for (const auto& bush : bushes) {
-        if (player.getGlobalBounds().intersects(bush.getGlobalBounds())) {
+        if (getHitbox().intersects(bush.getGlobalBounds())) {
             position = previousPosition;
             player.setPosition(position);
             return;
@@ -95,4 +117,19 @@ sf::Vector2f Player::getPosition() const {
 void Player::setPosition(const sf::Vector2f& position) {
     this->position = position;
     player.setPosition(position);
+}
+
+sf::Vector2f Player::getMovementDelta(float deltatime) const {
+    sf::Vector2f movement = InputHandler::getMovementDirection();
+    sf::Vector2f movementDelta(movement.x * speed * deltatime, movement.y * speed * deltatime);
+    return movementDelta;
+}
+
+sf::FloatRect Player::getHitbox() const {
+    sf::FloatRect hitbox(position.x, position.y, player.getGlobalBounds().width, player.getGlobalBounds().height);
+    hitbox.left += hitbox.width * 0.2f;
+    hitbox.top += hitbox.height * 0.2f;
+    hitbox.width *= 0.6f;
+    hitbox.height *= 0.6f;
+    return hitbox;
 }

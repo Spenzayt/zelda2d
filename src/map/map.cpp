@@ -9,7 +9,7 @@ void Map::importAllTextures(sf::RenderWindow& window) {
     if (!mapElements["background"].texture.loadFromFile("assets/images/map/map.png")) {
         std::cerr << "Image Failed to Load : map.png " << std::endl;
         return;
-    }
+    }       
 
     if (!mapElements["bush"].texture.loadFromFile("assets/images/map/textures/bush.png")) {
         std::cerr << "Image Failed to Load : bush.png " << std::endl;

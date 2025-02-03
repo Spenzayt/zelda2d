@@ -16,6 +16,12 @@ Game::~Game() {}
 void Game::initEnemies()
 {
     ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5));
+    ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4700, 5200), 100, 10, 5));
+    ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4600, 5200), 100, 10, 5));
+
+
+
+    std::cout << "Création d'ennemis" << std::endl;
 }
 
 void Game::createWindow() {
@@ -44,7 +50,9 @@ void Game::update(float deltaTime) {
     if (currentState == GameState::PLAYING) {
         map.update(deltaTime);
         player.update(deltaTime, map.getBushes());
-        bokoblin.update(deltaTime, map.getBushes());
+        for (auto& enemy : ennemies) {
+            enemy->update(deltaTime, map.getBushes());
+        }
 
         const Map::Zone* currentZone = map.getZoneContaining(player.getPosition());
         if (currentZone) {
@@ -70,7 +78,7 @@ void Game::render() {
         map.draw(window);
         camera.applyView(window);
         player.draw(window);
-        bokoblin.draw(window);
+        drawEnemies();
     }
     if (currentState == GameState::OPTIONS) {
         if (isGamePaused) {
@@ -172,5 +180,19 @@ void Game::handleGameState(sf::Event& event)
             ignoreNextClick = true;
             break;
         }
+    }
+}
+
+void Game::updateEnemies(float deltaTime)
+{
+    for (auto& enemy : ennemies) {
+        enemy->update(deltaTime, map.getBushes());
+    }
+}
+
+void Game::drawEnemies()
+{
+    for (auto& enemy : ennemies) {
+        enemy->draw(window);
     }
 }

@@ -33,6 +33,8 @@ public:
 
     void run();
     void handleGameState(sf::Event& event);
+    void updateEnemies(float deltaTime);
+    void drawEnemies();
     void drawPauseMenu();
 
 private:
@@ -50,7 +52,7 @@ private:
 
     
     std::vector<std::unique_ptr<Enemy>> ennemies;
-    Bokoblin bokoblin;
+  
 
     GameState currentState;
     MainMenu mainMenu;

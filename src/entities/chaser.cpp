@@ -33,8 +33,6 @@ void Chaser::update(float deltaTime, const std::vector<sf::Sprite>& bushes)
 	}
 	
 	sf::Vector2f movement = direction * speed;
-	//sf::Vector2f newPosition = chaserSprite.getPosition() + movement;
-	//sf::FloatRect enemyBounds = chaserSprite.getGlobalBounds();
 	sprite.move(movement);
 }
 

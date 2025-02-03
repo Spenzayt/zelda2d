@@ -15,13 +15,17 @@ Game::~Game() {}
 
 void Game::initEnemies()
 {
+    // ennemies avec mouvements prédéfinis
     ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5));
     ennemies.push_back(std::make_unique<Bokoblin>(-5, sf::Vector2f(4700, 5200), 100, 10, 5));
     ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4600, 5200), 100, 10, 5));
 
+    // ennemies qui suit le joueur
     ennemies.push_back(std::make_unique<Chaser>(5, sf::Vector2f(4000, 5100), 100, 10, 5, player));
     ennemies.push_back(std::make_unique<Chaser>(5, sf::Vector2f(3000, 5000), 100, 10, 5, player));
 
+    // archers
+    ennemies.push_back(std::make_unique<Archer>(-2, sf::Vector2f(4850, 5200), 100, 10, 5));
 
 }
 

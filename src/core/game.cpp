@@ -16,13 +16,23 @@ Game::~Game() {}
 void Game::initEnemies()
 {
     // ennemies avec mouvements prédéfinis
-    ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5));
-    ennemies.push_back(std::make_unique<Bokoblin>(-5, sf::Vector2f(4700, 5200), 100, 10, 5));
-    ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4600, 5200), 100, 10, 5));
+
+    auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5);
+    bokoblin1->setPath({ { 4850, 5200 }, { 5000, 5200 }, { 5000, 5300 }, { 4850, 5300 } });
+
+    auto bokoblin2 = std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5);
+    bokoblin2->setPath({ { 4700, 5200 }, { 4600, 5200 }, { 4600, 5300 }, { 4700, 5300 } });
+
+    auto bokoblin3 = std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5);
+    bokoblin3->setPath({ { 4600, 5200 }, { 4700, 5300 }, { 4600, 5400 }, { 4500, 5300 } });
+
+    ennemies.push_back(std::move(bokoblin1));
+    ennemies.push_back(std::move(bokoblin2));
+    ennemies.push_back(std::move(bokoblin3));
 
     // ennemies qui suit le joueur
-    ennemies.push_back(std::make_unique<Chaser>(5, sf::Vector2f(4000, 5100), 100, 10, 5, player));
-    ennemies.push_back(std::make_unique<Chaser>(5, sf::Vector2f(3000, 5000), 100, 10, 5, player));
+    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(5819, 3868), 100, 10, 5, player));
+    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(2352, 4409), 100, 10, 5, player));
 
     // archers
     ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5));

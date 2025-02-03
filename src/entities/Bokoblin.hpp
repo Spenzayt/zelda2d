@@ -14,6 +14,7 @@ public:
 
     void update(float deltaTime, const std::vector<sf::Sprite>& bushes) override;
     void draw(sf::RenderWindow& window) override;
+    void setPath(const std::vector<sf::Vector2f>& points);
 
     const sf::Sprite& getSprite() const { return sprite; }
 

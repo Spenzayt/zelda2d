@@ -19,6 +19,9 @@ Bokoblin::Bokoblin(float s, sf::Vector2f p, int hp, int d, float size) : Enemy(s
     initSprite();
     initTexture();
 
+    currentPointIndex = 0;
+    distanceThreshold = 5.f;
+
     position = p;
     sprite.setPosition(position);
     sprite.setScale(size *0.4, size *0.4);
@@ -36,8 +39,16 @@ void Bokoblin::draw(sf::RenderWindow& window) {
     window.draw(sprite);
 }
 
+void Bokoblin::setPath(const std::vector<sf::Vector2f>& points)
+{
+    pathPoints = points;
+    currentPointIndex = 0;
+}
+
 void Bokoblin::moveToNextPoint(float deltaTime) {
-  /*  sf::Vector2f target = pathPoints[currentPointIndex];
+    if (pathPoints.empty()) return;
+
+    sf::Vector2f target = pathPoints[currentPointIndex];
     sf::Vector2f direction = target - position;
 
     float magnitude = std::sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -47,10 +58,9 @@ void Bokoblin::moveToNextPoint(float deltaTime) {
     }
     else {
         direction /= magnitude;
+        position += direction * speed;
+        sprite.setPosition(position);
+    }
 
-        position += direction * (speed * deltaTime);
-    }*/
-
-    sprite.move(speed, 5.f);
 }
 

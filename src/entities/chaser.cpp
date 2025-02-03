@@ -14,7 +14,8 @@ void Chaser::initTexture()
 	sprite.setTexture(texture);
 }
 
-Chaser::Chaser(float s, sf::Vector2f p, int hp, int d, float size, const Player& playerRef) : Enemy(s, p, hp, d), size(size), position(p), speed(s), player(playerRef)
+Chaser::Chaser(float s, sf::Vector2f p, int hp, int d, float size, const Player& playerRef) : Enemy(s, p, hp, d), size(size), position(p), speed(s), 
+player(playerRef), visionRadius(500), isChasing(false)
 {
 	initSprite();
 	initTexture();
@@ -25,15 +26,24 @@ Chaser::Chaser(float s, sf::Vector2f p, int hp, int d, float size, const Player&
 
 void Chaser::update(float deltaTime, const std::vector<sf::Sprite>& bushes)
 {
+	sf::Vector2f playerPos = player.getPosition();
+	sf::Vector2f enemyPos = sprite.getPosition();
+	sf::Vector2f direction = playerPos - enemyPos;
 
-	sf::Vector2f direction = player.getPosition() - sprite.getPosition();
-	float length = sqrt(direction.x * direction.x + direction.y * direction.y);
-	if (length != 0) {
-		direction = direction / length;
+	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
+	if (distance <= visionRadius) {
+		isChasing = true;
 	}
-	
-	sf::Vector2f movement = direction * speed;
-	sprite.move(movement);
+	else {
+		isChasing = false;
+	}
+	if (isChasing) {
+		if (distance != 0) {
+			direction /= distance;
+		}
+		sf::Vector2f movement = direction * speed;
+		sprite.move(movement);
+	}
 }
 
 void Chaser::draw(sf::RenderWindow& window)

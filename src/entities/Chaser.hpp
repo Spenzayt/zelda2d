@@ -1,7 +1,6 @@
 #ifndef CHASER_HPP
 #define CHASER_HPP
 
-
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
 #include "Enemy.hpp"
@@ -17,6 +16,9 @@ private:
 	float speed;
 	sf::Vector2f position;
 	int size;
+
+	float visionRadius;
+	bool isChasing;
 
 	void initSprite();
 	void initTexture();

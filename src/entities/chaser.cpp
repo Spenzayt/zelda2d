@@ -1,0 +1,44 @@
+#include "Chaser.hpp"
+#include <cmath>
+#include <iostream>
+
+void Chaser::initSprite()
+{
+	if (!texture.loadFromFile("assets/images/characters/blob.png")) {
+		std::cerr << "Error: Unable to load the Blob texture from " << std::endl;
+	}
+}
+
+void Chaser::initTexture()
+{
+	sprite.setTexture(texture);
+}
+
+Chaser::Chaser(float s, sf::Vector2f p, int hp, int d, float size, const Player& playerRef) : Enemy(s, p, hp, d), size(size), position(p), speed(s), player(playerRef)
+{
+	initSprite();
+	initTexture();
+
+	sprite.setPosition(position);
+	sprite.setScale(0.7, 0.7);
+}
+
+void Chaser::update(float deltaTime, const std::vector<sf::Sprite>& bushes)
+{
+
+	sf::Vector2f direction = player.getPosition() - sprite.getPosition();
+	float length = sqrt(direction.x * direction.x + direction.y * direction.y);
+	if (length != 0) {
+		direction = direction / length;
+	}
+	
+	sf::Vector2f movement = direction * speed;
+	//sf::Vector2f newPosition = chaserSprite.getPosition() + movement;
+	//sf::FloatRect enemyBounds = chaserSprite.getGlobalBounds();
+	sprite.move(movement);
+}
+
+void Chaser::draw(sf::RenderWindow& window)
+{
+	window.draw(sprite);
+}

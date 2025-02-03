@@ -5,6 +5,7 @@
 #include "../map/Map.hpp"
 #include "../entities/Player.hpp"
 #include "../entities/Bokoblin.hpp"
+#include "../entities/Chaser.hpp"
 #include "../ui/Menu.hpp"
 #include "../ui/MainMenu.hpp"
 #include "../ui/PauseMenu.hpp"

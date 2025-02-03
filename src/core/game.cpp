@@ -16,12 +16,13 @@ Game::~Game() {}
 void Game::initEnemies()
 {
     ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5));
-    ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4700, 5200), 100, 10, 5));
+    ennemies.push_back(std::make_unique<Bokoblin>(-5, sf::Vector2f(4700, 5200), 100, 10, 5));
     ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4600, 5200), 100, 10, 5));
 
+    ennemies.push_back(std::make_unique<Chaser>(5, sf::Vector2f(4000, 5100), 100, 10, 5, player));
+    ennemies.push_back(std::make_unique<Chaser>(5, sf::Vector2f(3000, 5000), 100, 10, 5, player));
 
 
-    std::cout << "Création d'ennemis" << std::endl;
 }
 
 void Game::createWindow() {

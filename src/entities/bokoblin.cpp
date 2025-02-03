@@ -22,8 +22,7 @@ Bokoblin::Bokoblin(float s, sf::Vector2f p, int hp, int d, float size) : Enemy(s
     position = p;
     sprite.setPosition(position);
     sprite.setScale(size *0.4, size *0.4);
-
-
+    
 }
 
 void Bokoblin::update(float deltaTime, const std::vector<sf::Sprite>& bushes) {
@@ -52,6 +51,6 @@ void Bokoblin::moveToNextPoint(float deltaTime) {
         position += direction * (speed * deltaTime);
     }*/
 
-    sprite.move(-speed, 0.f);
+    sprite.move(speed, 5.f);
 }
 

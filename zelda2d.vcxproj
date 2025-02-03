@@ -154,6 +154,7 @@ sfml-system.lib
     <ClCompile Include="src\core\game.cpp" />
     <ClCompile Include="src\core\inputHandler.cpp" />
     <ClCompile Include="src\entities\bokoblin.cpp" />
+    <ClCompile Include="src\entities\chaser.cpp" />
     <ClCompile Include="src\entities\Enemy.cpp" />
     <ClCompile Include="src\entities\player.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -169,6 +170,7 @@ sfml-system.lib
     <ClInclude Include="src\core\Game.hpp" />
     <ClInclude Include="src\core\InputHandler.hpp" />
     <ClInclude Include="src\entities\Bokoblin.hpp" />
+    <ClInclude Include="src\entities\Chaser.hpp" />
     <ClInclude Include="src\entities\Enemy.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />
     <ClInclude Include="src\entities\Player.hpp" />

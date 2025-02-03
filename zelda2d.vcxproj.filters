@@ -87,6 +87,9 @@
     <ClCompile Include="src\entities\Enemy.cpp">
       <Filter>Fichiers sources\entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\entities\chaser.cpp">
+      <Filter>Fichiers sources\entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -129,6 +132,9 @@
       <Filter>Fichiers d%27en-tête\ui</Filter>
     </ClInclude>
     <ClInclude Include="src\entities\Enemy.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Chaser.hpp">
       <Filter>Fichiers d%27en-tête\entities</Filter>
     </ClInclude>
   </ItemGroup>

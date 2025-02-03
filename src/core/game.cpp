@@ -1,7 +1,7 @@
 #include "../core/game.hpp"
 #include <iostream>
 
-Game::Game() : isRunning(false), camera(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT),
+Game::Game() : isRunning(false), camera(),
     player(sf::Vector2f(4850, 5200), 60, "assets/images/characters/Link.png"), 
     bokoblin(sf::Vector2f(4850, 5200), 50, { sf::Vector2f(1000, 300), sf::Vector2f(500, 500), sf::Vector2f(800, 700),sf::Vector2f(100, 600) }, "assets/images/characters/Bokoblin.png"),
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false) {

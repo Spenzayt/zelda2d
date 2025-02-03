@@ -2,8 +2,8 @@
 #include <iostream>
 
 Game::Game() : isRunning(false), camera(),
-    player(sf::Vector2f(4850, 5200), 60, "assets/images/characters/Link.png"),
-    bokoblin(sf::Vector2f(300, 300), 50, { sf::Vector2f(1000, 300), sf::Vector2f(500, 500), sf::Vector2f(800, 700),sf::Vector2f(100, 600) }, "assets/images/characters/Bokoblin.png"),
+    player(sf::Vector2f(4850, 5200), 60, "assets/images/characters/Link.png"), 
+    bokoblin(sf::Vector2f(4850, 5200), 50, { sf::Vector2f(1000, 300), sf::Vector2f(500, 500), sf::Vector2f(800, 700),sf::Vector2f(100, 600) }, "assets/images/characters/Bokoblin.png"),
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false) {
     
     createWindow();
@@ -17,6 +17,7 @@ void Game::createWindow() {
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     window.create(desktopMode, "Zelda", sf::Style::Fullscreen);
     window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
     isRunning = true;
 }
 
@@ -64,6 +65,7 @@ void Game::render() {
         map.draw(window);
         camera.applyView(window);
         player.draw(window);
+        bokoblin.draw(window);
     }
     if (currentState == GameState::OPTIONS) {
         if (isGamePaused) {

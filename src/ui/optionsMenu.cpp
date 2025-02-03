@@ -14,6 +14,7 @@ std::map<sf::Keyboard::Key, std::string> keyNames = {
 	{sf::Keyboard::Num1, "Num1"}, {sf::Keyboard::Num2, "Num2"}, {sf::Keyboard::Num3, "Num3"},
 	{sf::Keyboard::Num4, "Num4"}, {sf::Keyboard::Num5, "Num5"}, {sf::Keyboard::Num6, "Num6"},
 	{sf::Keyboard::Num7, "Num7"}, {sf::Keyboard::Num8, "Num8"}, {sf::Keyboard::Num9, "Num9"},
+	 {sf::Keyboard::Up, "Haut"}, {sf::Keyboard::Down, "Bas"},{sf::Keyboard::Right, "Droite"},{sf::Keyboard::Left, "Gauche"},
 };
 
 void OptionsMenu::initButtons()
@@ -45,17 +46,19 @@ void OptionsMenu::initVolumeMenu()
 
 		sf::FloatRect textBounds = button.getLocalBounds();
 		float x = (Config::WINDOW_WIDTH / 2.f) - (textBounds.width / 2.f) - textBounds.left;
-		button.setPosition(x, 400 + static_cast<float>(i) * 80);
+		button.setPosition(x, 400 + static_cast<float>(i) * 90);
 		buttons.push_back(button);
 	}
 	initVolumeControl();
+	updateTextVolumeMusic();
+	updateTextVolumeSound();
 }
 
 void OptionsMenu::initVolumeControl()
 {
 	volumeMusicBar.setSize(sf::Vector2f(300, 10));
 	volumeMusicBar.setFillColor(sf::Color(128, 128, 128));
-	volumeMusicBar.setPosition(810, 460);
+	volumeMusicBar.setPosition(810, 470);
 
 	volumeMusicSlider.setSize(sf::Vector2f(20, 30));
 	volumeMusicSlider.setFillColor(sf::Color::White);
@@ -63,7 +66,7 @@ void OptionsMenu::initVolumeControl()
 
 	volumeSoundBar.setSize(sf::Vector2f(300, 10));
 	volumeSoundBar.setFillColor(sf::Color(128, 128, 128));
-	volumeSoundBar.setPosition(810, 540);
+	volumeSoundBar.setPosition(810, 550);
 
 	volumeSoundSlider.setSize(sf::Vector2f(20, 30));
 	volumeSoundSlider.setFillColor(sf::Color::White);
@@ -84,7 +87,7 @@ void OptionsMenu::initVolumeControl()
 void OptionsMenu::initChangeKeysMenu()
 {
 	keys.clear();
-	std::vector<std::string> changeKeysButtons = { "Aller vers le haut :", "Aller vers le bas :", "Aller vers la gauche :", "Aller vers la droite :", "Retour" };
+	std::vector<std::string> changeKeysButtons = { "Aller vers le haut :", "Aller vers le bas :", "Aller vers la gauche :", "Aller vers la droite :" };
 
 	for (size_t i = 0; i < changeKeysButtons.size(); i++) {
 		sf::Text button;
@@ -95,14 +98,30 @@ void OptionsMenu::initChangeKeysMenu()
 
 		sf::FloatRect textBounds = button.getLocalBounds();
 		float x = (Config::WINDOW_WIDTH / 2.f) - (textBounds.width / 2.f) - textBounds.left;
-		button.setPosition(x, 300 + static_cast<float>(i) * 80);
+		button.setPosition(610, 210 + static_cast<float>(i) * 100);
 		buttons.push_back(button);
+
+		sf::RectangleShape keyShape;
+		keyShape.setSize(sf::Vector2f(450, 70));
+		keyShape.setFillColor(sf::Color(0, 0, 0, 150));
+		keyShape.setPosition(600, 200 + static_cast<float>(i) * 100);
+		keyShapes.push_back(keyShape);
+		
+		sf::RectangleShape keyShape2;
+		keyShape2.setSize(sf::Vector2f(140, 70));
+		keyShape2.setFillColor(sf::Color(0, 0, 0, 150));
+	
+		keyShape2.setPosition(1100, 200 + static_cast<float>(i) * 100);
+		keysRect.push_back(keyShape2);
 
 		sf::Text key;
 		key.setFont(font);
-		key.setFillColor(sf::Color::White);
+		key.setFillColor(sf::Color(168, 168, 168));
 		key.setCharacterSize(50);
-		key.setPosition(button.getPosition().x + button.getLocalBounds().width + 10.f, button.getPosition().y);
+		sf::FloatRect textKeyBounds = key.getLocalBounds();
+		float xKey = keyShape2.getPosition().x + (keyShape2.getSize().x - textKeyBounds.width) / 2;
+		key.setPosition(xKey-10, keyShape2.getPosition().y);
+
 		switch (i) {
 		case 0:
 			key.setString(keyNames[inputHandler.getKeyForAction(InputHandler::Action::UP)]);
@@ -117,14 +136,22 @@ void OptionsMenu::initChangeKeysMenu()
 		case 3:
 			key.setString(keyNames[inputHandler.getKeyForAction(InputHandler::Action::RIGHT)]);
 			break;
-		case 4:
-			key.setString("");
-			break;
 		}
 		keys.push_back(key);
 	}
+	/*returnButton.setSize(sf::Vector2f(450, 70));
+	returnButton.setFillColor(sf::Color(0, 0, 0, 150));
+	returnButton.setPosition(600, 200 + 4 * 100);*/
+
+	returnText.setFont(font);
+	returnText.setCharacterSize(50);
+	returnText.setFillColor(sf::Color(168, 168, 168));
+	returnText.setString("Retour");
+	returnText.setPosition(800, 610);
+	
 	waitingForKey = false;
 	waitingForAction = -1;
+
 }
 
 void OptionsMenu::updateTextVolumeMusic()
@@ -167,14 +194,20 @@ void OptionsMenu::updateSoundVolume(sf::Vector2i mousePos)
 	updateTextVolumeSound();
 }
 
-OptionsMenu::OptionsMenu() : musicVolumeLevel(100), soundVolumeLevel(100),isDragging(false), ignoreNextClick(true)
+OptionsMenu::OptionsMenu() : musicVolumeLevel(100), soundVolumeLevel(100),isDragging(false), 
+ignoreNextClick(true), isDraggingMusic(false), isDraggingSound(false)
 {
 	initButtons();
 }
 
 void OptionsMenu::handleKeyChange(int actionIndex, sf::Keyboard::Key newKey)
 {
-
+	for (int i = 0; i < 4; i++) {
+		if (inputHandler.getKeyForAction(static_cast<InputHandler::Action>(i)) == newKey) {
+			inputHandler.remapKey(static_cast<InputHandler::Action>(i), sf::Keyboard::Unknown);
+			keys[i].setString("");
+		}
+	}
 	if (actionIndex < 4) {
 		inputHandler.remapKey(static_cast<InputHandler::Action>(actionIndex), newKey);
 
@@ -197,6 +230,8 @@ int OptionsMenu::handleInput(sf::RenderWindow& window, const sf::Event& event)
 				currentMenu = MenuType::VOLUME;
 				ignoreNextClick = true;
 				buttons.clear();
+				keyShapes.clear();
+				keysRect.clear();
 				initVolumeMenu();
 			}
 			else if (buttons[1].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
@@ -218,62 +253,93 @@ int OptionsMenu::handleInput(sf::RenderWindow& window, const sf::Event& event)
 				currentMenu = MenuType::OPTIONS;
 				//ignoreNextClick = true;
 				buttons.clear();
+				keyShapes.clear();
+				keysRect.clear();
 				resetCooldown();
 				initButtons();
 			}
 			if (volumeMusicSlider.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) ||
 				volumeMusicBar.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-				isDragging = true;
+				isDraggingMusic = true;
 				updateMusicVolume(mousePos);
 			}
 			if (volumeSoundSlider.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) ||
 				volumeSoundBar.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-				isDragging = true;
+				isDraggingSound = true;
 				updateSoundVolume(mousePos);
 			}
 		}
 		if (event.type == sf::Event::MouseButtonReleased) {
-			isDragging = false;
+			isDraggingMusic = false;
+			isDraggingSound = false;
 		}
 
-		if (event.type == sf::Event::MouseMoved && isDragging) {
-			if (volumeMusicSlider.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+		if (event.type == sf::Event::MouseMoved) {
+			if (isDraggingMusic) {
 				updateMusicVolume(mousePos);
 			}
-			if (volumeSoundSlider.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+			if (isDraggingSound) {
 				updateSoundVolume(mousePos);
 			}
 		}
 		
 	}
-	else if (currentMenu == MenuType::KEYS) {
+	else if (currentMenu == MenuType::KEYS) {	
 		if (event.type == sf::Event::MouseButtonPressed) {
-			for (size_t i = 0; i < buttons.size(); i++) {
-				if (buttons[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) && i != 4) {
+			for (size_t i = 0; i < keys.size(); i++) {
+				if (keyShapes[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) || 
+					buttons[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) || 
+					keysRect[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) && i != 4) {
 					waitingForKey = true;
 					waitingForAction = i;
 				}
 			}
 		}
 		if (waitingForKey) {
-			for (int key = sf::Keyboard::A; key <= sf::Keyboard::Z; key++) {
-				if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(key))) {
-					handleKeyChange(waitingForAction, static_cast<sf::Keyboard::Key>(key));
+			std::vector<sf::Keyboard::Key> possibleKeys = {
+	  sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Left, sf::Keyboard::Right,
+	  sf::Keyboard::A, sf::Keyboard::B, sf::Keyboard::C, sf::Keyboard::D,
+	  sf::Keyboard::E, sf::Keyboard::F, sf::Keyboard::G, sf::Keyboard::H,
+	  sf::Keyboard::I, sf::Keyboard::J, sf::Keyboard::K, sf::Keyboard::L,
+	  sf::Keyboard::M, sf::Keyboard::N, sf::Keyboard::O, sf::Keyboard::P,
+	  sf::Keyboard::Q, sf::Keyboard::R, sf::Keyboard::S, sf::Keyboard::T,
+	  sf::Keyboard::U, sf::Keyboard::V, sf::Keyboard::W, sf::Keyboard::X,
+	  sf::Keyboard::Y, sf::Keyboard::Z
+			};
+
+			for (auto key : possibleKeys) {
+				if (sf::Keyboard::isKeyPressed(key)) {
+					handleKeyChange(waitingForAction, key);
 					waitingForKey = false;
 					break;
 				}
 			}
+			
 		}
 	
 		if (event.type == sf::Event::MouseButtonReleased) {
-			if (buttons[4].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-	
+			if (returnText.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
 				currentMenu = MenuType::OPTIONS;
 				//ignoreNextClick = true;
 				buttons.clear();
+				keyShapes.clear();
+				keysRect.clear();
 				initButtons();
 				waitingForKey = false;
 				waitingForAction = -1;
+			}
+		}
+		for (size_t i = 0; i < keys.size(); i++) {
+			bool isHoveredText = keys[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+			bool isHoveredShape = i < keysRect.size() && keysRect[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+
+			if (isHoveredText || isHoveredShape) {
+				if (i < keysRect.size()) keysRect[i].setFillColor(sf::Color::Black);
+				keys[i].setFillColor(sf::Color::White);
+			}
+			else {
+				if (i < keysRect.size()) keysRect[i].setFillColor(sf::Color(0, 0, 0, 150));
+				keys[i].setFillColor(sf::Color(168, 168, 168));
 			}
 		}
 	}
@@ -286,6 +352,8 @@ void OptionsMenu::renderChangeKeysMenu(sf::RenderWindow& window)
 	for (size_t i = 0; i < buttons.size(); i++) {
 		window.draw(keys[i]); 
 	}
+	window.draw(returnButton);
+	window.draw(returnText);
 	if (waitingForKey) {
 		sf::Text waitText;
 		waitText.setFont(font);
@@ -305,6 +373,7 @@ void OptionsMenu::render(sf::RenderWindow& window)
 		Menu::render(window);
 	}
 	else if (currentMenu == MenuType::VOLUME) {
+		Menu::render(window);
 		window.draw(volumeMusicBar);
 		window.draw(volumeMusicSlider);
 		window.draw(musicVolumeText);
@@ -312,10 +381,11 @@ void OptionsMenu::render(sf::RenderWindow& window)
 		window.draw(volumeSoundBar);
 		window.draw(volumeSoundSlider);
 		window.draw(soundVolumeText);
-		Menu::render(window);
+	
 	}
 	else if (currentMenu == MenuType::KEYS) {
-		renderChangeKeysMenu(window);
 		Menu::render(window);
+		renderChangeKeysMenu(window);
+		handleMouseHover(window);
 	}
 }

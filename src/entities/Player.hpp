@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
+#include "../core/InputHandler.hpp"
+#include "../systems/Physics.hpp"
 
 class Player : public Entity
 {
@@ -11,6 +13,7 @@ public:
     void draw(sf::RenderWindow& window) override;
     void handleInput(float deltatime);
     void increaseSpeed(float amount);
+    sf::Vector2f getMovementDelta(float deltatime) const;
     void collectKey();
     void checkCollisionWithWalls(const std::vector<sf::RectangleShape>& walls);
     void checkCollisionWithMap(const std::vector<sf::Sprite>& bushes);
@@ -20,9 +23,12 @@ public:
 
     sf::Vector2f getPosition() const;
     void setPosition(const sf::Vector2f& position);
+    sf::FloatRect getHitbox() const;
 
 protected:
     sf::Sprite player;
     sf::Texture texture;
     sf::Vector2f previousPosition;
+    Physics physics;
+    sf::FloatRect hitbox;
 };

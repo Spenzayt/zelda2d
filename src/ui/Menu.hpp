@@ -8,13 +8,24 @@ class Menu {
 protected:
     sf::Font font;  
     std::vector<sf::Text> buttons;
+    std::vector<sf::RectangleShape> keyShapes;
+    std::vector<sf::RectangleShape> keysRect;
+
+    sf::RectangleShape returnButton;
+    sf::Text returnText;
 
     // temps entre chaque clic 
     sf::Clock cooldownMouseClock;
     const sf::Time cooldownMouse;
 
+
+    // fond du menu
+    sf::Texture texture;
+    sf::Sprite menu;
     virtual void initButtons() = 0;
     void initFont();
+    int initMenuTexture();
+    void initSpriteMenu();
 
 public:
     Menu();

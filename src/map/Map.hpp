@@ -36,7 +36,6 @@ public:
     const std::vector<sf::Sprite>& getBushes() const;
 
     const Zone* getZoneContaining(const sf::Vector2f& position) const;
-
     void addZone(const sf::FloatRect& bounds, const std::string& name);
 };
 

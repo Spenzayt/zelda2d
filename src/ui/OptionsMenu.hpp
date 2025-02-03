@@ -43,8 +43,8 @@ private:
 	InputHandler inputHandler;
 
 	bool ignoreNextClick;
-public:
 
+public:
 	OptionsMenu();
 
 	void updateTextVolumeMusic();

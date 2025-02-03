@@ -6,12 +6,6 @@
 #include <vector>
 #include <map>
 
-class Room {
-public:
-    sf::IntRect rect;
-    Room(int x, int y, int width, int height) : rect(x, y, width, height) {}
-};
-
 class Map {
 private:
     struct MapElement {
@@ -20,7 +14,15 @@ private:
     };
 
     std::map<std::string, MapElement> mapElements;
-    std::vector<Room> rooms;
+
+public:
+    struct Zone {
+        sf::FloatRect bounds;
+        std::string name;
+    };
+
+private:
+    std::vector<Zone> zones;
 
 public:
     Map();
@@ -31,8 +33,11 @@ public:
     void update(float deltaTime);
     void draw(sf::RenderWindow& window);
 
-    const std::vector<sf::Sprite>& getTrees() const;
     const std::vector<sf::Sprite>& getBushes() const;
+
+    const Zone* getZoneContaining(const sf::Vector2f& position) const;
+
+    void addZone(const sf::FloatRect& bounds, const std::string& name);
 };
 
 #endif // MAP_H

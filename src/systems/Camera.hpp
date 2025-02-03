@@ -2,27 +2,18 @@
 #define CAMERA_HPP
 
 #include <SFML/Graphics.hpp>
-#include "../entities/Player.hpp"
 #include "../utils/Config.hpp"
 
 class Camera {
 public:
-    Camera(float windowWidth, float windowHeight);
+    Camera();
 
-    void setRooms(const std::vector<sf::IntRect>& rooms);
-    void update(const sf::Vector2f& playerPosition, float deltaTime, bool isInMenu = false);
+    void update(const sf::Vector2f& playerPosition, float deltaTime, bool isPaused, bool instant = false, const sf::FloatRect& zoneBounds = sf::FloatRect());
     void applyView(sf::RenderWindow& window);
+    void resetToDefault();
 
 private:
     sf::View view;
-    sf::Vector2f targetPosition;
-    bool inRoom = false;
-    bool canTransitioning = false;
-    sf::IntRect currentRoom;
-    std::vector<sf::IntRect> rooms;
-
-    void checkRoomTransition(const sf::Vector2f& playerPosition);
-    void updateForMenu();
 };
 
 #endif // CAMERA_HPP

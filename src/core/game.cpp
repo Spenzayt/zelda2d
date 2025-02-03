@@ -37,12 +37,21 @@ void Game::processEvents() {
 void Game::update(float deltaTime) {
     if (currentState == GameState::PLAYING) {
         map.update(deltaTime);
-        camera.update(player.getPosition(), deltaTime, false);
-        player.update(deltaTime, map.getTrees(), map.getBushes());
-        bokoblin.update(deltaTime, map.getTrees(), map.getBushes());
+        player.update(deltaTime, map.getBushes());
+        bokoblin.update(deltaTime, map.getBushes());
+
+        const Map::Zone* currentZone = map.getZoneContaining(player.getPosition());
+        if (currentZone) {
+            camera.update(player.getPosition(), deltaTime, false, false, currentZone->bounds);
+        }
+        else {
+            camera.resetToDefault();
+            camera.update(player.getPosition(), deltaTime, false, true);
+        }
     }
     else {
-        camera.update(player.getPosition(), deltaTime, true);
+        camera.resetToDefault();
+        camera.update(player.getPosition(), deltaTime, true, true);
     }
 }
 

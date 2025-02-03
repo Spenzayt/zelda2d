@@ -11,6 +11,8 @@
 #include "../ui/OptionsMenu.hpp"
 #include "../systems/camera.hpp"
 
+#include <vector>
+#include <memory>
 class Map;
 class Player;
 class Patrolling;
@@ -34,6 +36,7 @@ public:
     void drawPauseMenu();
 
 private:
+    void initEnemies();
     void createWindow();
     void processEvents();
     void update(float deltaTime);
@@ -44,7 +47,10 @@ private:
 
     Map map;
     Player player;
-    Patrolling bokoblin;
+
+    
+    std::vector<std::unique_ptr<Enemy>> ennemies;
+    Bokoblin bokoblin;
 
     GameState currentState;
     MainMenu mainMenu;

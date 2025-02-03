@@ -84,7 +84,7 @@
     <ClCompile Include="src\ui\menu.cpp">
       <Filter>Fichiers sources\ui</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="src\entities\Enemy.cpp">
       <Filter>Fichiers sources\entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,7 +128,7 @@
     <ClInclude Include="src\ui\MainMenu.hpp">
       <Filter>Fichiers d%27en-tête\ui</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.hpp">
+    <ClInclude Include="src\entities\Enemy.hpp">
       <Filter>Fichiers d%27en-tête\entities</Filter>
     </ClInclude>
   </ItemGroup>

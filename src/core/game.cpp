@@ -3,15 +3,20 @@
 
 Game::Game() : isRunning(false), camera(),
     player(sf::Vector2f(4850, 5200), 60, "assets/images/characters/Link.png"), 
-    bokoblin(sf::Vector2f(4850, 5200), 50, { sf::Vector2f(1000, 300), sf::Vector2f(500, 500), sf::Vector2f(800, 700),sf::Vector2f(100, 600) }, "assets/images/characters/Bokoblin.png"),
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false) {
     
+    initEnemies();
     createWindow();
     map.importAllTextures(window);
     map.loadBackgroundFromImage();
 }
 
 Game::~Game() {}
+
+void Game::initEnemies()
+{
+    ennemies.push_back(std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5));
+}
 
 void Game::createWindow() {
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();

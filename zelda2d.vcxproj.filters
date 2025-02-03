@@ -93,6 +93,9 @@
     <ClCompile Include="src\entities\archer.cpp">
       <Filter>Fichiers sources\entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\entities\arrow.cpp">
+      <Filter>Fichiers sources\entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -141,6 +144,9 @@
       <Filter>Fichiers d%27en-tête\entities</Filter>
     </ClInclude>
     <ClInclude Include="src\entities\Archer.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Arrow.hpp">
       <Filter>Fichiers d%27en-tête\entities</Filter>
     </ClInclude>
   </ItemGroup>

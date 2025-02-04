@@ -1,16 +1,23 @@
 #include "Win.hpp"
+#include <iostream>
 
 void Win::initWin()
 {
 	text.setFont(font);
-	text.setString("WIN");
-	text.setCharacterSize(80);
+	text.setString("VICTORY");
+	text.setCharacterSize(120);
 	text.setFillColor(sf::Color::Yellow);
 
 	sf::FloatRect winBounds = text.getLocalBounds();
 	float x = (Config::WINDOW_WIDTH / 2.f) - (winBounds.width / 2.f) - winBounds.left;
 	text.setPosition(x, 300);
 
+}
+
+void Win::initFont(){
+	if (!font.loadFromFile("assets/fonts/test.otf")) {
+		std::cerr << "Error loading the font!" << std::endl;
+	}
 }
 
 void Win::initButtons()
@@ -26,13 +33,14 @@ void Win::initButtons()
 
 		sf::FloatRect boundsText = button.getLocalBounds();
 		float x = (Config::WINDOW_WIDTH / 2.f) - (boundsText.width / 2.f) - boundsText.left;
-		button.setPosition(x, 400 + static_cast<float>(i) * 80);
+		button.setPosition(x, 500 + static_cast<float>(i) * 80);
 		buttons.push_back(button);
 	}
 }
 
 Win::Win()
 {
+	initFont();
 	initWin();
 	initButtons();
 }
@@ -40,7 +48,7 @@ Win::Win()
 void Win::draw(sf::RenderWindow& window)
 {
 	window.draw(text);
-//	Renderer::draw(window);
+	Renderer::draw(window);
 }
 
 int Win::handleInput(sf::RenderWindow& window, const sf::Event& event)
@@ -56,5 +64,5 @@ int Win::handleInput(sf::RenderWindow& window, const sf::Event& event)
 			}
 		}
 	}
-	return -1;;
+	return -1;
 }

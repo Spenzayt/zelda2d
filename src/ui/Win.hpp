@@ -11,6 +11,7 @@ protected:
 	sf::Font font;
 
 	void initWin();
+	void initFont();
 	void initButtons() override;
 public:
 	Win();

@@ -165,6 +165,13 @@ void Game::render() {
         drawPauseMenu();
         gameOver.draw(window);
     }
+    if (currentState == GameState::VICTORY) {
+        map.draw(window);
+        camera.applyView(window);
+        player.draw(window);
+        drawPauseMenu();
+        win.draw(window);
+    }
     window.display();
 }
 
@@ -284,6 +291,19 @@ void Game::handleGameState(sf::Event& event)
             resetGame();
             break;
         case 2:
+            currentState = GameState::MAIN_MENU;
+            ignoreNextClick = true;
+            break;
+        }
+    }
+    if (currentState == GameState::VICTORY) {
+        win.handleMouseHover(window);
+        int action = win.handleInput(window, event);
+        switch (action) {
+        case 0:
+            resetGame();
+            break;
+        case 1:
             currentState = GameState::MAIN_MENU;
             ignoreNextClick = true;
             break;

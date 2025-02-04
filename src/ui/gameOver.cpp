@@ -12,7 +12,7 @@ void GameOver::initGameOver()
 {
 	text.setFont(font);
 	text.setString("GAME OVER");
-	text.setCharacterSize(80);
+	text.setCharacterSize(120);
 	text.setFillColor(sf::Color::Red);
 
 	sf::FloatRect winBounds = text.getLocalBounds();

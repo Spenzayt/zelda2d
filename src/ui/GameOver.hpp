@@ -2,7 +2,7 @@
 #define GAMEOVER_HPP
 
 #include <SFML/Graphics.hpp>
-#include <../src/ui/Renderer.hpp>
+#include "Renderer.hpp"
 
 class GameOver : public Renderer {
 

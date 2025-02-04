@@ -17,7 +17,7 @@ public:
     void setPath(const std::vector<sf::Vector2f>& points);
 
     sf::FloatRect getGlobalBounds() const override;
-
+    int getDamage() const override;
     const sf::Sprite& getSprite() const { return sprite; }
 
 protected:

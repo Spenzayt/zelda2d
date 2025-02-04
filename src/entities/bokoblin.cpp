@@ -50,6 +50,11 @@ sf::FloatRect Bokoblin::getGlobalBounds() const
     return sprite.getGlobalBounds();
 }
 
+int Bokoblin::getDamage() const
+{
+    return damage;
+}
+
 void Bokoblin::moveToNextPoint(float deltaTime) {
     if (pathPoints.empty()) return;
 

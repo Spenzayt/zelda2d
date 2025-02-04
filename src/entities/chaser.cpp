@@ -51,6 +51,11 @@ void Chaser::draw(sf::RenderWindow& window)
 	window.draw(sprite);
 }
 
+int Chaser::getDamage() const
+{
+	return damage;
+}
+
 sf::FloatRect Chaser::getGlobalBounds() const
 {
 	return sprite.getGlobalBounds();

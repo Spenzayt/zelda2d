@@ -7,11 +7,10 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
     position = spawnposition;
     previousPosition = position;
 
-    maxHp = 5;
+    maxHp = 50;
     heal = hp;
-
-   // damage = 10;
     speed = 100;
+    damageCooldown = 1.0f;
 
     if (!texture.loadFromFile(texturePath)) {
         std::cerr << "Error loading texture from: " << texturePath << std::endl;
@@ -31,6 +30,9 @@ void Player::update(float deltatime, const std::vector<sf::Sprite>& bushes) {
     previousPosition = position;
     handleInput(deltatime);
 
+    if (damageCooldown > 0) {
+        damageCooldown -= deltatime;
+    }
     sf::Vector2f newPosition = position + getMovementDelta(deltatime);
     hitbox.left = newPosition.x;
     hitbox.top = newPosition.y;
@@ -117,15 +119,19 @@ void Player::checkCollisionWithMap(const std::vector<sf::Sprite>& bushes) {
 void Player::reset()
 {
     heal = maxHp;
-    player.setPosition(sf::Vector2f(300, 130));
+
 }
 
 void Player::damage(int damages)
 {
-    heal -= damages;
-    if (heal < 0) {
-        heal = 0;
+    if (damageCooldown <= 0) {
+        heal -= damages;
+        if (heal < 0) {
+            heal = 0;
+        }
     }
+    
+    damageCooldown = 1.0f;
 }
 
 sf::Vector2f Player::getPosition() const {

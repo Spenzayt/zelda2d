@@ -36,7 +36,7 @@ void Renderer::handleMouseHover(const sf::RenderWindow& window)
 
 bool Renderer::isCooldownActive()
 {
-	return cooldownMouseClock.getElapsedTime().asSeconds();
+	return cooldownMouseClock.getElapsedTime() < cooldownMouse;
 }
 
 void Renderer::resetCooldown()

@@ -52,7 +52,8 @@ protected:
     sf::Vector2f previousPosition;
     
     int maxHp;
-    
+    float damageCooldown;
+
     Physics physics;
     sf::FloatRect hitbox;
 

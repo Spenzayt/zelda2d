@@ -2,8 +2,8 @@
 #include <iostream>
 
 Game::Game() : isRunning(false), camera(),
-    player(sf::Vector2f(300, 130), 60, "assets/images/characters/Link.png", 5), 
-    currentState(GameState::GAMEOVER), ignoreNextClick(false), isGamePaused(false),
+    player(sf::Vector2f(300, 130), 60, "assets/images/characters/Link.png", 50), 
+    currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false),
     showHitBox(false), noclip(false), godMode(false), playerLocation(Player::PlayerLocation::INSIDE_HOUSE) {
     
     initEnemies();
@@ -31,13 +31,13 @@ void Game::initEnemies()
 {
     // ennemies avec mouvements pr�d�finis
 
-    auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 10, 5);
+    auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 10, 5); // speed, position, hp, damage, size
     bokoblin1->setPath({ { 5975,5669 }, {4420, 5669}, {3360, 5669}, {3360, 5220}, {3360, 5669} });
 
-    auto bokoblin2 = std::make_unique<Bokoblin>(5, sf::Vector2f(2553, 3670), 100, 10, 5);
+    auto bokoblin2 = std::make_unique<Bokoblin>(5, sf::Vector2f(2553, 3670), 100, 5, 5);
     bokoblin2->setPath({ { 2553, 3685 }, { 5272, 3685 } });
 
-    auto bokoblin3 = std::make_unique<Bokoblin>(5, sf::Vector2f(4910, 4146), 100, 10, 5);
+    auto bokoblin3 = std::make_unique<Bokoblin>(5, sf::Vector2f(4910, 4146), 100, 5, 5);
     bokoblin3->setPath({ { 4910, 4146 }, { 5360, 4611 }, { 5513, 4159 } });
 
     ennemies.push_back(std::move(bokoblin1));
@@ -45,8 +45,8 @@ void Game::initEnemies()
     ennemies.push_back(std::move(bokoblin3));
 
     // ennemies qui suit le joueur
-    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(5819, 3868), 100, 10, 5, player));
-    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(2352, 4409), 100, 10, 5, player));
+    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(5819, 3868), 100, 5, 5, player));
+    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(2352, 4409), 100, 5, 5, player));
 
     // archers
     ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player));
@@ -87,6 +87,7 @@ void Game::update(float deltaTime) {
         map.update(deltaTime);
 
         player.update(deltaTime, map.getBushes());
+        checkCollisionsPlayerEnemies();
         for (auto& enemy : ennemies) {
             enemy->update(deltaTime, map.getBushes());
         }
@@ -111,11 +112,6 @@ void Game::update(float deltaTime) {
             camera.update(player.getPosition(), deltaTime, false, true);
         }
 
-        for (auto& enemy : ennemies) {
-            if (player.getGlobalBounds().intersects(enemy->getGlobalBounds())) {
-                currentState = GameState::GAMEOVER;
-            }
-        }
     }
     else {
         camera.resetToDefault();
@@ -162,6 +158,10 @@ void Game::render() {
         pauseMenu.render(window);
     }
     if (currentState == GameState::GAMEOVER) {
+        map.draw(window);
+        camera.applyView(window);
+        player.draw(window);
+        drawPauseMenu();
         gameOver.draw(window);
     }
     window.display();
@@ -174,6 +174,20 @@ void Game::drawPauseMenu() {
     overlay.setSize(sf::Vector2f(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT));
     overlay.setFillColor(sf::Color(0, 0, 0));
     window.draw(overlay);
+}
+
+void Game::checkCollisionsPlayerEnemies()
+{
+    for (const auto& enemy : ennemies) {
+        if (player.getGlobalBounds().intersects(enemy->getGlobalBounds())) {
+            player.damage(enemy->getDamage());
+            std::cout << "Player hit! HP:" << player.getHealth() << std::endl;
+            if (player.isDead()) {
+                currentState = GameState::GAMEOVER;
+            }
+        }
+    }
+    
 }
 
 void Game::run() {
@@ -202,6 +216,7 @@ void Game::handleGameState(sf::Event& event)
 
         switch (action) {
         case 0:
+            resetGame();
             currentState = GameState::PLAYING;
             ignoreNextClick = true;
             break;
@@ -254,11 +269,12 @@ void Game::handleGameState(sf::Event& event)
         int action = gameOver.handleInput(window, event);
         switch (action) {
         case 0:
+            resetPlayer();
             currentState = GameState::PLAYING;
             isGamePaused = false;
             break;
         case 1:
-            isGamePaused = false;
+            resetGame();
             break;
         case 2:
             currentState = GameState::MAIN_MENU;
@@ -301,4 +317,23 @@ void Game::handleDebugActions(sf::Event& event) {
             break;
         }
     }
+}
+
+void Game::resetGame()
+{
+    player.setPosition(sf::Vector2f(300, 130));
+    player.reset();
+    playerLocation = Player::PlayerLocation::INSIDE_HOUSE;
+
+    ennemies.clear();
+    initEnemies();
+
+    currentState = GameState::PLAYING;
+    isGamePaused = false;
+}
+
+void Game::resetPlayer()
+{
+    player.reset();
+    player.setPosition(player.getPosition() + sf::Vector2f(100, 0));
 }

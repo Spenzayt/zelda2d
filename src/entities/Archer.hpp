@@ -35,6 +35,7 @@ public:
 	void update(float deltaTime, const std::vector<sf::Sprite>& bushes) override;
 	void shoot();
 
+	int getDamage() const override;
 	sf::FloatRect getGlobalBounds() const override;
 
 	void draw(sf::RenderWindow& window) override;

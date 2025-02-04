@@ -33,7 +33,7 @@ void GameOver::initButtons()
 
 		sf::FloatRect boundsText = button.getLocalBounds();
 		float x = (Config::WINDOW_WIDTH / 2.f) - (boundsText.width / 2.f) - boundsText.left;
-		button.setPosition(x, 400 + static_cast<float>(i) * 80);
+		button.setPosition(x, 500 + static_cast<float>(i) * 80);
 		buttons.push_back(button);
 	}
 }
@@ -47,8 +47,9 @@ GameOver::GameOver()
 
 void GameOver::draw(sf::RenderWindow& window)
 {
-	window.draw(text);
+
 	Renderer::draw(window);
+	window.draw(text);
 }
 
 int GameOver::handleInput(sf::RenderWindow& window, const sf::Event& event)

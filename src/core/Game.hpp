@@ -43,6 +43,8 @@ public:
     void drawEnemies();
     void drawPauseMenu();
 
+    void checkCollisionsPlayerEnemies();
+
     bool godMode;
     bool noclip;
     bool showHitBox;
@@ -55,6 +57,8 @@ private:
     void render();
     void handleDebugActions(sf::Event& event);
 
+    void resetGame();
+    void resetPlayer();
     sf::RenderWindow window;
     bool isRunning;
 

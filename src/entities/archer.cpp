@@ -68,6 +68,11 @@ void Archer::shoot()
 	
 }
 
+int Archer::getDamage() const
+{
+	return damage;
+}
+
 sf::FloatRect Archer::getGlobalBounds() const
 {
 	return sprite.getGlobalBounds();

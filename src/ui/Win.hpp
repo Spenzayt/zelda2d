@@ -2,7 +2,7 @@
 #define WIN_HPP
 
 #include <SFML/Graphics.hpp>
-#include <../src/ui/Renderer.hpp>
+#include "Renderer.hpp"
 
 class Win : public Renderer {
 

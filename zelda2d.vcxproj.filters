@@ -151,6 +151,7 @@
     </ClInclude>
     <ClInclude Include="src\entities\Arrow.hpp">
       <Filter>Fichiers d%27en-tête\entities</Filter>
+    </ClInclude>
     <ClInclude Include="src\systems\KonamiCode.hpp">
       <Filter>Fichiers d%27en-tête\systems</Filter>
     </ClInclude>

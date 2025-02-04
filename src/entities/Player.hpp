@@ -54,6 +54,8 @@ protected:
     sf::Texture fullHeartTexture, halfHeartTexture, emptyHeartTexture;
     std::vector<sf::Sprite> hearts;
    
+    sf::Texture textureLife;
+    sf::Sprite life;
     int maxHp;
     float damageCooldown;
 
@@ -62,4 +64,5 @@ protected:
 
 
     void initHeartTexture();
+    void initLifeTexture();
 };

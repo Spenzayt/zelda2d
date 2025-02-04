@@ -29,8 +29,8 @@ Game::~Game() {}
 
 void Game::initEnemies()
 {
+    
     // ennemies avec mouvements pr�d�finis
-
     auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 5, 5); // speed, position, hp, damage, size
     bokoblin1->setPath({ { 5975,5669 }, {4420, 5669}, {3360, 5669}, {3360, 5220}, {3360, 5669} });
 
@@ -180,7 +180,7 @@ void Game::drawPauseMenu() {
 void Game::checkCollisionsPlayerEnemies()
 {
     for (const auto& enemy : ennemies) {
-        if (player.getGlobalBounds().intersects(enemy->getGlobalBounds())) {
+        if (player.getGlobalBounds().intersects(enemy->getGlobalBounds()) && !godMode) {
             player.damage(enemy->getDamage());
             checkIfPlayerIsDead();
         }
@@ -192,6 +192,11 @@ void Game::checkIfPlayerIsDead()
     if (player.isDead()) {
         currentState = GameState::GAMEOVER;
     }
+}
+
+bool Game::getGodMode() const
+{
+    return godMode;
 }
 
 void Game::run() {
@@ -339,5 +344,8 @@ void Game::resetGame()
 void Game::resetPlayer()
 {
     player.reset();
-    player.setPosition(player.getPosition() + sf::Vector2f(100, 0));
+
+    ennemies.clear();
+    initEnemies();
+   // player.setPosition(player.getPosition() + sf::Vector2f(100, 0));
 }

@@ -45,6 +45,7 @@ public:
 
     void checkCollisionsPlayerEnemies();
     void checkIfPlayerIsDead();
+    bool getGodMode() const;
     bool godMode;
     bool noclip;
     bool showHitBox;
@@ -64,7 +65,6 @@ private:
 
     Map map;
     Player player;
-
     
     std::vector<std::unique_ptr<Enemy>> ennemies;
   

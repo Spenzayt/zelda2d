@@ -18,6 +18,7 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
     }
 
     initHeartTexture();
+    initLifeTexture();
 
     for (int i = 0; i < maxHp / 10; i++) {
         sf::Sprite heart(fullHeartTexture);
@@ -85,7 +86,7 @@ void Player::draw(sf::RenderWindow& window) {
     }
 
     float heartSpacing = 40.f;
-    float marginTop = 50.f;
+    float marginTop = 55.f;
     float marginRight = 10.f;
 
     sf::Vector2f viewSize = window.getView().getSize();
@@ -108,8 +109,7 @@ void Player::draw(sf::RenderWindow& window) {
 
             window.draw(hearts[i]);
         }
- 
-
+    
     sf::Text text;
     text.setFont(font);
     text.setString("Player Position: (" + std::to_string((int)position.x) + ", " + std::to_string((int)position.y) + ")");
@@ -121,6 +121,11 @@ void Player::draw(sf::RenderWindow& window) {
     text.setPosition(center.x - window.getSize().x / 2 + 10.f, center.y - window.getSize().y / 2 + 10.f);
 
     window.draw(text);
+
+    life.setTexture(textureLife);
+    float xLife = viewCenter.x + (viewSize.x / 2);
+    life.setPosition(center.x + window.getSize().x / 2 - 217.f, center.y - window.getSize().y / 2);
+    window.draw(life);
 }
 
 void Player::drawHitBox(sf::RenderWindow& window) {
@@ -140,6 +145,15 @@ void Player::initHeartTexture()
     !emptyHeartTexture.loadFromFile("assets/images/interface/emptyheart.png")) {
         std::cerr << "Error loading the heart textures !" << std::endl;
     }
+}
+
+void Player::initLifeTexture()
+{
+    if (!textureLife.loadFromFile("assets/images/interface/life.png")) {
+        std::cerr << "Error loading life texture !" << std::endl;
+    }
+
+    
 }
 
 void Player::checkCollisionWithWalls(const std::vector<sf::RectangleShape>& walls) {

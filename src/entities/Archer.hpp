@@ -6,6 +6,7 @@
 #include "Enemy.hpp"
 #include "Player.hpp"
 #include "Arrow.hpp"
+#include "../core/Game.hpp"
 #include <vector>
 #include <string>
 
@@ -17,7 +18,6 @@ private:
 	float distanceTraveled = 0.f;
 	sf::Vector2f position;
 	int size;
-
 	Player& player;
 	// flèches
 	std::vector<Arrow> arrows;
@@ -40,7 +40,6 @@ public:
 	sf::FloatRect getGlobalBounds() const override;
 
 	void draw(sf::RenderWindow& window) override;
-	bool deleteArrows() const;
 };
 
 

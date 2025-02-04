@@ -4,13 +4,15 @@
 #include "../core/InputHandler.hpp"
 #include "../systems/Physics.hpp"
 
-Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath) : hasKey(false)
+Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath, float hp) : hasKey(false)
 {
     position = spawnposition;
     previousPosition = position;
 
-    damage = 10;
-    heal = 100;
+    maxHp = 5;
+    heal = hp;
+
+   // damage = 10;
     speed = 400;
 
     if (!texture.loadFromFile(texturePath)) {
@@ -88,8 +90,37 @@ void Player::checkCollisionWithMap(const std::vector<sf::Sprite>& bushes) {
     }
 }
 
+void Player::reset()
+{
+    heal = maxHp;
+    player.setPosition(sf::Vector2f(4850, 5200));
+}
+
+void Player::damage(int damages)
+{
+    heal -= damages;
+    if (heal < 0) {
+        heal = 0;
+    }
+}
+
 sf::Vector2f Player::getPosition() const {
     return player.getPosition();
+}
+
+float Player::getHealth() const
+{
+    return heal;
+}
+
+float Player::getSpeed() const
+{
+    return speed;
+}
+
+bool Player::isDead() const
+{
+    return heal <= 0;
 }
 
 void Player::setPosition(const sf::Vector2f& position) {

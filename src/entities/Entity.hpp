@@ -13,7 +13,7 @@ public:
 protected:
 	int speed;
 	int damage;
-	int heal;
+	float heal;
 
 	sf::Vector2f position;
 };

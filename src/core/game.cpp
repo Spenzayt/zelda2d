@@ -2,7 +2,7 @@
 #include <iostream>
 
 Game::Game() : isRunning(false), camera(),
-    player(sf::Vector2f(4850, 5200), 60, "assets/images/characters/Link.png"), 
+    player(sf::Vector2f(4850, 5200), 60, "assets/images/characters/Link.png", 5), 
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false) {
     
     initEnemies();
@@ -17,14 +17,14 @@ void Game::initEnemies()
 {
     // ennemies avec mouvements prédéfinis
 
-    auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5);
-    bokoblin1->setPath({ { 4850, 5200 }, { 5000, 5200 }, { 5000, 5300 }, { 4850, 5300 } });
+    auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 10, 5);
+    bokoblin1->setPath({ { 5975,5669 }, {4420, 5669}, {3360, 5669}, {3360, 5220}, {3360, 5669} });
 
-    auto bokoblin2 = std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5);
-    bokoblin2->setPath({ { 4700, 5200 }, { 4600, 5200 }, { 4600, 5300 }, { 4700, 5300 } });
+    auto bokoblin2 = std::make_unique<Bokoblin>(5, sf::Vector2f(2553, 3670), 100, 10, 5);
+    bokoblin2->setPath({ { 2553, 3685 }, { 5272, 3685 } });
 
-    auto bokoblin3 = std::make_unique<Bokoblin>(5, sf::Vector2f(4850, 5200), 100, 10, 5);
-    bokoblin3->setPath({ { 4600, 5200 }, { 4700, 5300 }, { 4600, 5400 }, { 4500, 5300 } });
+    auto bokoblin3 = std::make_unique<Bokoblin>(5, sf::Vector2f(4910, 4146), 100, 10, 5);
+    bokoblin3->setPath({ { 4910, 4146 }, { 5360, 4611 }, { 5513, 4159 } });
 
     ennemies.push_back(std::move(bokoblin1));
     ennemies.push_back(std::move(bokoblin2));

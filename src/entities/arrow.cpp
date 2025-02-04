@@ -18,7 +18,7 @@ Arrow::Arrow(sf::Vector2f position, sf::Vector2f direction, float speed) {
 	initTexture();
 
 	sprite.setPosition(position);
-
+	sprite.setScale(1.5f, 1.5f);
 	float magnitude = std::sqrt(direction.x * direction.x + direction.y * direction.y);
 	velocity = (direction / magnitude) * speed;
 }

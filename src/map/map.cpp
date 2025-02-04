@@ -9,7 +9,7 @@ void Map::importAllTextures(sf::RenderWindow& window) {
     if (!mapElements["background"].texture.loadFromFile("assets/images/map/map.png")) {
         std::cerr << "Image Failed to Load : map.png " << std::endl;
         return;
-    }       
+    }
 
     if (!mapElements["bush"].texture.loadFromFile("assets/images/map/textures/bush.png")) {
         std::cerr << "Image Failed to Load : bush.png " << std::endl;
@@ -25,8 +25,6 @@ void Map::importAllTextures(sf::RenderWindow& window) {
         std::cerr << "Image Failed to Load : collision_map.png " << std::endl;
         return;
     }
-    mapHitboxSprite.setTexture(mapHitboxTexture);
-    mapHitboxSprite.setScale(4.f, 4.f);
 
     mapElements["background"].sprites.push_back(sf::Sprite(mapElements["background"].texture));
     mapElements["background"].sprites[0].setScale(4.f, 4.f);
@@ -35,6 +33,12 @@ void Map::importAllTextures(sf::RenderWindow& window) {
     if (mapElements["background"].sprites.empty()) {
         std::cerr << "Error: Background sprite not added correctly." << std::endl;
     }
+
+    mapHitboxSprite.setTexture(mapHitboxTexture);
+    mapHitboxSprite.setScale(4.f, 4.f);
+
+    houseEntry = sf::FloatRect(4880, 5192, 60, 20);
+    houseExit = sf::FloatRect(415, 610, 60, 20);
 }
 
 void Map::loadBackgroundFromImage() {
@@ -121,4 +125,12 @@ const std::vector<sf::Sprite>& Map::getBushes() const {
 
 void Map::drawMapHitBox(sf::RenderWindow& window) {
     window.draw(mapHitboxSprite);
+}
+
+const sf::FloatRect& Map::getHouseEntry() const {
+    return houseEntry;
+}
+
+const sf::FloatRect& Map::getHouseExit() const {
+    return houseExit;
 }

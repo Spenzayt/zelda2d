@@ -166,3 +166,17 @@ sf::FloatRect Player::getHitbox() const {
     hitbox.height *= 0.6f;
     return hitbox;
 }
+
+void Player::checkHouseEntry(const sf::FloatRect& houseEntry, PlayerLocation& location) {
+    if (getHitbox().intersects(houseEntry)) {
+        location = PlayerLocation::INSIDE_HOUSE;
+        setPosition(sf::Vector2f(415, 560));
+    }
+}
+
+void Player::checkHouseExit(const sf::FloatRect& houseExit, PlayerLocation& location) {
+    if (getHitbox().intersects(houseExit)) {
+        location = PlayerLocation::OUTSIDE;
+        setPosition(sf::Vector2f(4850, 5200));
+    }
+}

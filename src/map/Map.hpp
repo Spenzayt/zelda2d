@@ -7,6 +7,29 @@
 #include <map>
 
 class Map {
+public:
+    Map();
+    ~Map();
+
+    struct Zone {
+        sf::FloatRect bounds;
+        std::string name;
+    };
+
+    void importAllTextures(sf::RenderWindow& window);
+    void loadBackgroundFromImage();
+    void update(float deltaTime);
+    void draw(sf::RenderWindow& window);
+
+    const Zone* getZoneContaining(const sf::Vector2f& position) const;
+    void addZone(const sf::FloatRect& bounds, const std::string& name);
+
+    const std::vector<sf::Sprite>& getBushes() const;
+    void drawMapHitBox(sf::RenderWindow& window);
+
+    const sf::FloatRect& getHouseEntry() const;
+    const sf::FloatRect& getHouseExit() const;
+
 private:
     sf::Texture mapHitboxTexture;
     sf::Sprite mapHitboxSprite;
@@ -17,30 +40,10 @@ private:
     };
 
     std::map<std::string, MapElement> mapElements;
-
-public:
-    struct Zone {
-        sf::FloatRect bounds;
-        std::string name;
-    };
-
-private:
     std::vector<Zone> zones;
 
-public:
-    Map();
-    ~Map();
-
-    void importAllTextures(sf::RenderWindow& window);
-    void loadBackgroundFromImage();
-    void update(float deltaTime);
-    void draw(sf::RenderWindow& window);
-
-    const std::vector<sf::Sprite>& getBushes() const;
-    void drawMapHitBox(sf::RenderWindow& window);
-
-    const Zone* getZoneContaining(const sf::Vector2f& position) const;
-    void addZone(const sf::FloatRect& bounds, const std::string& name);
+    sf::FloatRect houseEntry;
+    sf::FloatRect houseExit;
 };
 
 #endif // MAP_H

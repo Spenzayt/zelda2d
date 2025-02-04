@@ -51,6 +51,7 @@ private:
     void update(float deltaTime);
     void render();
     void handleDebugActions(sf::Event& event);
+    void drawInventory(sf::RenderWindow& window);
 
     sf::RenderWindow window;
     bool isRunning;
@@ -75,6 +76,7 @@ private:
 
     bool ignoreNextClick;
     bool isGamePaused;
+    bool showInventoryUI = false;
 };
 
 #endif // GAME_HPP

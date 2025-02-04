@@ -3,6 +3,8 @@
 #include "Entity.hpp"
 #include "../core/InputHandler.hpp"
 #include "../systems/Physics.hpp"
+#include "../src/objet/Inventory.hpp"
+#include "../src/objet/Item.hpp"
 
 class Player : public Entity
 {
@@ -25,6 +27,10 @@ public:
     void checkCollisionWithMap(const std::vector<sf::Sprite>& bushes);
     void checkHouseEntry(const sf::FloatRect& houseEntry, PlayerLocation& location);
     void checkHouseExit(const sf::FloatRect& houseExit, PlayerLocation& location);
+    void addItemToInventory(const Item<int>& item) { inventory.addItem(item); }
+    void removeItemFromInventory(const std::string& itemName) { inventory.removeItem(itemName); }
+    void showInventory() const { inventory.displayInventory(); }
+
 
     const sf::Sprite& getSprite() const { return player; }
     bool hasKey;
@@ -44,6 +50,9 @@ public:
 
     sf::FloatRect getHitbox() const;
     void drawHitBox(sf::RenderWindow& window);
+    const Inventory<int>& getInventory() const { return inventory; }
+private :
+    Inventory<int>inventory;
 
 protected:
     sf::Sprite player;

@@ -46,6 +46,9 @@
     <Filter Include="Fichiers d%27en-tête\utils">
       <UniqueIdentifier>{c6c36407-0de0-414a-94be-454a01af776e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\objet">
+      <UniqueIdentifier>{0724fa8f-8fe8-4e03-8a60-beb88abf9602}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\systems\physics.cpp">
@@ -154,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="src\systems\KonamiCode.hpp">
       <Filter>Fichiers d%27en-tête\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objet\Inventory.hpp">
+      <Filter>Fichiers d%27en-tête\objet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objet\Item.hpp">
+      <Filter>Fichiers d%27en-tête\objet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

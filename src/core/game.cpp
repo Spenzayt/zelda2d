@@ -78,6 +78,10 @@ void Game::processEvents() {
         if (konamiCode.isKonamiActivated()) {
             konamiCode.handleDebugActions(event);
         }
+        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::I) {
+            showInventoryUI = !showInventoryUI;
+        }
+
     }
     handleGameState(event);
 }
@@ -156,6 +160,10 @@ void Game::render() {
         drawPauseMenu();
         pauseMenu.render(window);
     }
+    if (showInventoryUI) {
+        drawInventory(window);
+    }
+
     window.display();
 }
 
@@ -170,6 +178,8 @@ void Game::drawPauseMenu() {
 
 void Game::run() {
     sf::Clock clock;
+    Item<int> potion("Master Sword", 1);
+    player.addItemToInventory(potion);
 
     while (isRunning) {
         processEvents();
@@ -277,3 +287,30 @@ void Game::handleDebugActions(sf::Event& event) {
         }
     }
 }
+void Game::drawInventory(sf::RenderWindow& window) {
+    sf::RectangleShape inventoryBackground(sf::Vector2f(400, 300)); // Taille de l'inventaire
+    inventoryBackground.setFillColor(sf::Color(0, 0, 0, 200)); // Fond semi-transparent
+    inventoryBackground.setPosition(window.getView().getCenter().x - 200, window.getView().getCenter().y - 150);
+
+    window.draw(inventoryBackground);
+
+    sf::Font font;
+    if (!font.loadFromFile("assets/fonts/arial.ttf")) {
+        std::cout << "Erreur chargement de la police\n";
+        return;
+    }
+
+    sf::Text inventoryText;
+    inventoryText.setFont(font);
+    inventoryText.setCharacterSize(20);
+    inventoryText.setFillColor(sf::Color::White);
+
+    float offsetY = 10;
+    for (const auto& item : player.getInventory().getItems()) {
+        inventoryText.setString("- " + item.getName() + " (Valeur: " + std::to_string(item.getValue()) + ")");
+        inventoryText.setPosition(window.getView().getCenter().x - 190, window.getView().getCenter().y - 140 + offsetY);
+        offsetY += 30;
+        window.draw(inventoryText);
+    }
+}
+

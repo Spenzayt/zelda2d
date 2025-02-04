@@ -180,6 +180,8 @@ sfml-system.lib
     <ClInclude Include="src\entities\Entity.hpp" />
     <ClInclude Include="src\entities\Player.hpp" />
     <ClInclude Include="src\map\Map.hpp" />
+    <ClInclude Include="src\objet\Inventory.hpp" />
+    <ClInclude Include="src\objet\Item.hpp" />
     <ClInclude Include="src\systems\Camera.hpp" />
     <ClInclude Include="src\systems\KonamiCode.hpp" />
     <ClInclude Include="src\systems\Physics.hpp" />

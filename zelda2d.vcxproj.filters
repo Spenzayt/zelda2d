@@ -84,6 +84,17 @@
     <ClCompile Include="src\ui\menu.cpp">
       <Filter>Fichiers sources\ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\entities\Enemy.cpp">
+      <Filter>Fichiers sources\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\chaser.cpp">
+      <Filter>Fichiers sources\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\archer.cpp">
+      <Filter>Fichiers sources\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\arrow.cpp">
+      <Filter>Fichiers sources\entities</Filter>
     <ClCompile Include="src\systems\konamiCode.cpp">
       <Filter>Fichiers sources\systems</Filter>
     </ClCompile>
@@ -128,6 +139,17 @@
     <ClInclude Include="src\ui\MainMenu.hpp">
       <Filter>Fichiers d%27en-tête\ui</Filter>
     </ClInclude>
+    <ClInclude Include="src\entities\Enemy.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Chaser.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Archer.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Arrow.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
     <ClInclude Include="src\systems\KonamiCode.hpp">
       <Filter>Fichiers d%27en-tête\systems</Filter>
     </ClInclude>

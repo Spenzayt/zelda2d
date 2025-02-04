@@ -5,6 +5,8 @@
 #include "../map/Map.hpp"
 #include "../entities/Player.hpp"
 #include "../entities/Bokoblin.hpp"
+#include "../entities/Chaser.hpp"
+#include "../entities/Archer.hpp"
 #include "../ui/Menu.hpp"
 #include "../ui/MainMenu.hpp"
 #include "../ui/PauseMenu.hpp"
@@ -12,6 +14,8 @@
 #include "../systems/camera.hpp"
 #include "../systems/KonamiCode.hpp"
 
+#include <vector>
+#include <memory>
 class Map;
 class Player;
 class Patrolling;
@@ -32,6 +36,8 @@ public:
 
     void run();
     void handleGameState(sf::Event& event);
+    void updateEnemies(float deltaTime);
+    void drawEnemies();
     void drawPauseMenu();
 
     bool godMode;
@@ -39,6 +45,7 @@ public:
     bool showHitBox;
 
 private:
+    void initEnemies();
     void createWindow();
     void processEvents();
     void update(float deltaTime);
@@ -50,7 +57,10 @@ private:
 
     Map map;
     Player player;
-    Patrolling bokoblin;
+
+    
+    std::vector<std::unique_ptr<Enemy>> ennemies;
+  
 
     GameState currentState;
     MainMenu mainMenu;

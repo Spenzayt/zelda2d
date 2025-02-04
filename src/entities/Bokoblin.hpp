@@ -3,16 +3,18 @@
 
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
+#include "Enemy.hpp"
 #include <vector>
 #include <string>
 
-class Patrolling : public Entity {
+class Bokoblin : public Enemy {
 public:
 
-    Patrolling(const sf::Vector2f& startPosition, float size, const std::vector<sf::Vector2f>& path, const std::string& texturePath);
+    Bokoblin(float s, sf::Vector2f p, int hp, int d, float size);
 
     void update(float deltaTime, const std::vector<sf::Sprite>& bushes) override;
     void draw(sf::RenderWindow& window) override;
+    void setPath(const std::vector<sf::Vector2f>& points);
 
     const sf::Sprite& getSprite() const { return sprite; }
 
@@ -22,8 +24,13 @@ protected:
     std::vector<sf::Vector2f> pathPoints;
     int currentPointIndex;
     float distanceThreshold;
-
+    int size;
     void moveToNextPoint(float deltaTime);
+
+    void initSprite();
+    void initTexture();
+    float speed;
+
 };
 
 #endif // BOKOBLIN_HPP

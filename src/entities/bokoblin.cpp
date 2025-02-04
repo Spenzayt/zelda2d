@@ -2,35 +2,52 @@
 #include <cmath>
 #include <iostream>
 
-Patrolling::Patrolling(const sf::Vector2f& startPosition, float size, const std::vector<sf::Vector2f>& path, const std::string& texturePath)
-    : pathPoints(path), currentPointIndex(0), distanceThreshold(5.0f) {
-    position = startPosition;
-
-    damage = 5;
-    heal = 50;
-    speed = 150;
-
-    if (!texture.loadFromFile(texturePath)) {
-        std::cerr << "Error: Unable to load the Bokoblin texture from " << texturePath << std::endl;
+void Bokoblin::initSprite()
+{
+    if (!texture.loadFromFile("assets/images/characters/premierEnnemi.png")) {
+        std::cerr << "Error: Unable to load the Bokoblin texture from " << std::endl;
     }
+}
 
+void Bokoblin::initTexture()
+{
     sprite.setTexture(texture);
-    sprite.setScale(size / texture.getSize().x, size / texture.getSize().y);
-    sprite.setPosition(position);
 }
 
-void Patrolling::update(float deltaTime, const std::vector<sf::Sprite>& bushes) {
-    if (!pathPoints.empty()) {
-        moveToNextPoint(deltaTime);
-    }
+Bokoblin::Bokoblin(float s, sf::Vector2f p, int hp, int d, float size) : Enemy(s, p, hp, d), size(size), speed(s)
+{
+    initSprite();
+    initTexture();
+
+    currentPointIndex = 0;
+    distanceThreshold = 5.f;
+
+    position = p;
     sprite.setPosition(position);
+    sprite.setScale(size *0.4, size *0.4);
+    
 }
 
-void Patrolling::draw(sf::RenderWindow& window) {
+void Bokoblin::update(float deltaTime, const std::vector<sf::Sprite>& bushes) {
+  
+
+    moveToNextPoint(deltaTime);
+
+}
+
+void Bokoblin::draw(sf::RenderWindow& window) {
     window.draw(sprite);
 }
 
-void Patrolling::moveToNextPoint(float deltaTime) {
+void Bokoblin::setPath(const std::vector<sf::Vector2f>& points)
+{
+    pathPoints = points;
+    currentPointIndex = 0;
+}
+
+void Bokoblin::moveToNextPoint(float deltaTime) {
+    if (pathPoints.empty()) return;
+
     sf::Vector2f target = pathPoints[currentPointIndex];
     sf::Vector2f direction = target - position;
 
@@ -41,7 +58,9 @@ void Patrolling::moveToNextPoint(float deltaTime) {
     }
     else {
         direction /= magnitude;
-
-        position += direction * (speed * deltaTime);
+        position += direction * speed;
+        sprite.setPosition(position);
     }
+
 }
+

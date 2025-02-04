@@ -2,10 +2,10 @@
 #include <iostream>
 
 Game::Game() : isRunning(false), camera(),
-    player(sf::Vector2f(4850, 5200), 60, "assets/images/characters/Link.png"), 
-    bokoblin(sf::Vector2f(4850, 5200), 50, { sf::Vector2f(1000, 300), sf::Vector2f(500, 500), sf::Vector2f(800, 700),sf::Vector2f(100, 600) }, "assets/images/characters/Bokoblin.png"),
+    player(sf::Vector2f(4850, 5200), 60, "assets/images/characters/Link.png", 5), 
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false) {
     
+    initEnemies();
     createWindow();
     map.importAllTextures(window);
     map.loadBackgroundFromImage();
@@ -25,6 +25,33 @@ Game::Game() : isRunning(false), camera(),
 }
 
 Game::~Game() {}
+
+void Game::initEnemies()
+{
+    // ennemies avec mouvements pr�d�finis
+
+    auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 10, 5);
+    bokoblin1->setPath({ { 5975,5669 }, {4420, 5669}, {3360, 5669}, {3360, 5220}, {3360, 5669} });
+
+    auto bokoblin2 = std::make_unique<Bokoblin>(5, sf::Vector2f(2553, 3670), 100, 10, 5);
+    bokoblin2->setPath({ { 2553, 3685 }, { 5272, 3685 } });
+
+    auto bokoblin3 = std::make_unique<Bokoblin>(5, sf::Vector2f(4910, 4146), 100, 10, 5);
+    bokoblin3->setPath({ { 4910, 4146 }, { 5360, 4611 }, { 5513, 4159 } });
+
+    ennemies.push_back(std::move(bokoblin1));
+    ennemies.push_back(std::move(bokoblin2));
+    ennemies.push_back(std::move(bokoblin3));
+
+    // ennemies qui suit le joueur
+    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(5819, 3868), 100, 10, 5, player));
+    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(2352, 4409), 100, 10, 5, player));
+
+    // archers
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player));
+
+}
 
 void Game::createWindow() {
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
@@ -58,14 +85,16 @@ void Game::update(float deltaTime) {
     if (currentState == GameState::PLAYING) {
         map.update(deltaTime);
 
+        player.update(deltaTime, map.getBushes());
+        for (auto& enemy : ennemies) {
+            enemy->update(deltaTime, map.getBushes());
+        }
         if (!noclip) {
             player.update(deltaTime, map.getBushes());
         }
         else {
             player.setPosition(player.getPosition() + player.getMovementDelta(deltaTime));
         }
-
-        bokoblin.update(deltaTime, map.getBushes());
 
         const Map::Zone* currentZone = map.getZoneContaining(player.getPosition());
         if (currentZone) {
@@ -98,10 +127,12 @@ void Game::render() {
         }
 
         player.draw(window);
+        drawEnemies();
 
         if (showHitBox) {
             player.drawHitBox(window);
         }
+
     }
     if (currentState == GameState::OPTIONS) {
         if (isGamePaused) {
@@ -203,6 +234,20 @@ void Game::handleGameState(sf::Event& event)
             ignoreNextClick = true;
             break;
         }
+    }
+}
+
+void Game::updateEnemies(float deltaTime)
+{
+    for (auto& enemy : ennemies) {
+        enemy->update(deltaTime, map.getBushes());
+    }
+}
+
+void Game::drawEnemies()
+{
+    for (auto& enemy : ennemies) {
+        enemy->draw(window);
     }
 }
 

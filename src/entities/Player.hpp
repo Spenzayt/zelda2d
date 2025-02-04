@@ -7,7 +7,7 @@
 class Player : public Entity
 {
 public:
-    Player(sf::Vector2f position, float size, const std::string& texturePath);
+    Player(sf::Vector2f position, float size, const std::string& texturePath, float hp);
 
     void update(float deltatime, const std::vector<sf::Sprite>& bushes) override;
     void draw(sf::RenderWindow& window) override;
@@ -20,9 +20,20 @@ public:
 
     const sf::Sprite& getSprite() const { return player; }
     bool hasKey;
+    
+    void reset();
+
+    void damage(int damages);
 
     sf::Vector2f getPosition() const;
+    float getHealth() const;
+    float getSpeed() const;
+    bool isDead() const;
+
     void setPosition(const sf::Vector2f& position);
+
+    //id setSpeed(int speed);
+
     sf::FloatRect getHitbox() const;
     void drawHitBox(sf::RenderWindow& window);
 
@@ -30,6 +41,10 @@ protected:
     sf::Sprite player;
     sf::Texture texture;
     sf::Vector2f previousPosition;
+    
+    int maxHp;
+    
     Physics physics;
     sf::FloatRect hitbox;
+
 };

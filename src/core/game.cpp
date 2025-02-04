@@ -231,7 +231,6 @@ void Game::handleGameState(sf::Event& event)
             break;
         case 1:
             currentState = GameState::OPTIONS;
-            ignoreNextClick = true;
             break;
         case 2:
             isRunning = false;
@@ -264,7 +263,6 @@ void Game::handleGameState(sf::Event& event)
             break;
         case 1:
             currentState = GameState::OPTIONS;
-            ignoreNextClick = true;
             break;
         case 2:
             currentState = GameState::MAIN_MENU;

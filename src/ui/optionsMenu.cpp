@@ -25,7 +25,7 @@ void OptionsMenu::initButtons()
 		button.setFont(font);
 		button.setString(optionsButtons[i]);
 		button.setCharacterSize(50);
-		button.setFillColor(sf::Color(168, 168, 168));
+		button.setFillColor(sf::Color(24, 99, 68));
 
 		sf::FloatRect textBounds = button.getLocalBounds();
 		float x = (Config::WINDOW_WIDTH / 2.f) - (textBounds.width / 2.f) - textBounds.left;
@@ -42,7 +42,7 @@ void OptionsMenu::initVolumeMenu()
 		button.setFont(font);
 		button.setString(volumeButtons[i]);
 		button.setCharacterSize(50);
-		button.setFillColor(sf::Color(168, 168, 168));
+		button.setFillColor(sf::Color(24, 99, 68));
 
 		sf::FloatRect textBounds = button.getLocalBounds();
 		float x = (Config::WINDOW_WIDTH / 2.f) - (textBounds.width / 2.f) - textBounds.left;
@@ -61,7 +61,7 @@ void OptionsMenu::initVolumeControl()
 	volumeMusicBar.setPosition(810, 470);
 
 	volumeMusicSlider.setSize(sf::Vector2f(20, 30));
-	volumeMusicSlider.setFillColor(sf::Color::White);
+	volumeMusicSlider.setFillColor(sf::Color(50, 50, 50));
 	updateCursorVolumeMusic();
 
 	volumeSoundBar.setSize(sf::Vector2f(300, 10));
@@ -69,18 +69,18 @@ void OptionsMenu::initVolumeControl()
 	volumeSoundBar.setPosition(810, 550);
 
 	volumeSoundSlider.setSize(sf::Vector2f(20, 30));
-	volumeSoundSlider.setFillColor(sf::Color::White);
+	volumeSoundSlider.setFillColor(sf::Color(50, 50, 50));
 	updateCursorVolumeSound();
 
 	musicVolumeText.setFont(font);
 	musicVolumeText.setCharacterSize(30);
-	musicVolumeText.setFillColor(sf::Color::White);
+	musicVolumeText.setFillColor(sf::Color(50, 50, 50));
 	musicVolumeText.setPosition(volumeMusicBar.getPosition().x + volumeMusicBar.getSize().x + 20.f, 
 		volumeMusicBar.getPosition().y - 15);
 
 	soundVolumeText.setFont(font);
 	soundVolumeText.setCharacterSize(30);
-	soundVolumeText.setFillColor(sf::Color::White);
+	soundVolumeText.setFillColor(sf::Color(50, 50, 50));
 	soundVolumeText.setPosition(volumeSoundBar.getPosition().x + volumeSoundBar.getSize().x + 20.f, volumeSoundBar.getPosition().y - 15);
 }
 
@@ -94,7 +94,7 @@ void OptionsMenu::initChangeKeysMenu()
 		button.setFont(font);
 		button.setString(changeKeysButtons[i]);
 		button.setCharacterSize(50);
-		button.setFillColor(sf::Color(168, 168, 168));
+		button.setFillColor(sf::Color(24, 99, 68));
 
 		sf::FloatRect textBounds = button.getLocalBounds();
 		float x = (Config::WINDOW_WIDTH / 2.f) - (textBounds.width / 2.f) - textBounds.left;
@@ -116,7 +116,7 @@ void OptionsMenu::initChangeKeysMenu()
 
 		sf::Text key;
 		key.setFont(font);
-		key.setFillColor(sf::Color(168, 168, 168));
+		key.setFillColor(sf::Color(24, 99, 68));
 		key.setCharacterSize(50);
 		sf::FloatRect textKeyBounds = key.getLocalBounds();
 		float xKey = keyShape2.getPosition().x + (keyShape2.getSize().x - textKeyBounds.width) / 2;
@@ -139,10 +139,6 @@ void OptionsMenu::initChangeKeysMenu()
 		}
 		keys.push_back(key);
 	}
-	/*returnButton.setSize(sf::Vector2f(450, 70));
-	returnButton.setFillColor(sf::Color(0, 0, 0, 150));
-	returnButton.setPosition(600, 200 + 4 * 100);*/
-
 	returnText.setFont(font);
 	returnText.setCharacterSize(50);
 	returnText.setFillColor(sf::Color(168, 168, 168));
@@ -335,11 +331,11 @@ int OptionsMenu::handleInput(sf::RenderWindow& window, const sf::Event& event)
 
 			if (isHoveredText || isHoveredShape) {
 				if (i < keysRect.size()) keysRect[i].setFillColor(sf::Color::Black);
-				keys[i].setFillColor(sf::Color::White);
+				keys[i].setFillColor(sf::Color(48, 51, 49));
 			}
 			else {
 				if (i < keysRect.size()) keysRect[i].setFillColor(sf::Color(0, 0, 0, 150));
-				keys[i].setFillColor(sf::Color(168, 168, 168));
+				keys[i].setFillColor(sf::Color(24, 99, 68));
 			}
 		}
 	}

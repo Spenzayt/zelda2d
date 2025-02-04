@@ -9,9 +9,16 @@ class GameOver : public Renderer {
 protected:
 	sf::Text text;
 	sf::Font font;
+	
+	void initFont() override;
+	void initGameOver();
+	void initButtons() override;
 public:
-	void update() override;
-	void draw(sf::RenderWindow& window) override;
+	GameOver();
+
+	void draw(sf::RenderWindow& window);
+
+	int handleInput(sf::RenderWindow& window, const sf::Event& event) override;
 };
 
 

@@ -10,11 +10,14 @@ protected:
 	sf::Text text;
 	sf::Font font;
 
-	
+	void initWin();
+	void initButtons() override;
 public:
-	void update() override;
+	Win();
+	
 	void draw(sf::RenderWindow& window) override;
-};
 
+	int handleInput(sf::RenderWindow& window, const sf::Event& event) override;
+};
 
 #endif // ! WIN_HPP

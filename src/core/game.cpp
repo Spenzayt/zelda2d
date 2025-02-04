@@ -3,7 +3,7 @@
 
 Game::Game() : isRunning(false), camera(),
     player(sf::Vector2f(300, 130), 60, "assets/images/characters/Link.png", 5), 
-    currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false),
+    currentState(GameState::GAMEOVER), ignoreNextClick(false), isGamePaused(false),
     showHitBox(false), noclip(false), godMode(false), playerLocation(Player::PlayerLocation::INSIDE_HOUSE) {
     
     initEnemies();
@@ -110,6 +110,12 @@ void Game::update(float deltaTime) {
             camera.resetToDefault();
             camera.update(player.getPosition(), deltaTime, false, true);
         }
+
+        for (auto& enemy : ennemies) {
+            if (player.getGlobalBounds().intersects(enemy->getGlobalBounds())) {
+                currentState = GameState::GAMEOVER;
+            }
+        }
     }
     else {
         camera.resetToDefault();
@@ -154,6 +160,9 @@ void Game::render() {
         player.draw(window);
         drawPauseMenu();
         pauseMenu.render(window);
+    }
+    if (currentState == GameState::GAMEOVER) {
+        gameOver.draw(window);
     }
     window.display();
 }
@@ -236,6 +245,23 @@ void Game::handleGameState(sf::Event& event)
         case 2:
             currentState = GameState::MAIN_MENU;
             isGamePaused = false;
+            ignoreNextClick = true;
+            break;
+        }
+    }
+    if (currentState == GameState::GAMEOVER) {
+        gameOver.handleMouseHover(window);
+        int action = gameOver.handleInput(window, event);
+        switch (action) {
+        case 0:
+            currentState = GameState::PLAYING;
+            isGamePaused = false;
+            break;
+        case 1:
+            isGamePaused = false;
+            break;
+        case 2:
+            currentState = GameState::MAIN_MENU;
             ignoreNextClick = true;
             break;
         }

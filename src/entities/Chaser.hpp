@@ -27,6 +27,7 @@ public:
 
 	void update(float deltaTime, const std::vector<sf::Sprite>& bushes) override;
 	void draw(sf::RenderWindow& window) override;
+	sf::FloatRect getGlobalBounds() const override;
 };
 
 

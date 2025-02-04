@@ -20,6 +20,8 @@ public:
 	void update(float deltatime, const std::vector<sf::Sprite>& bushes) override = 0;
 	void draw(sf::RenderWindow& window) override = 0;
 
+	virtual sf::FloatRect getGlobalBounds() const = 0;
+
 };
 
 #endif // ENEMY_HPP

@@ -45,6 +45,11 @@ void Bokoblin::setPath(const std::vector<sf::Vector2f>& points)
     currentPointIndex = 0;
 }
 
+sf::FloatRect Bokoblin::getGlobalBounds() const
+{
+    return sprite.getGlobalBounds();
+}
+
 void Bokoblin::moveToNextPoint(float deltaTime) {
     if (pathPoints.empty()) return;
 

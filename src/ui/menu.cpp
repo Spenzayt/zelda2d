@@ -4,7 +4,7 @@
 void Menu::initFont()
 {
     if (!font.loadFromFile("assets/fonts/test.otf")) {
-        std::cout << "Error loading the font!" << std::endl;
+        std::cerr << "Error loading the font!" << std::endl;
     }
 }
 

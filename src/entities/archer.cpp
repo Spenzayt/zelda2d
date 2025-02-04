@@ -68,6 +68,11 @@ void Archer::shoot()
 	
 }
 
+sf::FloatRect Archer::getGlobalBounds() const
+{
+	return sprite.getGlobalBounds();
+}
+
 void Archer::draw(sf::RenderWindow& window)
 {
 	window.draw(sprite);

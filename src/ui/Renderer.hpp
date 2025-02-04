@@ -2,14 +2,29 @@
 #define RENDERER_HPP
 
 #include <SFML/Graphics.hpp>
+#include "../utils/Config.hpp"
 class Renderer {
 
 protected:
 	sf::Text text;
 	sf::Font font;
+	std::vector<sf::Text> buttons;
+
+	sf::Clock cooldownMouseClock;
+	const sf::Time cooldownMouse;
+
+	virtual void initFont();
+	virtual void initButtons() = 0;
 public:
-	virtual void update() = 0;
-	virtual void draw(sf::RenderWindow& window) = 0;
+	Renderer();
+	virtual void draw(sf::RenderWindow& window);
+
+	virtual int handleInput(sf::RenderWindow& window, const sf::Event& event) = 0;
+	
+	virtual void handleMouseHover(const sf::RenderWindow& window);
+
+	bool isCooldownActive();
+	void resetCooldown();
 };
 
 

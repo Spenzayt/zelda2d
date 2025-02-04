@@ -36,6 +36,7 @@ public:
     sf::Vector2f getPosition() const;
     float getHealth() const;
     float getSpeed() const;
+    sf::FloatRect getGlobalBounds() const;
     bool isDead() const;
 
     void setPosition(const sf::Vector2f& position);

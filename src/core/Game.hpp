@@ -11,6 +11,9 @@
 #include "../ui/MainMenu.hpp"
 #include "../ui/PauseMenu.hpp"
 #include "../ui/OptionsMenu.hpp"
+#include "../ui/Renderer.hpp"
+#include "../ui/GameOver.hpp"
+#include "../ui/Win.hpp"
 #include "../systems/camera.hpp"
 #include "../systems/KonamiCode.hpp"
 
@@ -68,6 +71,10 @@ private:
     MainMenu mainMenu;
     PauseMenu pauseMenu;
     OptionsMenu optionsMenu;
+
+    GameOver gameOver;
+    Win win;
+
     Camera camera;
     KonamiCode konamiCode;
 

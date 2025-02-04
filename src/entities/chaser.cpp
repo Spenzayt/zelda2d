@@ -50,3 +50,8 @@ void Chaser::draw(sf::RenderWindow& window)
 {
 	window.draw(sprite);
 }
+
+sf::FloatRect Chaser::getGlobalBounds() const
+{
+	return sprite.getGlobalBounds();
+}

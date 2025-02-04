@@ -142,6 +142,11 @@ float Player::getSpeed() const
     return speed;
 }
 
+sf::FloatRect Player::getGlobalBounds() const
+{
+    return player.getGlobalBounds();
+}
+
 bool Player::isDead() const
 {
     return heal <= 0;

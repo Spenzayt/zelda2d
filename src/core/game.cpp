@@ -29,7 +29,6 @@ Game::~Game() {}
 void Game::initEnemies()
 {
     // ennemies avec mouvements pr�d�finis
-
     auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 10, 5);
     bokoblin1->setPath({ { 5975,5669 }, {4420, 5669}, {3360, 5669}, {3360, 5220}, {3360, 5669} });
 

@@ -365,5 +365,4 @@ void Game::resetPlayer()
 
     ennemies.clear();
     initEnemies();
-   // player.setPosition(player.getPosition() + sf::Vector2f(100, 0));
 }

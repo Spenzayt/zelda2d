@@ -11,7 +11,7 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
     heal = hp;
 
    // damage = 10;
-    speed = 400;
+    speed = 100;
 
     if (!texture.loadFromFile(texturePath)) {
         std::cerr << "Error loading texture from: " << texturePath << std::endl;

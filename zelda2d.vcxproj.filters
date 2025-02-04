@@ -102,6 +102,12 @@
     <ClCompile Include="src\ui\renderer.cpp">
       <Filter>Fichiers sources\ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\ui\gameOver.cpp">
+      <Filter>Fichiers sources\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\win.cpp">
+      <Filter>Fichiers sources\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -159,6 +165,12 @@
       <Filter>Fichiers d%27en-tête\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\ui\Renderer.hpp">
+      <Filter>Fichiers d%27en-tête\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\GameOver.hpp">
+      <Filter>Fichiers d%27en-tête\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\Win.hpp">
       <Filter>Fichiers d%27en-tête\ui</Filter>
     </ClInclude>
   </ItemGroup>

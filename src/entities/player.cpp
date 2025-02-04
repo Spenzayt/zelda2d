@@ -117,7 +117,7 @@ void Player::checkCollisionWithMap(const std::vector<sf::Sprite>& bushes) {
 void Player::reset()
 {
     heal = maxHp;
-    player.setPosition(sf::Vector2f(4850, 5200));
+    player.setPosition(sf::Vector2f(300, 130));
 }
 
 void Player::damage(int damages)

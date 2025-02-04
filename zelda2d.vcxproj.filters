@@ -95,6 +95,7 @@
     </ClCompile>
     <ClCompile Include="src\entities\arrow.cpp">
       <Filter>Fichiers sources\entities</Filter>
+    </ClCompile>
     <ClCompile Include="src\systems\konamiCode.cpp">
       <Filter>Fichiers sources\systems</Filter>
     </ClCompile>

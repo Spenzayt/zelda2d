@@ -2,8 +2,7 @@
 #include <iostream>
 
 Game::Game() : isRunning(false), camera(),
-    player(sf::Vector2f(300, 130), 60, "assets/images/characters/Link.png"), 
-    bokoblin(sf::Vector2f(4850, 5200), 50, { sf::Vector2f(1000, 300), sf::Vector2f(500, 500), sf::Vector2f(800, 700),sf::Vector2f(100, 600) }, "assets/images/characters/Bokoblin.png"),
+    player(sf::Vector2f(300, 130), 60, "assets/images/characters/Link.png", 5), 
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false),
     showHitBox(false), noclip(false), godMode(false), playerLocation(Player::PlayerLocation::INSIDE_HOUSE) {
     
@@ -102,7 +101,6 @@ void Game::update(float deltaTime) {
         if (playerLocation == Player::PlayerLocation::INSIDE_HOUSE) {
             player.checkHouseExit(map.getHouseExit(), playerLocation);
         }
-        bokoblin.update(deltaTime, map.getBushes());
 
         const Map::Zone* currentZone = map.getZoneContaining(player.getPosition());
         if (currentZone) {

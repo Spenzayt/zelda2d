@@ -168,6 +168,7 @@ sfml-system.lib
     <ClCompile Include="src\ui\menu.cpp" />
     <ClCompile Include="src\ui\optionsMenu.cpp" />
     <ClCompile Include="src\ui\pauseMenu.cpp" />
+    <ClCompile Include="src\ui\renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp" />
@@ -187,6 +188,7 @@ sfml-system.lib
     <ClInclude Include="src\ui\Menu.hpp" />
     <ClInclude Include="src\ui\OptionsMenu.hpp" />
     <ClInclude Include="src\ui\PauseMenu.hpp" />
+    <ClInclude Include="src\ui\Renderer.hpp" />
     <ClInclude Include="src\utils\Config.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

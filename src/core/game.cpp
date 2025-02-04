@@ -132,7 +132,6 @@ void Game::render() {
         if (showHitBox) {
             player.drawHitBox(window);
         }
-
     }
     if (currentState == GameState::OPTIONS) {
         if (isGamePaused) {

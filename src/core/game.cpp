@@ -2,7 +2,8 @@
 #include <iostream>
 
 Game::Game() : isRunning(false), camera(),
-    player(sf::Vector2f(300, 130), 60, "assets/images/characters/Link.png", 5), 
+player(sf::Vector2f(300, 130), 60, "assets/images/characters/Link.png", 5),
+sword(std::make_unique<Sword>(sf::Vector2f(943, 5020))),
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false),
     showHitBox(false), noclip(false), godMode(false), playerLocation(Player::PlayerLocation::INSIDE_HOUSE) {
     
@@ -114,6 +115,11 @@ void Game::update(float deltaTime) {
             camera.resetToDefault();
             camera.update(player.getPosition(), deltaTime, false, true);
         }
+        if (sword && player.getHitbox().intersects(sword->getBounds())) {
+            std::cout << "Épée récupérée !" << std::endl;
+            player.addItemToInventory(*sword);
+            sword.reset(); 
+        }
     }
     else {
         camera.resetToDefault();
@@ -163,6 +169,10 @@ void Game::render() {
     if (showInventoryUI) {
         drawInventory(window);
     }
+    if (sword) {
+        sword->draw(window);
+    }
+
 
     window.display();
 }
@@ -178,9 +188,7 @@ void Game::drawPauseMenu() {
 
 void Game::run() {
     sf::Clock clock;
-    Item<int> potion("Master Sword", 1);
-    player.addItemToInventory(potion);
-
+    
     while (isRunning) {
         processEvents();
         float deltaTime = clock.restart().asSeconds();

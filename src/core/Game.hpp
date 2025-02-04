@@ -13,7 +13,7 @@
 #include "../ui/OptionsMenu.hpp"
 #include "../systems/camera.hpp"
 #include "../systems/KonamiCode.hpp"
-
+#include "../src/objet/MasterSword.hpp"
 #include <vector>
 #include <memory>
 class Map;
@@ -61,7 +61,7 @@ private:
 
     
     std::vector<std::unique_ptr<Enemy>> ennemies;
-  
+    std::unique_ptr<Sword> sword;
 
     Player::PlayerLocation playerLocation;
 

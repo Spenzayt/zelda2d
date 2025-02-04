@@ -62,6 +62,8 @@ private:
     std::vector<std::unique_ptr<Enemy>> ennemies;
   
 
+    Player::PlayerLocation playerLocation;
+
     GameState currentState;
     MainMenu mainMenu;
     PauseMenu pauseMenu;

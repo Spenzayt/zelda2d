@@ -9,6 +9,12 @@ class Player : public Entity
 public:
     Player(sf::Vector2f position, float size, const std::string& texturePath, float hp);
 
+    enum PlayerLocation {
+        OUTSIDE,
+        INSIDE_HOUSE,
+        INSIDE_CASTLE
+    };
+
     void update(float deltatime, const std::vector<sf::Sprite>& bushes) override;
     void draw(sf::RenderWindow& window) override;
     void handleInput(float deltatime);
@@ -17,6 +23,8 @@ public:
     void collectKey();
     void checkCollisionWithWalls(const std::vector<sf::RectangleShape>& walls);
     void checkCollisionWithMap(const std::vector<sf::Sprite>& bushes);
+    void checkHouseEntry(const sf::FloatRect& houseEntry, PlayerLocation& location);
+    void checkHouseExit(const sf::FloatRect& houseExit, PlayerLocation& location);
 
     const sf::Sprite& getSprite() const { return player; }
     bool hasKey;

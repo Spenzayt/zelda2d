@@ -31,7 +31,7 @@ void Game::initEnemies()
 {
     // ennemies avec mouvements pr�d�finis
 
-    auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 10, 5); // speed, position, hp, damage, size
+    auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 5, 5); // speed, position, hp, damage, size
     bokoblin1->setPath({ { 5975,5669 }, {4420, 5669}, {3360, 5669}, {3360, 5220}, {3360, 5669} });
 
     auto bokoblin2 = std::make_unique<Bokoblin>(5, sf::Vector2f(2553, 3670), 100, 5, 5);
@@ -181,7 +181,6 @@ void Game::checkCollisionsPlayerEnemies()
     for (const auto& enemy : ennemies) {
         if (player.getGlobalBounds().intersects(enemy->getGlobalBounds())) {
             player.damage(enemy->getDamage());
-            std::cout << "Player hit! HP:" << player.getHealth() << std::endl;
             if (player.isDead()) {
                 currentState = GameState::GAMEOVER;
             }

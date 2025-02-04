@@ -51,10 +51,15 @@ protected:
     sf::Texture texture;
     sf::Vector2f previousPosition;
     
+    sf::Texture fullHeartTexture, halfHeartTexture, emptyHeartTexture;
+    std::vector<sf::Sprite> hearts;
+   
     int maxHp;
     float damageCooldown;
 
     Physics physics;
     sf::FloatRect hitbox;
 
+
+    void initHeartTexture();
 };

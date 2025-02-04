@@ -12,9 +12,18 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
     speed = 100;
     damageCooldown = 1.0f;
 
+
     if (!texture.loadFromFile(texturePath)) {
         std::cerr << "Error loading texture from: " << texturePath << std::endl;
     }
+
+    initHeartTexture();
+
+    for (int i = 0; i < maxHp / 10; i++) {
+        sf::Sprite heart(fullHeartTexture);
+        hearts.push_back(heart);
+    }
+ 
 
     player.setTexture(texture);
     player.setScale(size / static_cast<float>(texture.getSize().x), size / static_cast<float>(texture.getSize().y));
@@ -75,6 +84,32 @@ void Player::draw(sf::RenderWindow& window) {
         }
     }
 
+    float heartSpacing = 40.f;
+    float marginTop = 50.f;
+    float marginRight = 10.f;
+
+    sf::Vector2f viewSize = window.getView().getSize();
+    sf::Vector2f viewCenter = window.getView().getCenter();
+
+    float x = viewCenter.x + (viewSize.x / 2) - marginRight - (maxHp / 10) * heartSpacing;
+
+        for (int i = 0; i < maxHp / 10; i++) {
+            hearts[i].setPosition(x + i * heartSpacing, viewCenter.y - (viewSize.y / 2) + marginTop) ;
+
+            if (heal >= (i + 1) * 10) {
+                hearts[i].setTexture(fullHeartTexture);
+            }
+            else if (heal >= i * 10 + 5) {
+                hearts[i].setTexture(halfHeartTexture);
+             }
+            else {
+                hearts[i].setTexture(emptyHeartTexture);
+            }
+
+            window.draw(hearts[i]);
+        }
+ 
+
     sf::Text text;
     text.setFont(font);
     text.setString("Player Position: (" + std::to_string((int)position.x) + ", " + std::to_string((int)position.y) + ")");
@@ -96,6 +131,15 @@ void Player::drawHitBox(sf::RenderWindow& window) {
     hitboxShape.setOutlineColor(sf::Color::Blue);
     hitboxShape.setOutlineThickness(2.f);
     window.draw(hitboxShape);
+}
+
+void Player::initHeartTexture()
+{
+    if (!fullHeartTexture.loadFromFile("assets/images/interface/fullheart.png") ||
+        !halfHeartTexture.loadFromFile("assets/images/interface/halfheart.png") || 
+    !emptyHeartTexture.loadFromFile("assets/images/interface/emptyheart.png")) {
+        std::cerr << "Error loading the heart textures !" << std::endl;
+    }
 }
 
 void Player::checkCollisionWithWalls(const std::vector<sf::RectangleShape>& walls) {

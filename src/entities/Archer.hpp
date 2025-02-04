@@ -14,10 +14,11 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 	float speed;
+	float distanceTraveled = 0.f;
 	sf::Vector2f position;
 	int size;
 
-	const Player& player;
+	Player& player;
 	// flèches
 	std::vector<Arrow> arrows;
 	float shootCooldown = 2.0f;
@@ -30,7 +31,7 @@ private:
 	void initSprite();
 	void initTexture();
 public:
-	Archer(float s, sf::Vector2f p, int hp, int d, float size, const Player& refPlayer);
+	Archer(float s, sf::Vector2f p, int hp, int d, float size, Player& refPlayer);
 
 	void update(float deltaTime, const std::vector<sf::Sprite>& bushes) override;
 	void shoot();
@@ -39,6 +40,7 @@ public:
 	sf::FloatRect getGlobalBounds() const override;
 
 	void draw(sf::RenderWindow& window) override;
+	bool deleteArrows() const;
 };
 
 

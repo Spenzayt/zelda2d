@@ -44,7 +44,7 @@ public:
     void drawPauseMenu();
 
     void checkCollisionsPlayerEnemies();
-
+    void checkIfPlayerIsDead();
     bool godMode;
     bool noclip;
     bool showHitBox;

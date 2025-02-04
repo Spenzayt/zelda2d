@@ -13,7 +13,7 @@ void Arrow::initTexture(){
 	sprite.setTexture(texture);
 }
 
-Arrow::Arrow(sf::Vector2f position, sf::Vector2f direction, float speed) {
+Arrow::Arrow(sf::Vector2f position, sf::Vector2f direction, float speed) : startPosition(position) {
 	initSprite();
 	initTexture();
 
@@ -32,7 +32,22 @@ void Arrow::draw(sf::RenderWindow& window)
 	window.draw(sprite);
 }
 
+sf::Vector2f Arrow::getPosition() const
+{
+	return sprite.getPosition();
+}
+
 sf::FloatRect Arrow::getGlobalBounds() const
 {
 	return sprite.getGlobalBounds();
+}
+
+sf::Vector2f Arrow::getStartPosition() const
+{
+	return startPosition;
+}
+
+float Arrow::getMaxDistance() const
+{
+	return maxDistance;
 }

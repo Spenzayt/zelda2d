@@ -87,6 +87,7 @@ void Game::update(float deltaTime) {
         map.update(deltaTime);
 
         player.update(deltaTime, map.getBushes());
+        checkIfPlayerIsDead();
         checkCollisionsPlayerEnemies();
         for (auto& enemy : ennemies) {
             enemy->update(deltaTime, map.getBushes());
@@ -181,12 +182,16 @@ void Game::checkCollisionsPlayerEnemies()
     for (const auto& enemy : ennemies) {
         if (player.getGlobalBounds().intersects(enemy->getGlobalBounds())) {
             player.damage(enemy->getDamage());
-            if (player.isDead()) {
-                currentState = GameState::GAMEOVER;
-            }
+            checkIfPlayerIsDead();
         }
     }
-    
+}
+
+void Game::checkIfPlayerIsDead()
+{
+    if (player.isDead()) {
+        currentState = GameState::GAMEOVER;
+    }
 }
 
 void Game::run() {

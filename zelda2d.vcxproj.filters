@@ -95,6 +95,8 @@
     </ClCompile>
     <ClCompile Include="src\entities\arrow.cpp">
       <Filter>Fichiers sources\entities</Filter>
+    <ClCompile Include="src\systems\konamiCode.cpp">
+      <Filter>Fichiers sources\systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +150,8 @@
     </ClInclude>
     <ClInclude Include="src\entities\Arrow.hpp">
       <Filter>Fichiers d%27en-tête\entities</Filter>
+    <ClInclude Include="src\systems\KonamiCode.hpp">
+      <Filter>Fichiers d%27en-tête\systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

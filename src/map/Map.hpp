@@ -8,6 +8,9 @@
 
 class Map {
 private:
+    sf::Texture mapHitboxTexture;
+    sf::Sprite mapHitboxSprite;
+
     struct MapElement {
         sf::Texture texture;
         std::vector<sf::Sprite> sprites;
@@ -34,9 +37,9 @@ public:
     void draw(sf::RenderWindow& window);
 
     const std::vector<sf::Sprite>& getBushes() const;
+    void drawMapHitBox(sf::RenderWindow& window);
 
     const Zone* getZoneContaining(const sf::Vector2f& position) const;
-
     void addZone(const sf::FloatRect& bounds, const std::string& name);
 };
 

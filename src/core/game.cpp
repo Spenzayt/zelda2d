@@ -9,13 +9,26 @@ Game::Game() : isRunning(false), camera(),
     createWindow();
     map.importAllTextures(window);
     map.loadBackgroundFromImage();
+
+    konamiCode.setDebugAction(sf::Keyboard::F1, [this]() {
+        godMode = !godMode;
+        std::cout << "Debug Action F1: godMode is now " << (godMode ? "ON" : "OFF") << std::endl;
+        });
+    konamiCode.setDebugAction(sf::Keyboard::F2, [this]() {
+        noclip = !noclip;
+        std::cout << "Debug Action F2: noclip is now " << (noclip ? "ON" : "OFF") << std::endl;
+        });
+    konamiCode.setDebugAction(sf::Keyboard::F3, [this]() {
+        showHitBox = !showHitBox;
+        std::cout << "Debug Action F3: showHitBox is now " << (showHitBox ? "ON" : "OFF") << std::endl;
+        });
 }
 
 Game::~Game() {}
 
 void Game::initEnemies()
 {
-    // ennemies avec mouvements prédéfinis
+    // ennemies avec mouvements prï¿½dï¿½finis
 
     auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 10, 5);
     bokoblin1->setPath({ { 5975,5669 }, {4420, 5669}, {3360, 5669}, {3360, 5220}, {3360, 5669} });
@@ -54,10 +67,16 @@ void Game::processEvents() {
         if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
             isRunning = false;
         }
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && currentState == GameState::PLAYING) {
-        currentState = GameState::PAUSE;
-        isGamePaused = true;
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && currentState == GameState::PLAYING) {
+            currentState = GameState::PAUSE;
+            isGamePaused = true;
+        }
+        if (konamiCode.isActivated(event)) {
+        }
+        if (konamiCode.isKonamiActivated()) {
+            konamiCode.handleDebugActions(event);
+        }
     }
     handleGameState(event);
 }
@@ -65,9 +84,16 @@ void Game::processEvents() {
 void Game::update(float deltaTime) {
     if (currentState == GameState::PLAYING) {
         map.update(deltaTime);
+
         player.update(deltaTime, map.getBushes());
         for (auto& enemy : ennemies) {
             enemy->update(deltaTime, map.getBushes());
+        }
+        if (!noclip) {
+            player.update(deltaTime, map.getBushes());
+        }
+        else {
+            player.setPosition(player.getPosition() + player.getMovementDelta(deltaTime));
         }
 
         const Map::Zone* currentZone = map.getZoneContaining(player.getPosition());
@@ -87,14 +113,26 @@ void Game::update(float deltaTime) {
 
 void Game::render() {
     window.clear();
+
     if (currentState == GameState::MAIN_MENU) {
         mainMenu.render(window);
     }
     if (currentState == GameState::PLAYING) {
         map.draw(window);
+
         camera.applyView(window);
+
+        if (showHitBox) {
+            map.drawMapHitBox(window);
+        }
+
         player.draw(window);
         drawEnemies();
+
+        if (showHitBox) {
+            player.drawHitBox(window);
+        }
+
     }
     if (currentState == GameState::OPTIONS) {
         if (isGamePaused) {
@@ -210,5 +248,26 @@ void Game::drawEnemies()
 {
     for (auto& enemy : ennemies) {
         enemy->draw(window);
+    }
+}
+
+void Game::handleDebugActions(sf::Event& event) {
+    if (event.type == sf::Event::KeyPressed) {
+        switch (event.key.code) {
+        case sf::Keyboard::F1:
+            showHitBox = !showHitBox;
+            std::cout << "Debug Action F1: showHitBox is now " << (showHitBox ? "ON" : "OFF") << std::endl;
+            break;
+        case sf::Keyboard::F2:
+            noclip = !noclip;
+            std::cout << "Debug Action F2: noclip is now " << (noclip ? "ON" : "OFF") << std::endl;
+            break;
+        case sf::Keyboard::F3:
+            godMode = !godMode;
+            std::cout << "Debug Action F4: godMode is now " << (godMode ? "ON" : "OFF") << std::endl;
+            break;
+        default:
+            break;
+        }
     }
 }

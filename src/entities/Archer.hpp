@@ -7,6 +7,7 @@
 #include "Player.hpp"
 #include "Arrow.hpp"
 #include "../core/Game.hpp"
+#include "../systems/SoundManager.hpp"
 #include <vector>
 #include <string>
 
@@ -19,6 +20,8 @@ private:
 	sf::Vector2f position;
 	int size;
 	Player& player;
+	SoundManager& soundManager;
+
 	// flèches
 	std::vector<Arrow> arrows;
 	float shootCooldown = 2.0f;
@@ -31,7 +34,7 @@ private:
 	void initSprite();
 	void initTexture();
 public:
-	Archer(float s, sf::Vector2f p, int hp, int d, float size, Player& refPlayer);
+	Archer(float s, sf::Vector2f p, int hp, int d, float size, Player& refPlayer, SoundManager& sm);
 
 	void update(float deltaTime, const std::vector<sf::Sprite>& bushes) override;
 	void shoot();

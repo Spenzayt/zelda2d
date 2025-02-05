@@ -15,8 +15,8 @@ void Archer::initTexture()
 	sprite.setScale(0.6f, 0.6f);
 }
 
-Archer::Archer(float s, sf::Vector2f p, int hp, int d, float size, Player& refPlayer) : Enemy(s, p, hp, d), size(size), speed(s), player(refPlayer),
-visionRadius(600.f), canShoot(false)
+Archer::Archer(float s, sf::Vector2f p, int hp, int d, float size, Player& refPlayer, SoundManager& sm) : Enemy(s, p, hp, d), size(size), speed(s), player(refPlayer),
+visionRadius(600.f), canShoot(false), soundManager(sm)
 {
 	initSprite();
 	initTexture();
@@ -46,6 +46,7 @@ void Archer::update(float deltaTime, const std::vector<sf::Sprite>& bushes)
         timeSinceLastShot += deltaTime;
         if (timeSinceLastShot >= shootCooldown) {
             shoot();
+
             timeSinceLastShot = 0.f;
         }
     }
@@ -85,7 +86,7 @@ void Archer::shoot()
 		direction /= magnitude;
 	}
 	arrows.emplace_back(arrowStartPos, direction, 300.f);
-	
+    soundManager.playSound("arrow");
 }
 
 int Archer::getDamage() const

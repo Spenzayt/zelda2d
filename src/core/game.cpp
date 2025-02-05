@@ -36,6 +36,7 @@ void Game::loadAudio()
     soundManager.loadMusic("menu", "assets/audio/menu_music.mp3");
     soundManager.loadMusic("game", "assets/audio/game_music.mp3");
 
+    soundManager.loadSound("arrow", "assets/audio/arrow.wav");
 }
 
 void Game::setMusicVolume(float volume)
@@ -72,8 +73,10 @@ void Game::initEnemies()
     ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(2352, 4409), 100, 5, 5, player));
 
     // archers
-    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player));
-    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player, soundManager));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player, soundManager));
+
+    this->boss = new Boss(0, sf::Vector2f(5410, 5300), 100, 20, 5);
 
 }
 
@@ -197,6 +200,23 @@ void Game::render() {
         player.draw(window);
         drawPauseMenu();
         win.draw(window);
+    }
+    if (currentState == GameState::BOSS) {
+        map.draw(window);
+
+        camera.applyView(window);
+
+        if (showHitBox) {
+            map.drawMapHitBox(window);
+        }
+
+        player.draw(window);
+        drawEnemies();
+        this->boss->draw(window);
+
+        if (showHitBox) {
+            player.drawHitBox(window);
+        }
     }
     window.display();
 }

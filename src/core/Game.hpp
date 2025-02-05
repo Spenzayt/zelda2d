@@ -19,6 +19,7 @@
 #include "../systems/camera.hpp"
 #include "../systems/KonamiCode.hpp"
 #include "../systems/SoundManager.hpp"
+#include "../entities/Boss.hpp"
 
 #include <vector>
 #include <memory>
@@ -37,7 +38,8 @@ public:
         PAUSE,
         VICTORY,
         GAMEOVER,
-        OPTIONS
+        OPTIONS,
+        BOSS
     };
 
     void run();
@@ -71,7 +73,8 @@ private:
 
     Map map;
     Player player;
-    
+    Boss* boss;
+
     std::vector<std::unique_ptr<Enemy>> ennemies;
   
     Player::PlayerLocation playerLocation;

@@ -142,8 +142,10 @@ void OptionsMenu::initChangeKeysMenu()
 	returnText.setFont(font);
 	returnText.setCharacterSize(50);
 	returnText.setFillColor(sf::Color(168, 168, 168));
+	sf::FloatRect textBounds = returnText.getLocalBounds();
+	float x = (Config::WINDOW_WIDTH / 2.f) - (textBounds.width / 2.f) - textBounds.left;
 	returnText.setString("Retour");
-	returnText.setPosition(800, 610);
+	returnText.setPosition(x, 610);
 	
 	waitingForKey = false;
 	waitingForAction = -1;

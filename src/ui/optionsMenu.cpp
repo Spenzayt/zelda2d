@@ -1,6 +1,8 @@
 #include "OptionsMenu.hpp"
 #include <iostream>
 
+//extern Game game;
+
 std::map<sf::Keyboard::Key, std::string> keyNames = {
 	{sf::Keyboard::A, "A"}, {sf::Keyboard::B, "B"}, {sf::Keyboard::C, "C"},
 	{sf::Keyboard::D, "D"}, {sf::Keyboard::E, "E"}, {sf::Keyboard::F, "F"},
@@ -177,6 +179,8 @@ void OptionsMenu::updateMusicVolume(sf::Vector2i mousePos)
 	float newVolume = ((mousePos.x - volumeMusicBar.getPosition().x) / volumeMusicBar.getSize().x) * 100.f;
 	musicVolumeLevel = std::max(0.f, std::min(newVolume, 100.f));
 
+	//game.setMusicVolume(musicVolumeLevel);
+
 	updateCursorVolumeMusic();
 	updateTextVolumeMusic();
 }
@@ -185,6 +189,8 @@ void OptionsMenu::updateSoundVolume(sf::Vector2i mousePos)
 {
 	float newVolume = ((mousePos.x - volumeSoundBar.getPosition().x) / volumeSoundBar.getSize().x) * 100.f;
 	soundVolumeLevel = std::max(0.f, std::min(newVolume, 100.f));
+
+	//game.setSoundVolume(soundVolumeLevel);
 
 	updateCursorVolumeSound();
 	updateTextVolumeSound();

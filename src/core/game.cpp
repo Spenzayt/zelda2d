@@ -4,10 +4,14 @@
 Game::Game() : isRunning(false), camera(),
     player(sf::Vector2f(300, 130), 60, "assets/images/characters/Link.png", 50), 
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false),
-    showHitBox(false), noclip(false), godMode(false), playerLocation(Player::PlayerLocation::INSIDE_HOUSE) {
+    showHitBox(false), noclip(false), godMode(false), playerLocation(Player::PlayerLocation::INSIDE_HOUSE),
+    musicVolume(50.f), soundVolume(50.f) {
     
     initEnemies();
     createWindow();
+
+    loadAudio();
+
     map.importAllTextures(window);
     map.loadBackgroundFromImage();
 
@@ -26,6 +30,13 @@ Game::Game() : isRunning(false), camera(),
 }
 
 Game::~Game() {}
+
+void Game::loadAudio()
+{
+    soundManager.loadMusic("menu", "assets/audio/menu_music.mp3");
+    soundManager.loadMusic("game", "assets/audio/game_music.mp3");
+
+}
 
 void Game::initEnemies()
 {
@@ -220,6 +231,9 @@ void Game::run() {
 
 void Game::handleGameState(sf::Event& event)
 {
+    static std::string currentMusicState = "";
+    static bool isMusicPaused = false;
+
     if (ignoreNextClick) {
         if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
             ignoreNextClick = false;
@@ -227,6 +241,14 @@ void Game::handleGameState(sf::Event& event)
         return;
     }
     if (currentState == GameState::MAIN_MENU) {
+    
+        if (currentMusicState != "menu") {
+            soundManager.stopMusic();
+            soundManager.playMusic("menu", true);
+            currentMusicState = "menu";
+            isMusicPaused = false;
+        }
+
         mainMenu.handleMouseHover(window);
         int action = mainMenu.handleInput(window, event);
 
@@ -244,10 +266,20 @@ void Game::handleGameState(sf::Event& event)
             break;
         }
     }
+    if (currentState == GameState::PLAYING) {
+        if (currentMusicState != "game") {
+
+            if (!isMusicPaused) {
+                soundManager.stopMusic();
+                soundManager.playMusic("game", true);
+                currentMusicState = "game";
+            }
+            isMusicPaused = false;
+        }
+    }
     if (currentState == GameState::OPTIONS) {
         optionsMenu.handleMouseHover(window);
         int action = optionsMenu.handleInput(window, event);
-
         if (action == 2) {
             if (isGamePaused) {
                 currentState = GameState::PLAYING;
@@ -260,6 +292,11 @@ void Game::handleGameState(sf::Event& event)
         }
     }
     if (currentState == GameState::PAUSE) {
+        if (currentMusicState != "pause") {
+            soundManager.stopMusic();
+            soundManager.playMusic("menu", true);
+            currentMusicState = "pause";
+        }
         pauseMenu.handleMouseHover(window);
         int action = pauseMenu.handleInput(window, event);
 

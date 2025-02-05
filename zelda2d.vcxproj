@@ -164,6 +164,7 @@ sfml-system.lib
     <ClCompile Include="src\systems\camera.cpp" />
     <ClCompile Include="src\systems\konamiCode.cpp" />
     <ClCompile Include="src\systems\physics.cpp" />
+    <ClCompile Include="src\systems\soundManager.cpp" />
     <ClCompile Include="src\ui\gameOver.cpp" />
     <ClCompile Include="src\ui\mainMenu.cpp" />
     <ClCompile Include="src\ui\menu.cpp" />
@@ -186,6 +187,7 @@ sfml-system.lib
     <ClInclude Include="src\systems\Camera.hpp" />
     <ClInclude Include="src\systems\KonamiCode.hpp" />
     <ClInclude Include="src\systems\Physics.hpp" />
+    <ClInclude Include="src\systems\SoundManager.hpp" />
     <ClInclude Include="src\ui\GameOver.hpp" />
     <ClInclude Include="src\ui\MainMenu.hpp" />
     <ClInclude Include="src\ui\Menu.hpp" />

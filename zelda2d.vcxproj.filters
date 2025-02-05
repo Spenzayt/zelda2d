@@ -108,6 +108,9 @@
     <ClCompile Include="src\ui\win.cpp">
       <Filter>Fichiers sources\ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\systems\soundManager.cpp">
+      <Filter>Fichiers sources\systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="src\ui\Win.hpp">
       <Filter>Fichiers d%27en-tête\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\SoundManager.hpp">
+      <Filter>Fichiers d%27en-tête\systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

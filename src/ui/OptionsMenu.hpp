@@ -2,6 +2,7 @@
 #define OPTION_MENU_HPP
 
 #include <SFML/Graphics.hpp>
+//#include "../core/game.hpp"
 #include <algorithm> 
 #include "Menu.hpp"
 #include "../core/InputHandler.hpp"

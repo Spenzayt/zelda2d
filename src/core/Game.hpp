@@ -2,6 +2,8 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 #include "../map/Map.hpp"
 #include "../entities/Player.hpp"
 #include "../entities/Bokoblin.hpp"
@@ -16,6 +18,7 @@
 #include "../ui/Win.hpp"
 #include "../systems/camera.hpp"
 #include "../systems/KonamiCode.hpp"
+#include "../systems/SoundManager.hpp"
 
 #include <vector>
 #include <memory>
@@ -50,6 +53,9 @@ public:
     bool noclip;
     bool showHitBox;
 
+    void loadAudio();
+    void setMusicVolume(float volume);
+    void setSoundVolume(float volume);
 private:
     void initEnemies();
     void createWindow();
@@ -68,7 +74,6 @@ private:
     
     std::vector<std::unique_ptr<Enemy>> ennemies;
   
-
     Player::PlayerLocation playerLocation;
 
     GameState currentState;
@@ -81,8 +86,17 @@ private:
 
     Camera camera;
     KonamiCode konamiCode;
+    SoundManager soundManager;
 
     sf::RectangleShape overlay;
+
+    sf::Music backgroundMusic;
+    std::vector<sf::Sound> soundEffects;
+    sf::SoundBuffer soundBuffer;
+
+
+    float musicVolume;
+    float soundVolume;
 
     bool ignoreNextClick;
     bool isGamePaused;

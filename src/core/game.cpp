@@ -106,6 +106,9 @@ void Game::processEvents() {
 }
 
 void Game::update(float deltaTime) {
+    soundManager.setMusicVolume(optionsMenu.getMusicLevel());
+    soundManager.setSoundVolume(optionsMenu.getSoundLevel());
+
     if (currentState == GameState::PLAYING) {
         map.update(deltaTime);
 

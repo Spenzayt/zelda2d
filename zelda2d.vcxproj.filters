@@ -111,6 +111,9 @@
     <ClCompile Include="src\systems\soundManager.cpp">
       <Filter>Fichiers sources\systems</Filter>
     </ClCompile>
+    <ClCompile Include="src\entities\boss.cpp">
+      <Filter>Fichiers sources\entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="src\systems\SoundManager.hpp">
       <Filter>Fichiers d%27en-tête\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Boss.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

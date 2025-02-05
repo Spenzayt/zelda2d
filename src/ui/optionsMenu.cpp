@@ -195,7 +195,7 @@ void OptionsMenu::updateSoundVolume(sf::Vector2i mousePos)
 	updateTextVolumeSound();
 }
 
-OptionsMenu::OptionsMenu() : musicVolumeLevel(100), soundVolumeLevel(100),isDragging(false), 
+OptionsMenu::OptionsMenu() : musicVolumeLevel(50), soundVolumeLevel(50),isDragging(false), 
 ignoreNextClick(true), isDraggingMusic(false), isDraggingSound(false)
 {
 	initButtons();
@@ -389,4 +389,14 @@ void OptionsMenu::render(sf::RenderWindow& window)
 		renderChangeKeysMenu(window);
 		handleMouseHover(window);
 	}
+}
+
+int OptionsMenu::getMusicLevel() const
+{
+	return musicVolumeLevel;
+}
+
+int OptionsMenu::getSoundLevel() const
+{
+	return soundVolumeLevel;
 }

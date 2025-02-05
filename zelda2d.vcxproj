@@ -156,6 +156,7 @@ sfml-system.lib
     <ClCompile Include="src\entities\archer.cpp" />
     <ClCompile Include="src\entities\arrow.cpp" />
     <ClCompile Include="src\entities\bokoblin.cpp" />
+    <ClCompile Include="src\entities\boss.cpp" />
     <ClCompile Include="src\entities\chaser.cpp" />
     <ClCompile Include="src\entities\Enemy.cpp" />
     <ClCompile Include="src\entities\player.cpp" />
@@ -179,6 +180,7 @@ sfml-system.lib
     <ClInclude Include="src\entities\Archer.hpp" />
     <ClInclude Include="src\entities\Arrow.hpp" />
     <ClInclude Include="src\entities\Bokoblin.hpp" />
+    <ClInclude Include="src\entities\Boss.hpp" />
     <ClInclude Include="src\entities\Chaser.hpp" />
     <ClInclude Include="src\entities\Enemy.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />

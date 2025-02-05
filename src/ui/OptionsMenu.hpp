@@ -5,6 +5,7 @@
 #include <algorithm> 
 #include "Menu.hpp"
 #include "../core/InputHandler.hpp"
+#include "../systems/SoundManager.hpp"
 
 class OptionsMenu : public Menu
 {
@@ -57,6 +58,10 @@ public:
 
 	void renderChangeKeysMenu(sf::RenderWindow& window);
 	void render(sf::RenderWindow& window) override;
+
+	int getMusicLevel() const;
+	int getSoundLevel() const;
+
 };
 
 #endif // OPTION_MENU_HPP

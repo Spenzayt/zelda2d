@@ -2,7 +2,6 @@
 #define OPTION_MENU_HPP
 
 #include <SFML/Graphics.hpp>
-//#include "../core/game.hpp"
 #include <algorithm> 
 #include "Menu.hpp"
 #include "../core/InputHandler.hpp"
@@ -16,8 +15,6 @@ public:
 		KEYS
 	};
 private:
-	//Text textVolume;
-	//float volumeLevel;
 	sf::RectangleShape volumeMusicBar;
 	sf::RectangleShape volumeMusicSlider;
 	sf::RectangleShape volumeSoundBar;

@@ -38,6 +38,18 @@ void Game::loadAudio()
 
 }
 
+void Game::setMusicVolume(float volume)
+{
+    musicVolume = volume;
+    soundManager.setMusicVolume(volume);
+}
+
+void Game::setSoundVolume(float volume)
+{
+    soundVolume = volume;
+    soundManager.setSoundVolume(volume);
+}
+
 void Game::initEnemies()
 {
     

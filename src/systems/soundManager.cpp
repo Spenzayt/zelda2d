@@ -21,9 +21,9 @@ void SoundManager::playMusic(const std::string& name, bool loop)
 		return;
 	}
 
-	/*if (currentMusic) {
+	if (currentMusic) {
 		currentMusic->stop();
-	}*/
+	}
 
 	currentMusic = musicTracks[name].get();
 	currentMusic->setLoop(loop);

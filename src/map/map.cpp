@@ -100,13 +100,13 @@ void Map::loadBackgroundFromImage() {
                 sprite.setTexture(mapElements["buttonOFF"].texture);
                 sprite.setScale(1.f, 1.f);
                 sprite.setPosition(x * tileSize, y * tileSize);
-                buttons.push_back({ sprite, false });
+                buttons.push_back({ sprite, true });
             }
             else if (pixelColor == sf::Color(195, 0, 255)) {
                 sprite.setTexture(mapElements["torchStandOFF"].texture);
                 sprite.setScale(4.f, 4.f);
                 sprite.setPosition(x * tileSize, y * tileSize);
-                torchStands.push_back({ sprite, false });
+                torchStands.push_back({ sprite, true });
             }
         }
     }

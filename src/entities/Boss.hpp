@@ -41,9 +41,9 @@ protected:
     std::vector<sf::Vector2f> pathPoints;
     int currentPointIndex;
     void initSprite();
-    void initTexture();
 
-
+private:
+    sf::RectangleShape hitbox; 
 };
 
 #endif // BOSS_HPP

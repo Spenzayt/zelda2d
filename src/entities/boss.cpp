@@ -3,32 +3,38 @@
 
 void Boss::initSprite()
 {
-	if (!texture.loadFromFile("assets/images/characters/boss.png")) {
-		std::cerr << "Error: Unable to load the Boss texture from " << std::endl;
-	}
+    if (!texture.loadFromFile("assets/images/characters/boss.png")) {
+        std::cerr << "Error: Unable to load the Boss texture from " << std::endl;
+    }
+    sprite.setTexture(texture);
+    sprite.setScale(size * 1.2f, size * 1.2f);
 }
 
-void Boss::initTexture()
-{
-	sprite.setTexture(texture);
-}
-
-Boss::Boss(float s, sf::Vector2f p, int hp, int d, float size, Player& refPlayer) : Enemy(s, p, hp, d), size(size), speed(s), player(refPlayer),
-canShoot(false), visionRadius(1000.f)
-{
-	initSprite();
-	initTexture();
-	position = p;
+Boss::Boss(float s, sf::Vector2f p, int hp, int d, float size, Player& refPlayer)
+    : Enemy(s, p, hp, d), size(size), speed(s), player(refPlayer), canShoot(false), visionRadius(1000.f) {
+    initSprite();
+    position = p;
+    sprite.setPosition(position);
 
     currentPointIndex = 0;
     distanceThreshold = 5.f;
 
 	sprite.setPosition(position);
 	sprite.setScale(size *1.2f, size * 1.2f);
+    // Utiliser les dimensions du sprite après la mise à l'échelle
+    sf::FloatRect spriteBounds = sprite.getGlobalBounds();
+    hitbox.setSize(sf::Vector2f(spriteBounds.width, spriteBounds.height));
+    hitbox.setOrigin(hitbox.getSize() / 2.f);
+    hitbox.setFillColor(sf::Color::Transparent);
+    hitbox.setOutlineColor(sf::Color::Red);
+    hitbox.setOutlineThickness(1.f);
 }
 
 void Boss::update(float deltaTime, const std::vector<sf::Sprite>& bushes)
 {
+
+    hitbox.setPosition(sprite.getPosition());
+
     
     moveToNextPoint(deltaTime);
     sf::Vector2f playerPos = player.getPosition();
@@ -95,12 +101,11 @@ void Boss::shoot()
         direction /= magnitude;
     }
     projectiles.emplace_back(projectileStartPos, direction, 300.f);
-   
 }
 
 sf::FloatRect Boss::getGlobalBounds() const
 {
-	return sprite.getGlobalBounds();
+    return hitbox.getGlobalBounds();
 }
 
 void Boss::setPath(const std::vector<sf::Vector2f>& points)

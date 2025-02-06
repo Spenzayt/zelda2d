@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath, float hp) : hasKey(false) {
+Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath, float hp) {
     position = spawnposition;
     previousPosition = position;
 

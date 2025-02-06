@@ -2,8 +2,7 @@
 #include <iostream>
 
 
-Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath, float hp) : hasKey(false)
-{
+Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath, float hp) : hasKey(false) {
     position = spawnposition;
     previousPosition = position;
 
@@ -24,7 +23,6 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
         sf::Sprite heart(fullHeartTexture);
         hearts.push_back(heart);
     }
- 
 
     player.setTexture(texture);
     player.setScale(size / static_cast<float>(texture.getSize().x), size / static_cast<float>(texture.getSize().y));

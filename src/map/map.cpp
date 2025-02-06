@@ -46,6 +46,11 @@ void Map::importAllTextures(sf::RenderWindow& window) {
         return;
     }
 
+    if (!mapElements["hole"].texture.loadFromFile("assets/images/map/textures/hole.png")) {
+        std::cerr << "Image Failed to Load : hole.png " << std::endl;
+        return;
+    }
+
     if (!mapHitboxTexture.loadFromFile("assets/images/map/collision_map.png")) {
         std::cerr << "Image Failed to Load : collision_map.png " << std::endl;
         return;
@@ -195,6 +200,7 @@ void Map::draw(sf::RenderWindow& window) {
     };
 
     drawSprites("grass", mapElements, window);
+    drawSprites("hole", mapElements, window);
     drawSprites("bush", mapElements, window);
     drawSprites("fakeBush", mapElements, window);
 
@@ -255,16 +261,36 @@ void Map::handleMouseClick(sf::Vector2f mousePosition) {
     auto& bushes = mapElements["bush"].sprites;
     for (auto it = bushes.begin(); it != bushes.end(); ++it) {
         if (it->getGlobalBounds().contains(mousePosition)) {
+            sf::Vector2f position = it->getPosition();
             bushes.erase(it);
-            break; 
+            addGrassAtPosition(position);
+            break;
         }
     }
 
     auto& fakeBushes = mapElements["fakeBush"].sprites;
     for (auto it = fakeBushes.begin(); it != fakeBushes.end(); ++it) {
         if (it->getGlobalBounds().contains(mousePosition)) {
+            sf::Vector2f position = it->getPosition();
             fakeBushes.erase(it);
+            addHoleAtPosition(position);
             break;
         }
     }
+}
+
+void Map::addGrassAtPosition(sf::Vector2f position) {
+    sf::Sprite grassSprite;
+    grassSprite.setTexture(mapElements["grass"].texture);
+    grassSprite.setScale(1.f, 1.f);
+    grassSprite.setPosition(position);
+    mapElements["grass"].sprites.push_back(grassSprite);
+}
+
+void Map::addHoleAtPosition(sf::Vector2f position) {
+    sf::Sprite holeSprite;
+    holeSprite.setTexture(mapElements["hole"].texture);
+    holeSprite.setScale(1.f, 1.f);
+    holeSprite.setPosition(position);
+    mapElements["hole"].sprites.push_back(holeSprite);
 }

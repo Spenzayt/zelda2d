@@ -187,12 +187,10 @@ void Game::update(float deltaTime) {
         sf::FloatRect playerHitbox = player.getHitbox();
         std::vector<sf::Sprite> bushes = map.getBushes();
 
-        // Créez des threads pour chaque tâche de mise à jour
         std::thread mapThread(&Game::updateMap, this, deltaTime, playerHitbox);
         std::thread playerThread(&Game::updatePlayer, this, deltaTime, std::ref(bushes));
         std::thread enemiesThread(&Game::updateEnemies, this, deltaTime);
 
-        // Attendez la fin des threads
         mapThread.join();
         playerThread.join();
         enemiesThread.join();

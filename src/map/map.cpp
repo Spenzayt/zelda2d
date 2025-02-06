@@ -172,9 +172,6 @@ void Map::update(float deltaTime, const sf::FloatRect& playerHitbox) {
             }
         }
     }
-    if (areAllTorchesOn()) {
-        std::cout << "Toutes les torches sont allumées !" << std::endl;
-    }
 }
 
 void Map::draw(sf::RenderWindow& window) {

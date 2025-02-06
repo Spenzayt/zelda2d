@@ -24,6 +24,8 @@
 #include "../objet/Key.hpp"
 #include <vector>
 #include <memory>
+#include <mutex>
+#include <thread>
 
 class Map;
 class Player;
@@ -46,6 +48,8 @@ public:
     void run();
     void handleGameState(sf::Event& event);
     void updateEnemies(float deltaTime);
+    void updatePlayer(float deltaTime, const std::vector<sf::Sprite>& bushes);
+    void updateMap(float deltaTime, const sf::FloatRect& playerHitbox);
     void drawEnemies();
     void drawPauseMenu();
 
@@ -108,6 +112,8 @@ private:
     bool ignoreNextClick;
     bool isGamePaused;
     bool showInventoryUI;
+
+    bool bossAlreadySpawn;
 };
 
 #endif // GAME_HPP

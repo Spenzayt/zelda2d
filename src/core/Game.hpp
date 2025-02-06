@@ -41,7 +41,6 @@ public:
         VICTORY,
         GAMEOVER,
         OPTIONS,
-        BOSS
     };
 
     void run();

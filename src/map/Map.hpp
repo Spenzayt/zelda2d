@@ -48,6 +48,7 @@ public:
 
     void addDoor(const sf::FloatRect& bounds, const std::string& name);
     const Door* getDoor(const std::string& name) const;
+    bool areAllTorchesOn();
 
     std::vector<Door> doors;
 

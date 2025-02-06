@@ -89,13 +89,17 @@ void Player::draw(sf::RenderWindow& window) {
     float marginTop = 55.f;
     float marginRight = 10.f;
 
-    sf::Vector2f viewSize = window.getView().getSize();
-    sf::Vector2f viewCenter = window.getView().getCenter();
+    sf::View view = window.getView();
+    sf::Vector2f viewSize = view.getSize();
+    sf::Vector2f viewCenter = view.getCenter();
 
-    float x = viewCenter.x + (viewSize.x / 2) - marginRight - (maxHp / 10) * heartSpacing;
+    float zoomFactor = viewSize.x / window.getDefaultView().getSize().x;
+
+    float x = viewCenter.x + (viewSize.x / 2) - marginRight - (maxHp / 10) * heartSpacing * zoomFactor;
 
         for (int i = 0; i < maxHp / 10; i++) {
-            hearts[i].setPosition(x + i * heartSpacing, viewCenter.y - (viewSize.y / 2) + marginTop) ;
+            hearts[i].setScale(zoomFactor, zoomFactor);
+            hearts[i].setPosition(x + i * heartSpacing * zoomFactor, viewCenter.y - (viewSize.y / 2) + marginTop * zoomFactor) ;
 
             if (heal >= (i + 1) * 10) {
                 hearts[i].setTexture(fullHeartTexture);
@@ -116,21 +120,21 @@ void Player::draw(sf::RenderWindow& window) {
     text.setCharacterSize(24);
     text.setFillColor(sf::Color::White);
 
-    sf::View currentView = window.getView();
     sf::FloatRect viewBounds(
-        currentView.getCenter().x - currentView.getSize().x / 2.f,
-        currentView.getCenter().y - currentView.getSize().y / 2.f,
-        currentView.getSize().x,
-        currentView.getSize().y
+        viewCenter.x - viewSize.x / 2.f,
+        viewCenter.y - viewSize.y / 2.f,
+        viewSize.x,
+        viewSize.y
     );
 
-    text.setPosition(viewBounds.left + 10.f, viewBounds.top + 10.f);
+    text.setPosition(viewBounds.left + 10.f * zoomFactor, viewBounds.top + 10.f * zoomFactor);
 
     window.draw(text);
 
     life.setTexture(textureLife);
+    life.setScale(zoomFactor, zoomFactor);
     float xLife = viewCenter.x + (viewSize.x / 2);
-    life.setPosition(viewBounds.left + 1150.f, viewBounds.top + 5.f);
+    life.setPosition(viewBounds.left + 1697 * zoomFactor, viewBounds.top + 5.f * zoomFactor);
     window.draw(life);
 }
 
@@ -158,8 +162,6 @@ void Player::initLifeTexture()
     if (!textureLife.loadFromFile("assets/images/interface/life.png")) {
         std::cerr << "Error loading life texture !" << std::endl;
     }
-
-    
 }
 
 void Player::checkCollisionWithWalls(const std::vector<sf::RectangleShape>& walls) {
@@ -183,7 +185,6 @@ void Player::checkCollisionWithMap(const std::vector<sf::Sprite>& bushes) {
 void Player::reset()
 {
     heal = maxHp;
-
 }
 
 void Player::damage(int damages)
@@ -356,3 +357,28 @@ void Player::checkDoor(const std::vector<Map::Door>& doors) {
         }
     }
 }
+void Player::attack(std::vector<std::unique_ptr<Enemy>>& enemies) {
+    if (!hasSword()) return;
+
+    float attackRange = 50.0f;
+
+    // Supprime les ennemis morts après l'attaque
+    enemies.erase(
+        std::remove_if(enemies.begin(), enemies.end(),
+            [this, attackRange](std::unique_ptr<Enemy>& enemy) {
+                float distance = std::hypot(enemy->getPosition().x - position.x,
+                    enemy->getPosition().y - position.y);
+                if (distance < attackRange) {
+                    enemy->takeDamage(10);
+                    std::cout << "Enemy hit!" << std::endl;
+                }
+                return enemy->isDead(); // Supprime si l'ennemi est mort
+            }),
+        enemies.end());
+}
+
+bool Player::hasSword() const {
+    
+    return true;
+}
+

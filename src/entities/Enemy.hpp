@@ -10,7 +10,7 @@
 class Enemy : public Entity {
 protected:
 	float speed;
-	int heal;
+	int heal = 30;
 	int damage;
 
 	sf::Vector2f position;
@@ -22,6 +22,12 @@ public:
 
 	virtual int getDamage() const = 0;
 	virtual sf::FloatRect getGlobalBounds() const = 0;
+
+	void takeDamage(int dmg);
+	bool isAlive() const;
+	bool isDead() const;
+	sf::Vector2f getPosition() const { return position; }
+
 
 };
 

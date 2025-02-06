@@ -31,12 +31,12 @@ void Map::importAllTextures(sf::RenderWindow& window) {
         return;
     }
 
-    if (!mapElements["torchStangOFF"].texture.loadFromFile("assets/images/map/textures/torchStandOFF.png")) {
+    if (!mapElements["torchStandOFF"].texture.loadFromFile("assets/images/map/textures/torchStandOFF.png")) {
         std::cerr << "Image Failed to Load : torchStandOFF.png " << std::endl;
         return;
     }
 
-    if (!mapElements["torchStangON"].texture.loadFromFile("assets/images/map/textures/torchStandON.png")) {
+    if (!mapElements["torchStandON"].texture.loadFromFile("assets/images/map/textures/torchStandON.png")) {
         std::cerr << "Image Failed to Load : torchStandON.png " << std::endl;
         return;
     }
@@ -99,11 +99,9 @@ void Map::loadBackgroundFromImage() {
             }
             else if (pixelColor == sf::Color(195, 0, 255)) {
                 sprite.setTexture(mapElements["torchStandOFF"].texture);
-                sprite.setScale(1.f, 1.f);
-                sprite.setColor(sf::Color::Red);
+                sprite.setScale(4.f, 4.f);
                 sprite.setPosition(x * tileSize, y * tileSize);
                 torchStands.push_back({ sprite, false });
-                std::cout << sprite.getPosition().x << ", " << sprite.getPosition().y << std::endl;
             }
         }
     }
@@ -205,7 +203,6 @@ void Map::draw(sf::RenderWindow& window) {
     }
     for (const auto& torchStand : torchStands) {
         window.draw(torchStand.sprite);
-        std::cout << "draw" << std::endl;
     }
 }
 
@@ -244,4 +241,30 @@ const Map::Door* Map::getDoor(const std::string& name) const {
         }
     }
     return nullptr;
+}
+
+bool Map::areAllTorchesOn() {
+    for (const auto& torchStand : torchStands) {
+        if (!torchStand.isOn) {
+            return false;
+        }
+    }
+    return true;
+}
+void Map::handleMouseClick(sf::Vector2f mousePosition) {
+    auto& bushes = mapElements["bush"].sprites;
+    for (auto it = bushes.begin(); it != bushes.end(); ++it) {
+        if (it->getGlobalBounds().contains(mousePosition)) {
+            bushes.erase(it);
+            break; 
+        }
+    }
+
+    auto& fakeBushes = mapElements["fakeBush"].sprites;
+    for (auto it = fakeBushes.begin(); it != fakeBushes.end(); ++it) {
+        if (it->getGlobalBounds().contains(mousePosition)) {
+            fakeBushes.erase(it);
+            break;
+        }
+    }
 }

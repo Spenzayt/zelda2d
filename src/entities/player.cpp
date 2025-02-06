@@ -356,3 +356,28 @@ void Player::checkDoor(const std::vector<Map::Door>& doors) {
         }
     }
 }
+void Player::attack(std::vector<std::unique_ptr<Enemy>>& enemies) {
+    if (!hasSword()) return;
+
+    float attackRange = 50.0f;
+
+    // Supprime les ennemis morts après l'attaque
+    enemies.erase(
+        std::remove_if(enemies.begin(), enemies.end(),
+            [this, attackRange](std::unique_ptr<Enemy>& enemy) {
+                float distance = std::hypot(enemy->getPosition().x - position.x,
+                    enemy->getPosition().y - position.y);
+                if (distance < attackRange) {
+                    enemy->takeDamage(10);
+                    std::cout << "Enemy hit!" << std::endl;
+                }
+                return enemy->isDead(); // Supprime si l'ennemi est mort
+            }),
+        enemies.end());
+}
+
+bool Player::hasSword() const {
+    
+    return true;
+}
+

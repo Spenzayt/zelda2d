@@ -118,6 +118,10 @@ void Game::processEvents() {
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::I) {
             showInventoryUI = !showInventoryUI;
         }
+        if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right) {
+            player.attack(ennemies);
+        }
+
 
     }
     handleGameState(event);

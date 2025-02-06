@@ -7,6 +7,8 @@
 #include "../objet/Item.hpp"
 #include "../map/Map.hpp"
 #include "../entities/Enemy.hpp"
+#include "Boss.hpp"
+#include "../objet/key.hpp"
 
 class Player : public Entity
 {
@@ -25,7 +27,8 @@ public:
     void removeItemFromInventory(const std::string& itemName) { inventory.removeItem(itemName); }
     bool hasItemInInventory(const std::string& itemName) const { return inventory.hasItem(itemName); }
     void showInventory() const { inventory.displayInventory(); }
-    void attack(std::vector<std::unique_ptr<Enemy>>& enemies);
+
+    void attack(std::vector<std::unique_ptr<Enemy>>& enemies, bool& bossDefeated);
 
     const sf::Sprite& getSprite() const { return player; }
     bool hasSword() const;
@@ -51,6 +54,8 @@ public:
 private :
     Inventory<int>inventory;
     bool sword;
+
+    bool BossKill;
 
 protected:
     sf::Sprite player;

@@ -39,9 +39,9 @@ protected:
     int size;
     
     void initSprite();
-    void initTexture();
 
-
+private:
+    sf::RectangleShape hitbox; 
 };
 
 #endif // BOSS_HPP

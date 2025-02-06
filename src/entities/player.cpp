@@ -10,7 +10,7 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
     heal = hp;
     speed = 100;
     damageCooldown = 1.0f;
-
+    BossKill = false;
 
     if (!texture.loadFromFile(texturePath)) {
         std::cerr << "Error loading texture from: " << texturePath << std::endl;
@@ -283,11 +283,11 @@ void Player::checkDoor(const std::vector<Map::Door>& doors) {
                 break;
             }
             else if (door.name.find("Entry Castle Door 4") != std::string::npos) {
-                if (hasItemInInventory("Boss Key")) {
+                if (BossKill) {
                     setPosition(sf::Vector2f(5130, 7900));
                 }
                 else {
-                    std::cout << "You need the Boss Key to enter." << std::endl;
+                    std::cout << "You need to kill the Boss to enter." << std::endl;
                 }
                 break;
             }
@@ -360,22 +360,27 @@ void Player::checkDoor(const std::vector<Map::Door>& doors) {
         }
     }
 }
-void Player::attack(std::vector<std::unique_ptr<Enemy>>& enemies) {
+void Player::attack(std::vector<std::unique_ptr<Enemy>>& enemies, bool& bossDefeated) {
     if (!hasSword()) return;
 
     float attackRange = 100.0f;
 
-    // Supprime les ennemis morts apr�s l'attaque
+    // Supprime les ennemis morts après l'attaque
     enemies.erase(
         std::remove_if(enemies.begin(), enemies.end(),
-             [this, attackRange](std::unique_ptr<Enemy>& enemy) {
+            [this, attackRange, &bossDefeated](std::unique_ptr<Enemy>& enemy) {
                 float distance = std::hypot(enemy->getPosition().x - position.x,
                     enemy->getPosition().y - position.y);
                 if (distance < attackRange) {
                     enemy->takeDamage(10);
                     std::cout << "Enemy hit!" << std::endl;
+
+                    // Vérifiez si l'ennemi est le boss
+                    if (enemy->isDead() && dynamic_cast<Boss*>(enemy.get()) != nullptr) {
+                        bossDefeated = true;
+                    }
                 }
-                return enemy->isDead(); // Supprime si l'ennemi est mort
+                return enemy->isDead();
             }),
         enemies.end());
 }
@@ -384,4 +389,3 @@ bool Player::hasSword() const {
     
     return true;
 }
-

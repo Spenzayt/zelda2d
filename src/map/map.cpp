@@ -251,3 +251,20 @@ bool Map::areAllTorchesOn() {
     }
     return true;
 }
+void Map::handleMouseClick(sf::Vector2f mousePosition) {
+    auto& bushes = mapElements["bush"].sprites;
+    for (auto it = bushes.begin(); it != bushes.end(); ++it) {
+        if (it->getGlobalBounds().contains(mousePosition)) {
+            bushes.erase(it);
+            break; 
+        }
+    }
+
+    auto& fakeBushes = mapElements["fakeBush"].sprites;
+    for (auto it = fakeBushes.begin(); it != fakeBushes.end(); ++it) {
+        if (it->getGlobalBounds().contains(mousePosition)) {
+            fakeBushes.erase(it);
+            break;
+        }
+    }
+}

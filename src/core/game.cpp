@@ -2,10 +2,10 @@
 #include <iostream>
 
 Game::Game() : isRunning(false), camera(),
-player(sf::Vector2f(330, 130), 60, "assets/images/characters/Link.png", 50), // (330, 130)
+player(sf::Vector2f(330, 130), 60, "assets/images/characters/Link.png", 50),
 sword(std::make_unique<Sword>(sf::Vector2f(943, 5020))),
 mainCastleDoorKey(std::make_unique<Key>("Castle Main Door Key", "assets/images/Item/key2.png", sf::Vector2f(1430, 3390))),
-    currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false), showInventoryUI(false),
+    currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false), showInventoryUI(false), bossAlreadySpawn(false),
     showHitBox(false), noclip(false), godMode(false), fullSpeed(false), musicVolume(50.f), soundVolume(50.f) {
 
     initEnemies();
@@ -86,9 +86,6 @@ void Game::initEnemies()
     // archers
     ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player, soundManager));
     ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player, soundManager));
-
-    this->boss = new Boss(0, sf::Vector2f(2053, 9045), 100, 15, 5);
-
 }
 
 void Game::createWindow() {
@@ -127,21 +124,84 @@ void Game::processEvents() {
     handleGameState(event);
 }
 
+void Game::checkCollisionsPlayerEnemies()
+{
+    for (const auto& enemy : ennemies) {
+        if (player.getGlobalBounds().intersects(enemy->getGlobalBounds()) && !godMode) {
+            player.damage(enemy->getDamage());
+            checkIfPlayerIsDead();
+        }
+    }
+
+    if (bossAlreadySpawn) {
+        if (player.getGlobalBounds().intersects(boss->getGlobalBounds()) && !godMode) {
+            player.damage(boss->getDamage());
+            checkIfPlayerIsDead();
+        }
+    }
+}
+
+void Game::checkIfPlayerIsDead()
+{
+    if (player.isDead()) {
+        currentState = GameState::GAMEOVER;
+    }
+}
+
+bool Game::getGodMode() const
+{
+    return godMode;
+}
+
+std::mutex mtx;
+
+void Game::updateMap(float deltaTime, const sf::FloatRect& playerHitbox) {
+    std::lock_guard<std::mutex> lock(mtx);
+    map.update(deltaTime, playerHitbox);
+}
+
+void Game::updatePlayer(float deltaTime, const std::vector<sf::Sprite>& bushes) {
+    std::lock_guard<std::mutex> lock(mtx);
+    player.update(deltaTime, bushes);
+}
+
+void Game::updateEnemies(float deltaTime) {
+    std::lock_guard<std::mutex> lock(mtx);
+    for (auto& enemy : ennemies) {
+        enemy->update(deltaTime, map.getBushes());
+    }
+}
+
 void Game::update(float deltaTime) {
     soundManager.setMusicVolume(optionsMenu.getMusicLevel());
     soundManager.setSoundVolume(optionsMenu.getSoundLevel());
 
     if (currentState == GameState::PLAYING) {
-        map.update(deltaTime, player.getHitbox());
+        if (!bossAlreadySpawn) {
+            if (map.areAllTorchesOn()) {
+                this->boss = new Boss(0, sf::Vector2f(2053, 9045), 100, 15, 5);
+                bossAlreadySpawn = true;
+            }
+        }
 
-        player.update(deltaTime, map.getBushes());
+        sf::FloatRect playerHitbox = player.getHitbox();
+        std::vector<sf::Sprite> bushes = map.getBushes();
+
+        // Créez des threads pour chaque tâche de mise à jour
+        std::thread mapThread(&Game::updateMap, this, deltaTime, playerHitbox);
+        std::thread playerThread(&Game::updatePlayer, this, deltaTime, std::ref(bushes));
+        std::thread enemiesThread(&Game::updateEnemies, this, deltaTime);
+
+        // Attendez la fin des threads
+        mapThread.join();
+        playerThread.join();
+        enemiesThread.join();
+
         checkIfPlayerIsDead();
         checkCollisionsPlayerEnemies();
-        for (auto& enemy : ennemies) {
-            enemy->update(deltaTime, map.getBushes());
-        }
+
         if (!noclip) {
-            player.update(deltaTime, map.getBushes());
+            player.update(deltaTime, bushes);
         }
         else {
             player.setPosition(player.getPosition() + player.getMovementDelta(deltaTime));
@@ -151,8 +211,8 @@ void Game::update(float deltaTime) {
 
         const Map::Zone* currentZone = map.getZoneContaining(player.getPosition());
         if (currentZone != nullptr) {
-            if (currentZone->getName() == "Spawn House" 
-                || currentZone->getName() == "Tunnel 1" || currentZone->getName() == "Tunnel 2" 
+            if (currentZone->getName() == "Spawn House"
+                || currentZone->getName() == "Tunnel 1" || currentZone->getName() == "Tunnel 2"
                 || currentZone->getName() == "Castle Right" || currentZone->getName() == "Castle End Room") {
                 camera.update(player.getPosition(), deltaTime, false, false, currentZone->bounds, 1.4f);
             }
@@ -166,14 +226,14 @@ void Game::update(float deltaTime) {
                 camera.update(player.getPosition(), deltaTime, false, false, currentZone->bounds);
             }
         }
-
         else {
             camera.resetToDefault();
             camera.update(player.getPosition(), deltaTime, false, true);
         }
+
         if (sword && player.getHitbox().intersects(sword->getBounds())) {
             player.addItemToInventory(*sword);
-            sword.reset(); 
+            sword.reset();
         }
         if (mainCastleDoorKey && player.getHitbox().intersects(mainCastleDoorKey->getBounds())) {
             player.addItemToInventory(*mainCastleDoorKey);
@@ -183,6 +243,13 @@ void Game::update(float deltaTime) {
     else {
         camera.resetToDefault();
         camera.update(player.getPosition(), deltaTime, true, true);
+    }
+}
+
+void Game::drawEnemies()
+{
+    for (auto& enemy : ennemies) {
+        enemy->draw(window);
     }
 }
 
@@ -210,9 +277,13 @@ void Game::render() {
 
         player.draw(window);
         drawEnemies();
-        this->boss->draw(window);
 
-        if (showHitBox) {
+        if (bossAlreadySpawn) {
+            this->boss->draw(window);
+
+        }
+
+        if (showHitBox) { 
             player.drawHitBox(window);
         }
         if (showInventoryUI) {
@@ -262,30 +333,30 @@ void Game::drawPauseMenu() {
     window.draw(overlay);
 }
 
-void Game::checkCollisionsPlayerEnemies()
-{
-    for (const auto& enemy : ennemies) {
-        if (player.getGlobalBounds().intersects(enemy->getGlobalBounds()) && !godMode) {
-            player.damage(enemy->getDamage());
-            checkIfPlayerIsDead();
-        }
-    }
-    if (player.getGlobalBounds().intersects(boss->getGlobalBounds()) && !godMode) {
-        player.damage(boss->getDamage());
-        checkIfPlayerIsDead();
-    }
-}
+void Game::drawInventory(sf::RenderWindow& window) {
+    sf::RectangleShape inventoryBackground(sf::Vector2f(400, 300)); // Taille de l'inventaire
+    inventoryBackground.setFillColor(sf::Color(0, 0, 0, 200)); // Fond semi-transparent
+    inventoryBackground.setPosition(window.getView().getCenter().x - 200, window.getView().getCenter().y - 150);
 
-void Game::checkIfPlayerIsDead()
-{
-    if (player.isDead()) {
-        currentState = GameState::GAMEOVER;
-    }
-}
+    window.draw(inventoryBackground);
 
-bool Game::getGodMode() const
-{
-    return godMode;
+    sf::Font font;
+    if (!font.loadFromFile("assets/fonts/arial.ttf")) {
+        std::cout << "Erreur chargement de la police\n";
+        return;
+    }
+    sf::Text inventoryText;
+    inventoryText.setFont(font);
+    inventoryText.setCharacterSize(20);
+    inventoryText.setFillColor(sf::Color::White);
+
+    float offsetY = 10;
+    for (const auto& item : player.getInventory().getItems()) {
+        inventoryText.setString("- " + item.getName() + " (Valeur: " + std::to_string(item.getValue()) + ")");
+        inventoryText.setPosition(window.getView().getCenter().x - 190, window.getView().getCenter().y - 140 + offsetY);
+        offsetY += 30;
+        window.draw(inventoryText);
+    }
 }
 
 void Game::run() {
@@ -416,46 +487,6 @@ void Game::handleGameState(sf::Event& event)
             ignoreNextClick = true;
             break;
         }
-    }
-}
-
-void Game::updateEnemies(float deltaTime)
-{
-    for (auto& enemy : ennemies) {
-        enemy->update(deltaTime, map.getBushes());
-    }
-}
-
-void Game::drawEnemies()
-{
-    for (auto& enemy : ennemies) {
-        enemy->draw(window);
-    }
-}
-
-void Game::drawInventory(sf::RenderWindow& window) {
-    sf::RectangleShape inventoryBackground(sf::Vector2f(400, 300)); // Taille de l'inventaire
-    inventoryBackground.setFillColor(sf::Color(0, 0, 0, 200)); // Fond semi-transparent
-    inventoryBackground.setPosition(window.getView().getCenter().x - 200, window.getView().getCenter().y - 150);
-
-    window.draw(inventoryBackground);
-
-    sf::Font font;
-    if (!font.loadFromFile("assets/fonts/arial.ttf")) {
-        std::cout << "Erreur chargement de la police\n";
-        return;
-    }
-  sf::Text inventoryText;
-    inventoryText.setFont(font);
-    inventoryText.setCharacterSize(20);
-    inventoryText.setFillColor(sf::Color::White);
-
-    float offsetY = 10;
-    for (const auto& item : player.getInventory().getItems()) {
-        inventoryText.setString("- " + item.getName() + " (Valeur: " + std::to_string(item.getValue()) + ")");
-        inventoryText.setPosition(window.getView().getCenter().x - 190, window.getView().getCenter().y - 140 + offsetY);
-        offsetY += 30;
-        window.draw(inventoryText);
     }
 }
 

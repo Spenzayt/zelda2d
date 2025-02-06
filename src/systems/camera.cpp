@@ -18,7 +18,6 @@ void Camera::update(const sf::Vector2f& playerPosition, float deltaTime, bool is
         if (instant) {
             view.setCenter(targetPosition);
             setZoom(zoom);
-            std::cout << "error : Player is outside the map" << std::endl;
         }
 
        else {

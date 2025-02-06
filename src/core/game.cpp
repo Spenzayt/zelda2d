@@ -132,12 +132,12 @@ void Game::checkCollisionsPlayerEnemies() {
             checkIfPlayerIsDead();
         }
     }
-    if (bossAlreadySpawn) {
+   /* if (bossAlreadySpawn) {
         if (player.getGlobalBounds().intersects(boss->getGlobalBounds()) && !godMode) {
             player.damage(boss->getDamage());
             checkIfPlayerIsDead();
         }
-    }
+    }*/
 }
 
 void Game::checkIfPlayerIsDead() {
@@ -266,9 +266,6 @@ void Game::render() {
         player.draw(window);
         drawEnemies();
 
-        if (bossAlreadySpawn) {
-            this->boss->draw(window);
-        }
         if (showHitBox) { 
             player.drawHitBox(window);
         }

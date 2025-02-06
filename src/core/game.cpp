@@ -89,7 +89,7 @@ void Game::initEnemies()
 
     // boss
     //this->boss = new Boss(0, sf::Vector2f(5400, 5400), 100, 15, 5, player);
-    ennemies.push_back(std::make_unique<Boss>(0, sf::Vector2f(5400, 5400), 100, 15, 5, player));
+    ennemies.push_back(std::make_unique<Boss>(0, sf::Vector2f(2053, 9045), 100, 15, 5, player));
 }
 
 void Game::createWindow() {

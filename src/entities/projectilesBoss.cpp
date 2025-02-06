@@ -15,10 +15,9 @@ void ProjectilesBoss::initTexture()
 
 }
 
-ProjectilesBoss::ProjectilesBoss(sf::Vector2f position, sf::Vector2f direction, float speed)
+ProjectilesBoss::ProjectilesBoss(sf::Vector2f position, sf::Vector2f direction, float speed) : startPosition(position)
 {
 	initSprite();
-	initTexture();
 
 	sprite.setPosition(position);
 	sprite.setScale(1.5f, 1.5f);
@@ -33,6 +32,7 @@ void ProjectilesBoss::update(float deltaTime)
 
 void ProjectilesBoss::draw(sf::RenderWindow& window)
 {
+	initTexture();
 	window.draw(sprite);
 }
 

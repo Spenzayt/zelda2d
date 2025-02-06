@@ -28,7 +28,7 @@ protected:
     Player& player;
 
     sf::Vector2f position;
-    float shootCooldown = 2.0f;
+    float shootCooldown = 1.0f;
     float timeSinceLastShot = 0.0f;
     float visionRadius;
     bool canShoot;

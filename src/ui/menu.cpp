@@ -10,7 +10,7 @@ void Menu::initFont()
 
 int Menu::initMenuTexture()
 {
-    if (!texture.loadFromFile("assets/images/menu/zeldamenu.png"));
+    if (!texture.loadFromFile("assets/images/menu/nouveaumenu.png"));
     return -1;
 }
 

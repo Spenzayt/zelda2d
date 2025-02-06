@@ -11,18 +11,27 @@ class Inventory {
 public:
     void addItem(const Item<T>& item) {
         items.push_back(item);
-        std::cout << item.getName() << " ajouté à l'inventaire.\n";
+        std::cout << item.getName() << " add to inventory\n";
     }
 
     void removeItem(const std::string& itemName) {
         for (auto it = items.begin(); it != items.end(); ++it) {
             if (it->getName() == itemName) {
-                std::cout << it->getName() << " retiré de l'inventaire.\n";
+                std::cout << it->getName() << " remove from inventory\n";
                 items.erase(it);
                 return;
             }
         }
         std::cout << "Objet " << itemName << " introuvable !\n";
+    }
+
+    bool hasItem(const std::string& itemName) const {
+        for (const auto& item : items) {
+            if (item.getName() == itemName) {
+                return true;
+            }
+        }
+        return false;
     }
 
     void displayInventory() const {
@@ -43,4 +52,3 @@ private:
 };
 
 #endif // INVENTORY_HPP
-

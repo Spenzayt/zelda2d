@@ -3,32 +3,26 @@
 #include "Entity.hpp"
 #include "../core/InputHandler.hpp"
 #include "../systems/Physics.hpp"
-#include "../src/objet/Inventory.hpp"
-#include "../src/objet/Item.hpp"
+#include "../objet/Inventory.hpp"
+#include "../objet/Item.hpp"
+#include "../map/Map.hpp"
 
 class Player : public Entity
 {
 public:
     Player(sf::Vector2f position, float size, const std::string& texturePath, float hp);
 
-    enum PlayerLocation {
-        OUTSIDE,
-        INSIDE_HOUSE,
-        INSIDE_CASTLE
-    };
-
     void update(float deltatime, const std::vector<sf::Sprite>& bushes) override;
     void draw(sf::RenderWindow& window) override;
     void handleInput(float deltatime);
-    void increaseSpeed(float amount);
+    void setSpeed(float amount);
     sf::Vector2f getMovementDelta(float deltatime) const;
-    void collectKey();
     void checkCollisionWithWalls(const std::vector<sf::RectangleShape>& walls);
     void checkCollisionWithMap(const std::vector<sf::Sprite>& bushes);
-    void checkHouseEntry(const sf::FloatRect& houseEntry, PlayerLocation& location);
-    void checkHouseExit(const sf::FloatRect& houseExit, PlayerLocation& location);
+    void checkDoor(const std::vector<Map::Door>& doors);
     void addItemToInventory(const Item<int>& item) { inventory.addItem(item); }
     void removeItemFromInventory(const std::string& itemName) { inventory.removeItem(itemName); }
+    bool hasItemInInventory(const std::string& itemName) const { return inventory.hasItem(itemName); }
     void showInventory() const { inventory.displayInventory(); }
 
 
@@ -63,5 +57,4 @@ protected:
     
     Physics physics;
     sf::FloatRect hitbox;
-
 };

@@ -161,6 +161,7 @@ sfml-system.lib
     <ClCompile Include="src\entities\player.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\map\map.cpp" />
+    <ClCompile Include="src\objet\key.cpp" />
     <ClCompile Include="src\objet\masterSword.cpp" />
     <ClCompile Include="src\systems\camera.cpp" />
     <ClCompile Include="src\systems\konamiCode.cpp" />
@@ -183,6 +184,7 @@ sfml-system.lib
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\objet\Inventory.hpp" />
     <ClInclude Include="src\objet\Item.hpp" />
+    <ClInclude Include="src\objet\Key.hpp" />
     <ClInclude Include="src\objet\MasterSword.hpp" />
     <ClInclude Include="src\systems\Camera.hpp" />
     <ClInclude Include="src\systems\KonamiCode.hpp" />

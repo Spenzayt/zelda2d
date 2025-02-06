@@ -2,7 +2,7 @@
 #include <iostream>
 
 Sword::Sword(sf::Vector2f position) : Item("MasterSword", 1) {
-    if (!texture.loadFromFile("assets\\images\\Item\\MasterSword.png")) {
+    if (!texture.loadFromFile("assets/images/Item/MasterSword.png")) {
         std::cerr << "Erreur chargement de l'image de l'épée !" << std::endl;
     }
     sprite.setTexture(texture);
@@ -15,5 +15,13 @@ void Sword::draw(sf::RenderWindow& window) {
 }
 
 sf::FloatRect Sword::getBounds() const {
-    return sprite.getGlobalBounds();
+    sf::FloatRect bounds = sprite.getGlobalBounds();
+
+    float margin = 40.0f;
+    bounds.left -= margin;
+    bounds.top -= margin;
+    bounds.width += 2 * margin;
+    bounds.height += 2 * margin;
+
+    return bounds;
 }

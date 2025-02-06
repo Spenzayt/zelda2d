@@ -51,6 +51,7 @@ public:
     bool areAllTorchesOn();
 
     std::vector<Door> doors;
+    void handleMouseClick(sf::Vector2f mousePosition);
 
 private:
     sf::Texture mapHitboxTexture;

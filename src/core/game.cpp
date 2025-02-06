@@ -112,6 +112,14 @@ void Game::processEvents() {
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right) {
             player.attack(ennemies);
         }
+        if (event.type == sf::Event::MouseButtonPressed) {
+            if (event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                map.handleMouseClick(mousePos);
+            }
+        }
+
+
     }
     handleGameState(event);
 }

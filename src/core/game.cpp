@@ -87,7 +87,7 @@ void Game::initEnemies()
     ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player, soundManager));
     ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player, soundManager));
 
-    this->boss = new Boss(0, sf::Vector2f(5410, 5300), 100, 15, 5);
+    this->boss = new Boss(0, sf::Vector2f(2053, 9045), 100, 15, 5);
 
 }
 
@@ -245,23 +245,6 @@ void Game::render() {
         player.draw(window);
         drawPauseMenu();
         win.draw(window);
-    }
-    if (currentState == GameState::BOSS) {
-        map.draw(window);
-
-        camera.applyView(window);
-
-        if (showHitBox) {
-            map.drawMapHitBox(window);
-        }
-
-        player.draw(window);
-        drawEnemies();
-        this->boss->draw(window);
-
-        if (showHitBox) {
-            player.drawHitBox(window);
-        }
     }
     window.display();
 }
@@ -476,7 +459,6 @@ void Game::resetGame()
 {
     player.setPosition(sf::Vector2f(330, 130));
     player.reset();
-    //playerLocation = Player::PlayerLocation::INSIDE_HOUSE;
 
     ennemies.clear();
     initEnemies();

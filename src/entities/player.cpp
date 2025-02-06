@@ -130,7 +130,7 @@ void Player::draw(sf::RenderWindow& window) {
 
     life.setTexture(textureLife);
     float xLife = viewCenter.x + (viewSize.x / 2);
-    //life.setPosition(center.x + window.getSize().x / 2 - 217.f, center.y - window.getSize().y / 2);
+    life.setPosition(viewBounds.left + 1150.f, viewBounds.top + 5.f);
     window.draw(life);
 }
 

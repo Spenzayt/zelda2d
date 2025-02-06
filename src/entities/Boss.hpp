@@ -19,8 +19,9 @@ public:
     void shoot();
 
     sf::FloatRect getGlobalBounds() const override;
+    void setPath(const std::vector<sf::Vector2f>& points);
     int getDamage() const override;
-    
+    void moveToNextPoint(float deltaTime);
 protected:
     sf::Sprite sprite;
     sf::Texture texture;
@@ -35,9 +36,10 @@ protected:
 
     float speed;
     float distanceTraveled = 0.f;
-
+    float distanceThreshold;
     int size;
-    
+    std::vector<sf::Vector2f> pathPoints;
+    int currentPointIndex;
     void initSprite();
     void initTexture();
 

@@ -20,6 +20,9 @@ canShoot(false), visionRadius(1000.f)
 	initTexture();
 	position = p;
 
+    currentPointIndex = 0;
+    distanceThreshold = 5.f;
+
 	sprite.setPosition(position);
 	sprite.setScale(size *1.2f, size * 1.2f);
 }
@@ -27,6 +30,7 @@ canShoot(false), visionRadius(1000.f)
 void Boss::update(float deltaTime, const std::vector<sf::Sprite>& bushes)
 {
     
+    moveToNextPoint(deltaTime);
     sf::Vector2f playerPos = player.getPosition();
     sf::Vector2f arrowStartPos = sprite.getPosition();
     sf::Vector2f direction = playerPos - arrowStartPos;
@@ -99,8 +103,33 @@ sf::FloatRect Boss::getGlobalBounds() const
 	return sprite.getGlobalBounds();
 }
 
+void Boss::setPath(const std::vector<sf::Vector2f>& points)
+{
+    pathPoints = points;
+    currentPointIndex = 0;
+}
+
 int Boss::getDamage() const
 {
 	return damage;
+}
+
+void Boss::moveToNextPoint(float deltaTime)
+{
+    if (pathPoints.empty()) return;
+
+    sf::Vector2f target = pathPoints[currentPointIndex];
+    sf::Vector2f direction = target - position;
+
+    float magnitude = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+
+    if (magnitude <= distanceThreshold) {
+        currentPointIndex = (currentPointIndex + 1) % pathPoints.size();
+    }
+    else {
+        direction /= magnitude;
+        position += direction * speed;
+        sprite.setPosition(position);
+    }
 }
 

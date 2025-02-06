@@ -70,17 +70,38 @@ void Game::initEnemies() {
     auto bokoblin3 = std::make_unique<Bokoblin>(5, sf::Vector2f(4910, 4146), 100, 5, 5);
     bokoblin3->setPath({ { 4910, 4146 }, { 5360, 4611 }, { 5513, 4159 } });
 
-    //ennemies.push_back(std::move(bokoblin1));
-    //ennemies.push_back(std::move(bokoblin2));
-    //ennemies.push_back(std::move(bokoblin3));
+    auto bokoblin4 = std::make_unique<Bokoblin>(5, sf::Vector2f(3690, 1131), 100, 5, 5);
+    bokoblin4->setPath({ { 3690, 1131 }, { 3718, 1552 }, { 3939, 1552 }, { 3939, 2184 },{ 3939, 1552 }, { 3718, 1552 } });
+
+    auto bokoblin5 = std::make_unique<Bokoblin>(5, sf::Vector2f(4674, 2133), 100, 5, 5);
+    bokoblin5->setPath({{4674, 2133}, {4269, 2133}, {4269, 1302}, {4269, 2133}, {4269, 1302}, {4269, 2133} });
+
+    auto bokoblin6 = std::make_unique<Bokoblin>(5, sf::Vector2f(3588, 9359), 100, 5, 5);
+    bokoblin6->setPath({ {3588, 9359}, {4220, 9359 }, {4269, 8862}, {3583, 8862}, {4269, 8862}, {4220, 9359} });
+    
+    auto bokoblin7 = std::make_unique<Bokoblin>(5, sf::Vector2f(510, 9485), 100, 5, 5);
+    bokoblin7->setPath({ {510, 9485}, {510, 8583 }, {510, 9485}});
+
+    ennemies.push_back(std::move(bokoblin1));
+    ennemies.push_back(std::move(bokoblin2));
+    ennemies.push_back(std::move(bokoblin3));
+    ennemies.push_back(std::move(bokoblin4));
+    ennemies.push_back(std::move(bokoblin5));
+    ennemies.push_back(std::move(bokoblin6));
+    ennemies.push_back(std::move(bokoblin7));
 
     // ennemies qui suit le joueur
     ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(5819, 3868), 100, 5, 5, player));
-    //ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(2352, 4409), 100, 5, 5, player));
+    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(2352, 4409), 100, 5, 5, player));
 
     // archers
-    //ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player, soundManager));
-    //ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player, soundManager));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player, soundManager));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player, soundManager));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(796, 8935), 100, 10, 5, player, soundManager));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4382, 8473), 100, 10, 5, player, soundManager));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(1158, 2811), 100, 10, 5, player, soundManager));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(930, 2811), 100, 10, 5, player, soundManager));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(679, 2811), 100, 10, 5, player, soundManager));
    
 }
 
@@ -174,7 +195,9 @@ void Game::update(float deltaTime) {
     if (currentState == GameState::PLAYING) {
         if (!bossAlreadySpawn) {
             if (map.areAllTorchesOn()) {
-                ennemies.push_back(std::make_unique<Boss>(0, sf::Vector2f(2053, 9045), 100, 15, 5, player));
+                auto boss1 = std::make_unique<Boss>(2, sf::Vector2f(2355, 9245), 100, 15, 5, player);
+                boss1->setPath({ {2355, 9245}, {1835, 9245 }, {1835, 8933} , {2355, 8933} });
+                ennemies.push_back(std::move(boss1));
                 bossAlreadySpawn = true;
             }
         }

@@ -6,7 +6,7 @@
 #include "../objet/Inventory.hpp"
 #include "../objet/Item.hpp"
 #include "../map/Map.hpp"
-#include "../src/entities/Enemy.hpp"
+#include "../entities/Enemy.hpp"
 
 class Player : public Entity
 {
@@ -27,10 +27,7 @@ public:
     void showInventory() const { inventory.displayInventory(); }
     void attack(std::vector<std::unique_ptr<Enemy>>& enemies);
 
-
-
     const sf::Sprite& getSprite() const { return player; }
-    bool hasKey;
     bool hasSword() const;
     
     void reset();
@@ -50,8 +47,6 @@ public:
     sf::FloatRect getHitbox() const;
     void drawHitBox(sf::RenderWindow& window);
     const Inventory<int>& getInventory() const { return inventory; }
-
-    
 
 private :
     Inventory<int>inventory;
@@ -74,5 +69,4 @@ protected:
     sf::FloatRect hitbox;
     void initHeartTexture();
     void initLifeTexture();
-
 };

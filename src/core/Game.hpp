@@ -20,9 +20,11 @@
 #include "../systems/KonamiCode.hpp"
 #include "../systems/SoundManager.hpp"
 #include "../entities/Boss.hpp"
-
+#include "../objet/MasterSword.hpp"
+#include "../objet/Key.hpp"
 #include <vector>
 #include <memory>
+
 class Map;
 class Player;
 class Patrolling;
@@ -54,6 +56,7 @@ public:
     bool godMode;
     bool noclip;
     bool showHitBox;
+    bool fullSpeed;
 
     void loadAudio();
     void setMusicVolume(float volume);
@@ -64,7 +67,7 @@ private:
     void processEvents();
     void update(float deltaTime);
     void render();
-    void handleDebugActions(sf::Event& event);
+    void drawInventory(sf::RenderWindow& window);
 
     void resetGame();
     void resetPlayer();
@@ -76,8 +79,10 @@ private:
     Boss* boss;
 
     std::vector<std::unique_ptr<Enemy>> ennemies;
-  
     Player::PlayerLocation playerLocation;
+
+    std::unique_ptr<Sword> sword;
+    std::unique_ptr<Key> mainCastleDoorKey;
 
     GameState currentState;
     MainMenu mainMenu;
@@ -103,6 +108,7 @@ private:
 
     bool ignoreNextClick;
     bool isGamePaused;
+    bool showInventoryUI;
 };
 
 #endif // GAME_HPP

@@ -2,11 +2,12 @@
 #include <iostream>
 
 Game::Game() : isRunning(false), camera(),
-    player(sf::Vector2f(300, 130), 60, "assets/images/characters/Link.png", 50), 
-    currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false),
-    showHitBox(false), noclip(false), godMode(false), playerLocation(Player::PlayerLocation::INSIDE_HOUSE),
-    musicVolume(50.f), soundVolume(50.f) {
-    
+player(sf::Vector2f(2000, 9200), 60, "assets/images/characters/Link.png", 5), // (330, 130)
+sword(std::make_unique<Sword>(sf::Vector2f(943, 5020))),
+mainCastleDoorKey(std::make_unique<Key>("Castle Main Door Key", "assets/images/Item/key2.png", sf::Vector2f(1430, 3390))),
+    currentState(GameState::PLAYING), ignoreNextClick(false), isGamePaused(false), showInventoryUI(false),
+    showHitBox(false), noclip(false), godMode(false), fullSpeed(false), musicVolume(50.f), soundVolume(50.f) {
+
     initEnemies();
     createWindow();
 
@@ -26,6 +27,16 @@ Game::Game() : isRunning(false), camera(),
     konamiCode.setDebugAction(sf::Keyboard::F3, [this]() {
         showHitBox = !showHitBox;
         std::cout << "Debug Action F3: showHitBox is now " << (showHitBox ? "ON" : "OFF") << std::endl;
+        });
+    konamiCode.setDebugAction(sf::Keyboard::F4, [this]() {
+        fullSpeed = !fullSpeed;
+        if (fullSpeed) {
+            player.setSpeed(4000);
+        }
+        else {
+            player.setSpeed(100);
+        }
+        std::cout << "Debug Action F4: Full Speed is now " << (fullSpeed ? "ON" : "OFF") << std::endl;
         });
 }
 
@@ -104,6 +115,10 @@ void Game::processEvents() {
         if (konamiCode.isKonamiActivated()) {
             konamiCode.handleDebugActions(event);
         }
+        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::I) {
+            showInventoryUI = !showInventoryUI;
+        }
+
     }
     handleGameState(event);
 }
@@ -113,7 +128,7 @@ void Game::update(float deltaTime) {
     soundManager.setSoundVolume(optionsMenu.getSoundLevel());
 
     if (currentState == GameState::PLAYING) {
-        map.update(deltaTime);
+        map.update(deltaTime, player.getHitbox());
 
         player.update(deltaTime, map.getBushes());
         checkIfPlayerIsDead();
@@ -128,20 +143,38 @@ void Game::update(float deltaTime) {
             player.setPosition(player.getPosition() + player.getMovementDelta(deltaTime));
         }
 
-        player.checkHouseEntry(map.getHouseEntry(), playerLocation);
-        if (playerLocation == Player::PlayerLocation::INSIDE_HOUSE) {
-            player.checkHouseExit(map.getHouseExit(), playerLocation);
-        }
+        player.checkDoor(map.doors);
 
         const Map::Zone* currentZone = map.getZoneContaining(player.getPosition());
-        if (currentZone) {
-            camera.update(player.getPosition(), deltaTime, false, false, currentZone->bounds);
+        if (currentZone != nullptr) {
+            if (currentZone->getName() == "Spawn House" 
+                || currentZone->getName() == "Tunnel 1" || currentZone->getName() == "Tunnel 2" 
+                || currentZone->getName() == "Castle Right" || currentZone->getName() == "Castle End Room") {
+                camera.update(player.getPosition(), deltaTime, false, false, currentZone->bounds, 1.4f);
+            }
+            else if (currentZone->getName() == "Castle Left") {
+                camera.update(player.getPosition(), deltaTime, false, false, currentZone->bounds, 1.9f);
+            }
+            else if (currentZone->getName() == "Castle Middle") {
+                camera.update(player.getPosition(), deltaTime, false, false, currentZone->bounds, 1.f);
+            }
+            else {
+                camera.update(player.getPosition(), deltaTime, false, false, currentZone->bounds);
+            }
         }
+
         else {
             camera.resetToDefault();
             camera.update(player.getPosition(), deltaTime, false, true);
         }
-
+        if (sword && player.getHitbox().intersects(sword->getBounds())) {
+            player.addItemToInventory(*sword);
+            sword.reset(); 
+        }
+        if (mainCastleDoorKey && player.getHitbox().intersects(mainCastleDoorKey->getBounds())) {
+            player.addItemToInventory(*mainCastleDoorKey);
+            mainCastleDoorKey.reset();
+        }
     }
     else {
         camera.resetToDefault();
@@ -164,12 +197,22 @@ void Game::render() {
             map.drawMapHitBox(window);
         }
 
+        if (mainCastleDoorKey) {
+            mainCastleDoorKey->draw(window);
+        }
+        if (sword) {
+            sword->draw(window);
+        }
+
         player.draw(window);
         drawEnemies();
         this->boss->draw(window);
 
         if (showHitBox) {
             player.drawHitBox(window);
+        }
+        if (showInventoryUI) {
+            drawInventory(window);
         }
     }
     if (currentState == GameState::OPTIONS) {
@@ -188,6 +231,7 @@ void Game::render() {
         drawPauseMenu();
         pauseMenu.render(window);
     }
+
     if (currentState == GameState::GAMEOVER) {
         map.draw(window);
         camera.applyView(window);
@@ -259,7 +303,7 @@ bool Game::getGodMode() const
 
 void Game::run() {
     sf::Clock clock;
-
+    
     while (isRunning) {
         processEvents();
         float deltaTime = clock.restart().asSeconds();
@@ -402,24 +446,29 @@ void Game::drawEnemies()
     }
 }
 
-void Game::handleDebugActions(sf::Event& event) {
-    if (event.type == sf::Event::KeyPressed) {
-        switch (event.key.code) {
-        case sf::Keyboard::F1:
-            showHitBox = !showHitBox;
-            std::cout << "Debug Action F1: showHitBox is now " << (showHitBox ? "ON" : "OFF") << std::endl;
-            break;
-        case sf::Keyboard::F2:
-            noclip = !noclip;
-            std::cout << "Debug Action F2: noclip is now " << (noclip ? "ON" : "OFF") << std::endl;
-            break;
-        case sf::Keyboard::F3:
-            godMode = !godMode;
-            std::cout << "Debug Action F4: godMode is now " << (godMode ? "ON" : "OFF") << std::endl;
-            break;
-        default:
-            break;
-        }
+void Game::drawInventory(sf::RenderWindow& window) {
+    sf::RectangleShape inventoryBackground(sf::Vector2f(400, 300)); // Taille de l'inventaire
+    inventoryBackground.setFillColor(sf::Color(0, 0, 0, 200)); // Fond semi-transparent
+    inventoryBackground.setPosition(window.getView().getCenter().x - 200, window.getView().getCenter().y - 150);
+
+    window.draw(inventoryBackground);
+
+    sf::Font font;
+    if (!font.loadFromFile("assets/fonts/arial.ttf")) {
+        std::cout << "Erreur chargement de la police\n";
+        return;
+    }
+  sf::Text inventoryText;
+    inventoryText.setFont(font);
+    inventoryText.setCharacterSize(20);
+    inventoryText.setFillColor(sf::Color::White);
+
+    float offsetY = 10;
+    for (const auto& item : player.getInventory().getItems()) {
+        inventoryText.setString("- " + item.getName() + " (Valeur: " + std::to_string(item.getValue()) + ")");
+        inventoryText.setPosition(window.getView().getCenter().x - 190, window.getView().getCenter().y - 140 + offsetY);
+        offsetY += 30;
+        window.draw(inventoryText);
     }
 }
 
@@ -443,3 +492,5 @@ void Game::resetPlayer()
     ennemies.clear();
     initEnemies();
 }
+
+

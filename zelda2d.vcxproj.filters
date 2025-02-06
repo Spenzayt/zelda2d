@@ -46,6 +46,12 @@
     <Filter Include="Fichiers d%27en-tête\utils">
       <UniqueIdentifier>{c6c36407-0de0-414a-94be-454a01af776e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\objet">
+      <UniqueIdentifier>{0724fa8f-8fe8-4e03-8a60-beb88abf9602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\objet">
+      <UniqueIdentifier>{f393c01c-4123-44a9-abca-5992aca0f730}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\systems\physics.cpp">
@@ -113,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="src\entities\boss.cpp">
       <Filter>Fichiers sources\entities</Filter>
+     </ClCompile>
+    <ClCompile Include="src\objet\masterSword.cpp">
+      <Filter>Fichiers sources\objet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objet\key.cpp">
+      <Filter>Fichiers sources\objet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +196,18 @@
     </ClInclude>
     <ClInclude Include="src\entities\Boss.hpp">
       <Filter>Fichiers d%27en-tête\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objet\Inventory.hpp">
+      <Filter>Fichiers d%27en-tête\objet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objet\Item.hpp">
+      <Filter>Fichiers d%27en-tête\objet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objet\MasterSword.hpp">
+      <Filter>Fichiers d%27en-tête\objet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objet\Key.hpp">
+      <Filter>Fichiers d%27en-tête\objet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

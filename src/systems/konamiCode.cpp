@@ -1,7 +1,7 @@
 #include "KonamiCode.hpp"
 #include <iostream>
 
-KonamiCode::KonamiCode() : activated(false) {
+KonamiCode::KonamiCode() : activated(true) {
     konamiCode = {
         sf::Keyboard::Up, sf::Keyboard::Up,
         sf::Keyboard::Down, sf::Keyboard::Down,

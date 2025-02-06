@@ -2,7 +2,9 @@
 #include <iostream>
 
 Enemy::Enemy(float s, sf::Vector2f p, int hp, int d) : speed(s), position(p), heal(hp), damage(d) {}
+
 void Enemy::takeDamage(int dmg) {
+    std::cout << "damage!" << std::endl;
     heal -= dmg;
     if (heal <= 0) {
         std::cout << "Enemy defeated!" << std::endl;

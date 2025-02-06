@@ -81,7 +81,7 @@ private:
 
     Map map;
     Player player;
-    Boss* boss;
+    //Boss* boss;
 
     std::vector<std::unique_ptr<Enemy>> ennemies;
     std::unique_ptr<Sword> sword;

@@ -4,7 +4,7 @@
 std::mutex mtx;
 
 Game::Game() : isRunning(false), camera(),
-player(sf::Vector2f(330, 130), 60, "assets/images/characters/Link.png", 50),
+player(sf::Vector2f(330, 130), 60, "assets/images/characters/link.png", 50),
 sword(std::make_unique<Sword>(sf::Vector2f(943, 5020))),
 mainCastleDoorKey(std::make_unique<Key>("Castle Main Door Key", "assets/images/Item/key2.png", sf::Vector2f(1430, 3390))),
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false), showInventoryUI(false), bossAlreadySpawn(false),

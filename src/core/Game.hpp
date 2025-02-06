@@ -46,6 +46,11 @@ public:
         OPTIONS,
     };
 
+    bool godMode;
+    bool noclip;
+    bool showHitBox;
+    bool fullSpeed;
+
     void run();
     void handleGameState(sf::Event& event);
     void updateEnemies(float deltaTime);
@@ -57,14 +62,11 @@ public:
     void checkCollisionsPlayerEnemies();
     void checkIfPlayerIsDead();
     bool getGodMode() const;
-    bool godMode;
-    bool noclip;
-    bool showHitBox;
-    bool fullSpeed;
 
     void loadAudio();
     void setMusicVolume(float volume);
     void setSoundVolume(float volume);
+
 private:
     void initEnemies();
     void createWindow();
@@ -84,8 +86,6 @@ private:
     Boss* boss;
 
     std::vector<std::unique_ptr<Enemy>> ennemies;
-    //Player::PlayerLocation playerLocation;
-
     std::unique_ptr<Sword> sword;
     std::unique_ptr<Key> mainCastleDoorKey;
 
@@ -93,10 +93,8 @@ private:
     MainMenu mainMenu;
     PauseMenu pauseMenu;
     OptionsMenu optionsMenu;
-
     GameOver gameOver;
     Win win;
-
     Camera camera;
     KonamiCode konamiCode;
     SoundManager soundManager;
@@ -106,7 +104,6 @@ private:
     sf::Music backgroundMusic;
     std::vector<sf::Sound> soundEffects;
     sf::SoundBuffer soundBuffer;
-
 
     float musicVolume;
     float soundVolume;

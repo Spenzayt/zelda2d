@@ -14,12 +14,13 @@ void Chaser::initTexture()
 	sprite.setTexture(texture);
 }
 
-Chaser::Chaser(float s, sf::Vector2f p, int hp, int d, float size, const Player& playerRef) : Enemy(s, p, hp, d), size(size), position(p), speed(s), 
+Chaser::Chaser(float s, sf::Vector2f p, int hp, int d, float size, const Player& playerRef) : Enemy(s, p, hp, d), size(size), speed(s), 
 player(playerRef), visionRadius(500), isChasing(false)
 {
 	initSprite();
 	initTexture();
 
+	position = p;
 	sprite.setPosition(position);
 	sprite.setScale(0.7, 0.7);
 }

@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath, float hp) {
+Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath, float hp) : hasKey(false) {
     position = spawnposition;
     previousPosition = position;
 
@@ -23,7 +23,6 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
         sf::Sprite heart(fullHeartTexture);
         hearts.push_back(heart);
     }
- 
 
     player.setTexture(texture);
     player.setScale(size / static_cast<float>(texture.getSize().x), size / static_cast<float>(texture.getSize().y));
@@ -364,12 +363,12 @@ void Player::checkDoor(const std::vector<Map::Door>& doors) {
 void Player::attack(std::vector<std::unique_ptr<Enemy>>& enemies) {
     if (!hasSword()) return;
 
-    float attackRange = 50.0f;
+    float attackRange = 100.0f;
 
     // Supprime les ennemis morts apr�s l'attaque
     enemies.erase(
         std::remove_if(enemies.begin(), enemies.end(),
-            [this, attackRange](std::unique_ptr<Enemy>& enemy) {
+             [this, attackRange](std::unique_ptr<Enemy>& enemy) {
                 float distance = std::hypot(enemy->getPosition().x - position.x,
                     enemy->getPosition().y - position.y);
                 if (distance < attackRange) {

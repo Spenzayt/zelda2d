@@ -79,7 +79,7 @@ private:
     Boss* boss;
 
     std::vector<std::unique_ptr<Enemy>> ennemies;
-    Player::PlayerLocation playerLocation;
+    //Player::PlayerLocation playerLocation;
 
     std::unique_ptr<Sword> sword;
     std::unique_ptr<Key> mainCastleDoorKey;

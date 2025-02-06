@@ -2,10 +2,10 @@
 #include <iostream>
 
 Game::Game() : isRunning(false), camera(),
-player(sf::Vector2f(2000, 9200), 60, "assets/images/characters/Link.png", 5), // (330, 130)
+player(sf::Vector2f(330, 130), 60, "assets/images/characters/Link.png", 50), // (330, 130)
 sword(std::make_unique<Sword>(sf::Vector2f(943, 5020))),
 mainCastleDoorKey(std::make_unique<Key>("Castle Main Door Key", "assets/images/Item/key2.png", sf::Vector2f(1430, 3390))),
-    currentState(GameState::PLAYING), ignoreNextClick(false), isGamePaused(false), showInventoryUI(false),
+    currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false), showInventoryUI(false),
     showHitBox(false), noclip(false), godMode(false), fullSpeed(false), musicVolume(50.f), soundVolume(50.f) {
 
     initEnemies();
@@ -474,9 +474,9 @@ void Game::drawInventory(sf::RenderWindow& window) {
 
 void Game::resetGame()
 {
-    player.setPosition(sf::Vector2f(300, 130));
+    player.setPosition(sf::Vector2f(330, 130));
     player.reset();
-    playerLocation = Player::PlayerLocation::INSIDE_HOUSE;
+    //playerLocation = Player::PlayerLocation::INSIDE_HOUSE;
 
     ennemies.clear();
     initEnemies();

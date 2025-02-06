@@ -2,7 +2,8 @@
 #include <iostream>
 
 Game::Game() : isRunning(false), camera(),
-player(sf::Vector2f(330, 130), 60, "assets/images/characters/Link.png", 50),
+player(sf::Vector2f(330, 130), 60, "assets/images/characters/link.png", 50),
+zelda(sf::Vector2f(5125, 6600), 60, "assets/images/characters/zelda.png"),
 sword(std::make_unique<Sword>(sf::Vector2f(943, 5020))),
 mainCastleDoorKey(std::make_unique<Key>("Castle Main Door Key", "assets/images/Item/key2.png", sf::Vector2f(1430, 3390))),
     currentState(GameState::MAIN_MENU), ignoreNextClick(false), isGamePaused(false), showInventoryUI(false), bossAlreadySpawn(false),
@@ -207,6 +208,10 @@ void Game::update(float deltaTime) {
 
         player.checkDoor(map.doors);
 
+        if (player.getGlobalBounds().intersects(zelda.getGlobalBounds())) {
+            currentState = GameState::VICTORY;
+        }
+
         const Map::Zone* currentZone = map.getZoneContaining(player.getPosition());
         if (currentZone != nullptr) {
             if (currentZone->getName() == "Spawn House"
@@ -273,6 +278,7 @@ void Game::render() {
             sword->draw(window);
         }
 
+        zelda.draw(window);
         player.draw(window);
         drawEnemies();
 

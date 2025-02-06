@@ -9,6 +9,7 @@
 #include "../entities/Bokoblin.hpp"
 #include "../entities/Chaser.hpp"
 #include "../entities/Archer.hpp"
+#include "../entities/Zelda.hpp"
 #include "../ui/Menu.hpp"
 #include "../ui/MainMenu.hpp"
 #include "../ui/PauseMenu.hpp"
@@ -79,6 +80,7 @@ private:
 
     Map map;
     Player player;
+    Zelda zelda;
     Boss* boss;
 
     std::vector<std::unique_ptr<Enemy>> ennemies;

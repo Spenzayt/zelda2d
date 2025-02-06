@@ -2,8 +2,7 @@
 #include <iostream>
 
 
-Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath, float hp) : hasKey(false)
-{
+Player::Player(sf::Vector2f spawnposition, float size, const std::string& texturePath, float hp) {
     position = spawnposition;
     previousPosition = position;
 
@@ -285,7 +284,12 @@ void Player::checkDoor(const std::vector<Map::Door>& doors) {
                 break;
             }
             else if (door.name.find("Entry Castle Door 4") != std::string::npos) {
-                setPosition(sf::Vector2f(5130, 7900));
+                if (hasItemInInventory("Boss Key")) {
+                    setPosition(sf::Vector2f(5130, 7900));
+                }
+                else {
+                    std::cout << "You need the Boss Key to enter." << std::endl;
+                }
                 break;
             }
             else if (door.name.find("Exit Castle Door 4") != std::string::npos) {
@@ -362,7 +366,7 @@ void Player::attack(std::vector<std::unique_ptr<Enemy>>& enemies) {
 
     float attackRange = 50.0f;
 
-    // Supprime les ennemis morts après l'attaque
+    // Supprime les ennemis morts aprï¿½s l'attaque
     enemies.erase(
         std::remove_if(enemies.begin(), enemies.end(),
             [this, attackRange](std::unique_ptr<Enemy>& enemy) {

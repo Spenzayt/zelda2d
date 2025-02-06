@@ -160,6 +160,8 @@ sfml-system.lib
     <ClCompile Include="src\entities\chaser.cpp" />
     <ClCompile Include="src\entities\Enemy.cpp" />
     <ClCompile Include="src\entities\player.cpp" />
+    <ClCompile Include="src\entities\projectilesBoss.cpp" />
+    <ClCompile Include="src\entities\zelda.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\map\map.cpp" />
     <ClCompile Include="src\objet\key.cpp" />
@@ -187,6 +189,8 @@ sfml-system.lib
     <ClInclude Include="src\entities\Enemy.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />
     <ClInclude Include="src\entities\Player.hpp" />
+    <ClInclude Include="src\entities\ProjectilesBoss.hpp" />
+    <ClInclude Include="src\entities\Zelda.hpp" />
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\objet\Inventory.hpp" />
     <ClInclude Include="src\objet\Item.hpp" />
@@ -204,6 +208,7 @@ sfml-system.lib
     <ClInclude Include="src\ui\Renderer.hpp" />
     <ClInclude Include="src\ui\Win.hpp" />
     <ClInclude Include="src\utils\Config.hpp" />
+    <ClInclude Include="Zelda.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

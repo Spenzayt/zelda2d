@@ -14,21 +14,42 @@ public:
     struct Zone {
         sf::FloatRect bounds;
         std::string name;
+
+        std::string getName() const {
+            return name;
+        }
+    };
+
+    struct Door {
+        sf::FloatRect bounds;
+        std::string name;
+    };
+
+    struct Button {
+        sf::Sprite sprite;
+        bool isOn;
+    };
+
+    struct TorchStand {
+        sf::Sprite sprite;
+        bool isOn;
     };
 
     void importAllTextures(sf::RenderWindow& window);
     void loadBackgroundFromImage();
-    void update(float deltaTime);
+    void update(float deltaTime, const sf::FloatRect& playerHitbox);
     void draw(sf::RenderWindow& window);
 
     const Zone* getZoneContaining(const sf::Vector2f& position) const;
     void addZone(const sf::FloatRect& bounds, const std::string& name);
 
-    const std::vector<sf::Sprite>& getBushes() const;
+    const std::vector<sf::Sprite> getBushes() const;
     void drawMapHitBox(sf::RenderWindow& window);
 
-    const sf::FloatRect& getHouseEntry() const;
-    const sf::FloatRect& getHouseExit() const;
+    void addDoor(const sf::FloatRect& bounds, const std::string& name);
+    const Door* getDoor(const std::string& name) const;
+
+    std::vector<Door> doors;
 
 private:
     sf::Texture mapHitboxTexture;
@@ -41,9 +62,9 @@ private:
 
     std::map<std::string, MapElement> mapElements;
     std::vector<Zone> zones;
-
-    sf::FloatRect houseEntry;
-    sf::FloatRect houseExit;
+    std::vector<Button> buttons;
+    std::vector<TorchStand> torchStands;
+    std::vector<std::pair<int, int>> buttonTorchPairs;
 };
 
 #endif // MAP_H

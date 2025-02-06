@@ -13,9 +13,11 @@
 #include "../ui/OptionsMenu.hpp"
 #include "../systems/camera.hpp"
 #include "../systems/KonamiCode.hpp"
-#include "../src/objet/MasterSword.hpp"
+#include "../objet/MasterSword.hpp"
+#include "../objet/Key.hpp"
 #include <vector>
 #include <memory>
+
 class Map;
 class Player;
 class Patrolling;
@@ -43,6 +45,7 @@ public:
     bool godMode;
     bool noclip;
     bool showHitBox;
+    bool fullSpeed;
 
 private:
     void initEnemies();
@@ -50,7 +53,6 @@ private:
     void processEvents();
     void update(float deltaTime);
     void render();
-    void handleDebugActions(sf::Event& event);
     void drawInventory(sf::RenderWindow& window);
 
     sf::RenderWindow window;
@@ -62,8 +64,7 @@ private:
     
     std::vector<std::unique_ptr<Enemy>> ennemies;
     std::unique_ptr<Sword> sword;
-
-    Player::PlayerLocation playerLocation;
+    std::unique_ptr<Key> mainCastleDoorKey;
 
     GameState currentState;
     MainMenu mainMenu;
@@ -76,7 +77,7 @@ private:
 
     bool ignoreNextClick;
     bool isGamePaused;
-    bool showInventoryUI = false;
+    bool showInventoryUI;
 };
 
 #endif // GAME_HPP

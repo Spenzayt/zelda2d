@@ -87,8 +87,9 @@ void Game::initEnemies()
     ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player, soundManager));
     ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player, soundManager));
 
-    this->boss = new Boss(0, sf::Vector2f(2053, 9045), 100, 15, 5);
-
+    // boss
+    //this->boss = new Boss(0, sf::Vector2f(5400, 5400), 100, 15, 5, player);
+    ennemies.push_back(std::make_unique<Boss>(0, sf::Vector2f(5400, 5400), 100, 15, 5, player));
 }
 
 void Game::createWindow() {
@@ -206,7 +207,7 @@ void Game::render() {
 
         player.draw(window);
         drawEnemies();
-        this->boss->draw(window);
+       // this->boss->draw(window);
 
         if (showHitBox) {
             player.drawHitBox(window);
@@ -266,10 +267,10 @@ void Game::checkCollisionsPlayerEnemies()
             checkIfPlayerIsDead();
         }
     }
-    if (player.getGlobalBounds().intersects(boss->getGlobalBounds()) && !godMode) {
+    /*if (player.getGlobalBounds().intersects(boss->getGlobalBounds()) && !godMode) {
         player.damage(boss->getDamage());
         checkIfPlayerIsDead();
-    }
+    }*/
 }
 
 void Game::checkIfPlayerIsDead()

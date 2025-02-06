@@ -119,12 +119,15 @@
     </ClCompile>
     <ClCompile Include="src\entities\boss.cpp">
       <Filter>Fichiers sources\entities</Filter>
-     </ClCompile>
+    </ClCompile>
     <ClCompile Include="src\objet\masterSword.cpp">
       <Filter>Fichiers sources\objet</Filter>
     </ClCompile>
     <ClCompile Include="src\objet\key.cpp">
       <Filter>Fichiers sources\objet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\projectilesBoss.cpp">
+      <Filter>Fichiers sources\entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="src\objet\Key.hpp">
       <Filter>Fichiers d%27en-tête\objet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\ProjectilesBoss.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

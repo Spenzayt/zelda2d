@@ -81,6 +81,7 @@ void Game::initEnemies() {
     // archers
     ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player, soundManager));
     ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player, soundManager));
+   
 }
 
 void Game::createWindow() {
@@ -131,12 +132,12 @@ void Game::checkCollisionsPlayerEnemies() {
             checkIfPlayerIsDead();
         }
     }
-    if (bossAlreadySpawn) {
+   /* if (bossAlreadySpawn) {
         if (player.getGlobalBounds().intersects(boss->getGlobalBounds()) && !godMode) {
             player.damage(boss->getDamage());
             checkIfPlayerIsDead();
         }
-    }
+    }*/
 }
 
 void Game::checkIfPlayerIsDead() {
@@ -173,7 +174,7 @@ void Game::update(float deltaTime) {
     if (currentState == GameState::PLAYING) {
         if (!bossAlreadySpawn) {
             if (map.areAllTorchesOn()) {
-                this->boss = new Boss(0, sf::Vector2f(2053, 9045), 100, 15, 5);
+                ennemies.push_back(std::make_unique<Boss>(0, sf::Vector2f(2053, 9045), 100, 15, 5, player));
                 bossAlreadySpawn = true;
             }
         }
@@ -265,9 +266,6 @@ void Game::render() {
         player.draw(window);
         drawEnemies();
 
-        if (bossAlreadySpawn) {
-            this->boss->draw(window);
-        }
         if (showHitBox) { 
             player.drawHitBox(window);
         }
@@ -316,10 +314,12 @@ void Game::drawPauseMenu() {
     window.draw(overlay);
 }
 
+
 void Game::drawInventory(sf::RenderWindow& window) {
     sf::RectangleShape inventoryBackground(sf::Vector2f(400, 300)); // Taille de l'inventaire
     inventoryBackground.setFillColor(sf::Color(0, 0, 0, 200)); // Fond semi-transparent
     inventoryBackground.setPosition(window.getView().getCenter().x - 200, window.getView().getCenter().y - 150);
+
 
     window.draw(inventoryBackground);
 

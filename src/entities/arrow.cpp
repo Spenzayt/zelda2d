@@ -15,8 +15,7 @@ void Arrow::initTexture(){
 
 Arrow::Arrow(sf::Vector2f position, sf::Vector2f direction, float speed) : startPosition(position) {
 	initSprite();
-	initTexture();
-
+	
 	sprite.setPosition(position);
 	sprite.setScale(1.5f, 1.5f);
 	float magnitude = std::sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -29,6 +28,7 @@ void Arrow::update(float deltaTime) {
 
 void Arrow::draw(sf::RenderWindow& window)
 {
+	initTexture();
 	window.draw(sprite);
 }
 

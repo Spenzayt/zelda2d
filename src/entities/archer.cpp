@@ -75,7 +75,6 @@ void Archer::update(float deltaTime, const std::vector<sf::Sprite>& bushes)
 
 void Archer::shoot()
 {
-
 	sf::Vector2f playerPos = player.getPosition();
 	sf::Vector2f arrowStartPos = sprite.getPosition();
 	sf::Vector2f direction = playerPos - arrowStartPos;

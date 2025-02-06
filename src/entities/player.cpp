@@ -7,15 +7,24 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
     position = spawnposition;
     previousPosition = position;
 
-    maxHp = 5;
+    maxHp = 50;
     heal = hp;
-
-   // damage = 10;
     speed = 100;
+    damageCooldown = 1.0f;
+
 
     if (!texture.loadFromFile(texturePath)) {
         std::cerr << "Error loading texture from: " << texturePath << std::endl;
     }
+
+    initHeartTexture();
+    initLifeTexture();
+
+    for (int i = 0; i < maxHp / 10; i++) {
+        sf::Sprite heart(fullHeartTexture);
+        hearts.push_back(heart);
+    }
+ 
 
     player.setTexture(texture);
     player.setScale(size / static_cast<float>(texture.getSize().x), size / static_cast<float>(texture.getSize().y));
@@ -38,6 +47,9 @@ void Player::update(float deltatime, const std::vector<sf::Sprite>& bushes) {
     previousPosition = position;
     handleInput(deltatime);
 
+    if (damageCooldown > 0) {
+        damageCooldown -= deltatime;
+    }
     sf::Vector2f newPosition = position + getMovementDelta(deltatime);
     hitbox.left = newPosition.x;
     hitbox.top = newPosition.y;
@@ -73,6 +85,31 @@ void Player::draw(sf::RenderWindow& window) {
         return;
     }
 
+    float heartSpacing = 40.f;
+    float marginTop = 55.f;
+    float marginRight = 10.f;
+
+    sf::Vector2f viewSize = window.getView().getSize();
+    sf::Vector2f viewCenter = window.getView().getCenter();
+
+    float x = viewCenter.x + (viewSize.x / 2) - marginRight - (maxHp / 10) * heartSpacing;
+
+        for (int i = 0; i < maxHp / 10; i++) {
+            hearts[i].setPosition(x + i * heartSpacing, viewCenter.y - (viewSize.y / 2) + marginTop) ;
+
+            if (heal >= (i + 1) * 10) {
+                hearts[i].setTexture(fullHeartTexture);
+            }
+            else if (heal >= i * 10 + 5) {
+                hearts[i].setTexture(halfHeartTexture);
+             }
+            else {
+                hearts[i].setTexture(emptyHeartTexture);
+            }
+
+            window.draw(hearts[i]);
+        }
+    
     sf::Text text;
     text.setFont(font);
     text.setString("Player Position: (" + std::to_string(static_cast<int>(position.x)) + ", " + std::to_string(static_cast<int>(position.y)) + ")");
@@ -90,6 +127,11 @@ void Player::draw(sf::RenderWindow& window) {
     text.setPosition(viewBounds.left + 10.f, viewBounds.top + 10.f);
 
     window.draw(text);
+
+    life.setTexture(textureLife);
+    float xLife = viewCenter.x + (viewSize.x / 2);
+    life.setPosition(center.x + window.getSize().x / 2 - 217.f, center.y - window.getSize().y / 2);
+    window.draw(life);
 }
 
 void Player::drawHitBox(sf::RenderWindow& window) {
@@ -100,6 +142,24 @@ void Player::drawHitBox(sf::RenderWindow& window) {
     hitboxShape.setOutlineColor(sf::Color::Blue);
     hitboxShape.setOutlineThickness(2.f);
     window.draw(hitboxShape);
+}
+
+void Player::initHeartTexture()
+{
+    if (!fullHeartTexture.loadFromFile("assets/images/interface/fullheart.png") ||
+        !halfHeartTexture.loadFromFile("assets/images/interface/halfheart.png") || 
+    !emptyHeartTexture.loadFromFile("assets/images/interface/emptyheart.png")) {
+        std::cerr << "Error loading the heart textures !" << std::endl;
+    }
+}
+
+void Player::initLifeTexture()
+{
+    if (!textureLife.loadFromFile("assets/images/interface/life.png")) {
+        std::cerr << "Error loading life texture !" << std::endl;
+    }
+
+    
 }
 
 void Player::checkCollisionWithWalls(const std::vector<sf::RectangleShape>& walls) {
@@ -123,15 +183,19 @@ void Player::checkCollisionWithMap(const std::vector<sf::Sprite>& bushes) {
 void Player::reset()
 {
     heal = maxHp;
-    player.setPosition(sf::Vector2f(4850, 5200));
+
 }
 
 void Player::damage(int damages)
 {
-    heal -= damages;
-    if (heal < 0) {
-        heal = 0;
+    if (damageCooldown <= 0) {
+        heal -= damages;
+        if (heal < 0) {
+            heal = 0;
+        }
     }
+    
+    damageCooldown = 1.0f;
 }
 
 sf::Vector2f Player::getPosition() const {
@@ -146,6 +210,11 @@ float Player::getHealth() const
 float Player::getSpeed() const
 {
     return speed;
+}
+
+sf::FloatRect Player::getGlobalBounds() const
+{
+    return player.getGlobalBounds();
 }
 
 bool Player::isDead() const

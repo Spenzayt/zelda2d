@@ -6,10 +6,13 @@ player(sf::Vector2f(2000, 9200), 60, "assets/images/characters/Link.png", 5), //
 sword(std::make_unique<Sword>(sf::Vector2f(943, 5020))),
 mainCastleDoorKey(std::make_unique<Key>("Castle Main Door Key", "assets/images/Item/key2.png", sf::Vector2f(1430, 3390))),
     currentState(GameState::PLAYING), ignoreNextClick(false), isGamePaused(false), showInventoryUI(false),
-    showHitBox(false), noclip(false), godMode(false), fullSpeed(false) {
-    
+    showHitBox(false), noclip(false), godMode(false), fullSpeed(false), musicVolume(50.f), soundVolume(50.f) {
+
     initEnemies();
     createWindow();
+
+    loadAudio();
+
     map.importAllTextures(window);
     map.loadBackgroundFromImage();
 
@@ -39,17 +42,37 @@ mainCastleDoorKey(std::make_unique<Key>("Castle Main Door Key", "assets/images/I
 
 Game::~Game() {}
 
+void Game::loadAudio()
+{
+    soundManager.loadMusic("menu", "assets/audio/menu_music.mp3");
+    soundManager.loadMusic("game", "assets/audio/game_music.mp3");
+
+    soundManager.loadSound("arrow", "assets/audio/arrow.wav");
+}
+
+void Game::setMusicVolume(float volume)
+{
+    musicVolume = volume;
+    soundManager.setMusicVolume(volume);
+}
+
+void Game::setSoundVolume(float volume)
+{
+    soundVolume = volume;
+    soundManager.setSoundVolume(volume);
+}
+
 void Game::initEnemies()
 {
+    
     // ennemies avec mouvements pr�d�finis
-
-    auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 10, 5);
+    auto bokoblin1 = std::make_unique<Bokoblin>(5, sf::Vector2f(5975, 5669), 100, 5, 5); // speed, position, hp, damage, size
     bokoblin1->setPath({ { 5975,5669 }, {4420, 5669}, {3360, 5669}, {3360, 5220}, {3360, 5669} });
 
-    auto bokoblin2 = std::make_unique<Bokoblin>(5, sf::Vector2f(2553, 3670), 100, 10, 5);
+    auto bokoblin2 = std::make_unique<Bokoblin>(5, sf::Vector2f(2553, 3670), 100, 5, 5);
     bokoblin2->setPath({ { 2553, 3685 }, { 5272, 3685 } });
 
-    auto bokoblin3 = std::make_unique<Bokoblin>(5, sf::Vector2f(4910, 4146), 100, 10, 5);
+    auto bokoblin3 = std::make_unique<Bokoblin>(5, sf::Vector2f(4910, 4146), 100, 5, 5);
     bokoblin3->setPath({ { 4910, 4146 }, { 5360, 4611 }, { 5513, 4159 } });
 
     ennemies.push_back(std::move(bokoblin1));
@@ -57,12 +80,14 @@ void Game::initEnemies()
     ennemies.push_back(std::move(bokoblin3));
 
     // ennemies qui suit le joueur
-    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(5819, 3868), 100, 10, 5, player));
-    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(2352, 4409), 100, 10, 5, player));
+    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(5819, 3868), 100, 5, 5, player));
+    ennemies.push_back(std::make_unique<Chaser>(4, sf::Vector2f(2352, 4409), 100, 5, 5, player));
 
     // archers
-    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player));
-    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(3793, 2665), 100, 10, 5, player, soundManager));
+    ennemies.push_back(std::make_unique<Archer>(0, sf::Vector2f(4359, 2665), 100, 10, 5, player, soundManager));
+
+    this->boss = new Boss(0, sf::Vector2f(5410, 5300), 100, 15, 5);
 
 }
 
@@ -99,10 +124,15 @@ void Game::processEvents() {
 }
 
 void Game::update(float deltaTime) {
+    soundManager.setMusicVolume(optionsMenu.getMusicLevel());
+    soundManager.setSoundVolume(optionsMenu.getSoundLevel());
+
     if (currentState == GameState::PLAYING) {
         map.update(deltaTime, player.getHitbox());
 
         player.update(deltaTime, map.getBushes());
+        checkIfPlayerIsDead();
+        checkCollisionsPlayerEnemies();
         for (auto& enemy : ennemies) {
             enemy->update(deltaTime, map.getBushes());
         }
@@ -176,6 +206,7 @@ void Game::render() {
 
         player.draw(window);
         drawEnemies();
+        this->boss->draw(window);
 
         if (showHitBox) {
             player.drawHitBox(window);
@@ -201,6 +232,37 @@ void Game::render() {
         pauseMenu.render(window);
     }
 
+    if (currentState == GameState::GAMEOVER) {
+        map.draw(window);
+        camera.applyView(window);
+        player.draw(window);
+        drawPauseMenu();
+        gameOver.draw(window);
+    }
+    if (currentState == GameState::VICTORY) {
+        map.draw(window);
+        camera.applyView(window);
+        player.draw(window);
+        drawPauseMenu();
+        win.draw(window);
+    }
+    if (currentState == GameState::BOSS) {
+        map.draw(window);
+
+        camera.applyView(window);
+
+        if (showHitBox) {
+            map.drawMapHitBox(window);
+        }
+
+        player.draw(window);
+        drawEnemies();
+        this->boss->draw(window);
+
+        if (showHitBox) {
+            player.drawHitBox(window);
+        }
+    }
     window.display();
 }
 
@@ -211,6 +273,32 @@ void Game::drawPauseMenu() {
     overlay.setSize(sf::Vector2f(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT));
     overlay.setFillColor(sf::Color(0, 0, 0));
     window.draw(overlay);
+}
+
+void Game::checkCollisionsPlayerEnemies()
+{
+    for (const auto& enemy : ennemies) {
+        if (player.getGlobalBounds().intersects(enemy->getGlobalBounds()) && !godMode) {
+            player.damage(enemy->getDamage());
+            checkIfPlayerIsDead();
+        }
+    }
+    if (player.getGlobalBounds().intersects(boss->getGlobalBounds()) && !godMode) {
+        player.damage(boss->getDamage());
+        checkIfPlayerIsDead();
+    }
+}
+
+void Game::checkIfPlayerIsDead()
+{
+    if (player.isDead()) {
+        currentState = GameState::GAMEOVER;
+    }
+}
+
+bool Game::getGodMode() const
+{
+    return godMode;
 }
 
 void Game::run() {
@@ -227,6 +315,9 @@ void Game::run() {
 
 void Game::handleGameState(sf::Event& event)
 {
+    static std::string currentMusicState = "";
+    static bool isMusicPaused = false;
+
     if (ignoreNextClick) {
         if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
             ignoreNextClick = false;
@@ -234,27 +325,45 @@ void Game::handleGameState(sf::Event& event)
         return;
     }
     if (currentState == GameState::MAIN_MENU) {
+    
+        if (currentMusicState != "menu") {
+            soundManager.stopMusic();
+            soundManager.playMusic("menu", true);
+            currentMusicState = "menu";
+            isMusicPaused = false;
+        }
+
         mainMenu.handleMouseHover(window);
         int action = mainMenu.handleInput(window, event);
 
         switch (action) {
         case 0:
+            resetGame();
             currentState = GameState::PLAYING;
             ignoreNextClick = true;
             break;
         case 1:
             currentState = GameState::OPTIONS;
-            ignoreNextClick = true;
             break;
         case 2:
             isRunning = false;
             break;
         }
     }
+    if (currentState == GameState::PLAYING) {
+        if (currentMusicState != "game") {
+
+            if (!isMusicPaused) {
+                soundManager.stopMusic();
+                soundManager.playMusic("game", true);
+                currentMusicState = "game";
+            }
+            isMusicPaused = false;
+        }
+    }
     if (currentState == GameState::OPTIONS) {
         optionsMenu.handleMouseHover(window);
         int action = optionsMenu.handleInput(window, event);
-
         if (action == 2) {
             if (isGamePaused) {
                 currentState = GameState::PLAYING;
@@ -267,6 +376,11 @@ void Game::handleGameState(sf::Event& event)
         }
     }
     if (currentState == GameState::PAUSE) {
+        if (currentMusicState != "pause") {
+            soundManager.stopMusic();
+            soundManager.playMusic("menu", true);
+            currentMusicState = "pause";
+        }
         pauseMenu.handleMouseHover(window);
         int action = pauseMenu.handleInput(window, event);
 
@@ -277,11 +391,41 @@ void Game::handleGameState(sf::Event& event)
             break;
         case 1:
             currentState = GameState::OPTIONS;
-            ignoreNextClick = true;
             break;
         case 2:
             currentState = GameState::MAIN_MENU;
             isGamePaused = false;
+            ignoreNextClick = true;
+            break;
+        }
+    }
+    if (currentState == GameState::GAMEOVER) {
+        gameOver.handleMouseHover(window);
+        int action = gameOver.handleInput(window, event);
+        switch (action) {
+        case 0:
+            resetPlayer();
+            currentState = GameState::PLAYING;
+            isGamePaused = false;
+            break;
+        case 1:
+            resetGame();
+            break;
+        case 2:
+            currentState = GameState::MAIN_MENU;
+            ignoreNextClick = true;
+            break;
+        }
+    }
+    if (currentState == GameState::VICTORY) {
+        win.handleMouseHover(window);
+        int action = win.handleInput(window, event);
+        switch (action) {
+        case 0:
+            resetGame();
+            break;
+        case 1:
+            currentState = GameState::MAIN_MENU;
             ignoreNextClick = true;
             break;
         }
@@ -314,8 +458,7 @@ void Game::drawInventory(sf::RenderWindow& window) {
         std::cout << "Erreur chargement de la police\n";
         return;
     }
-
-    sf::Text inventoryText;
+  sf::Text inventoryText;
     inventoryText.setFont(font);
     inventoryText.setCharacterSize(20);
     inventoryText.setFillColor(sf::Color::White);
@@ -328,3 +471,26 @@ void Game::drawInventory(sf::RenderWindow& window) {
         window.draw(inventoryText);
     }
 }
+
+void Game::resetGame()
+{
+    player.setPosition(sf::Vector2f(300, 130));
+    player.reset();
+    playerLocation = Player::PlayerLocation::INSIDE_HOUSE;
+
+    ennemies.clear();
+    initEnemies();
+
+    currentState = GameState::PLAYING;
+    isGamePaused = false;
+}
+
+void Game::resetPlayer()
+{
+    player.reset();
+
+    ennemies.clear();
+    initEnemies();
+}
+
+

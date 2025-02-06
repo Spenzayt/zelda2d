@@ -36,6 +36,7 @@ public:
     sf::Vector2f getPosition() const;
     float getHealth() const;
     float getSpeed() const;
+    sf::FloatRect getGlobalBounds() const;
     bool isDead() const;
 
     void setPosition(const sf::Vector2f& position);
@@ -53,8 +54,17 @@ protected:
     sf::Texture texture;
     sf::Vector2f previousPosition;
     
+    sf::Texture fullHeartTexture, halfHeartTexture, emptyHeartTexture;
+    std::vector<sf::Sprite> hearts;
+   
+    sf::Texture textureLife;
+    sf::Sprite life;
     int maxHp;
-    
+    float damageCooldown;
+
     Physics physics;
     sf::FloatRect hitbox;
+    void initHeartTexture();
+    void initLifeTexture();
+
 };

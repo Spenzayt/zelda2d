@@ -4,13 +4,13 @@
 void Menu::initFont()
 {
     if (!font.loadFromFile("assets/fonts/test.otf")) {
-        std::cout << "Error loading the font!" << std::endl;
+        std::cerr << "Error loading the font!" << std::endl;
     }
 }
 
 int Menu::initMenuTexture()
 {
-    if (!texture.loadFromFile("assets/images/menu/wallpapersword.jpg"));
+    if (!texture.loadFromFile("assets/images/menu/nouveaumenu.png"));
     return -1;
 }
 
@@ -31,10 +31,10 @@ void Menu::handleMouseHover(const sf::RenderWindow& window)
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     for (auto& button : buttons) {
         if (button.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-            button.setFillColor(sf::Color::White);
+            button.setFillColor(sf::Color(48, 51, 49));
         }
         else {
-            button.setFillColor(sf::Color(168, 168, 168));
+            button.setFillColor(sf::Color(24, 99, 68));
         }
     }
 
@@ -44,21 +44,21 @@ void Menu::handleMouseHover(const sf::RenderWindow& window)
 
         if (isHoveredText || isHoveredShape) {
             if (i < keyShapes.size()) keyShapes[i].setFillColor(sf::Color::Black);
-            buttons[i].setFillColor(sf::Color::White);
+            buttons[i].setFillColor(sf::Color(48, 51, 49));
         }
         else {
             if (i < keyShapes.size()) keyShapes[i].setFillColor(sf::Color(0, 0, 0, 150));
-            buttons[i].setFillColor(sf::Color(168, 168, 168));
+            buttons[i].setFillColor(sf::Color(24, 99, 68));
         }   
     }
 
     if (returnText.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-        returnButton.setFillColor(sf::Color::Black);
-        returnText.setFillColor(sf::Color::White);
+        returnButton.setFillColor(sf::Color::White);
+        returnText.setFillColor(sf::Color(48, 51, 49));
     }
     else {
         returnButton.setFillColor(sf::Color(0, 0, 0, 150));
-        returnText.setFillColor(sf::Color(168, 168, 168));
+        returnText.setFillColor(sf::Color(24, 99, 68));
     }
 }
 

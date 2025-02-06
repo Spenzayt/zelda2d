@@ -2,6 +2,8 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 #include "../map/Map.hpp"
 #include "../entities/Player.hpp"
 #include "../entities/Bokoblin.hpp"
@@ -11,8 +13,13 @@
 #include "../ui/MainMenu.hpp"
 #include "../ui/PauseMenu.hpp"
 #include "../ui/OptionsMenu.hpp"
+#include "../ui/Renderer.hpp"
+#include "../ui/GameOver.hpp"
+#include "../ui/Win.hpp"
 #include "../systems/camera.hpp"
 #include "../systems/KonamiCode.hpp"
+#include "../systems/SoundManager.hpp"
+#include "../entities/Boss.hpp"
 #include "../objet/MasterSword.hpp"
 #include "../objet/Key.hpp"
 #include <vector>
@@ -33,7 +40,8 @@ public:
         PAUSE,
         VICTORY,
         GAMEOVER,
-        OPTIONS
+        OPTIONS,
+        BOSS
     };
 
     void run();
@@ -42,11 +50,17 @@ public:
     void drawEnemies();
     void drawPauseMenu();
 
+    void checkCollisionsPlayerEnemies();
+    void checkIfPlayerIsDead();
+    bool getGodMode() const;
     bool godMode;
     bool noclip;
     bool showHitBox;
     bool fullSpeed;
 
+    void loadAudio();
+    void setMusicVolume(float volume);
+    void setSoundVolume(float volume);
 private:
     void initEnemies();
     void createWindow();
@@ -55,14 +69,18 @@ private:
     void render();
     void drawInventory(sf::RenderWindow& window);
 
+    void resetGame();
+    void resetPlayer();
     sf::RenderWindow window;
     bool isRunning;
 
     Map map;
     Player player;
+    Boss* boss;
 
-    
     std::vector<std::unique_ptr<Enemy>> ennemies;
+    Player::PlayerLocation playerLocation;
+
     std::unique_ptr<Sword> sword;
     std::unique_ptr<Key> mainCastleDoorKey;
 
@@ -70,10 +88,23 @@ private:
     MainMenu mainMenu;
     PauseMenu pauseMenu;
     OptionsMenu optionsMenu;
+
+    GameOver gameOver;
+    Win win;
+
     Camera camera;
     KonamiCode konamiCode;
+    SoundManager soundManager;
 
     sf::RectangleShape overlay;
+
+    sf::Music backgroundMusic;
+    std::vector<sf::Sound> soundEffects;
+    sf::SoundBuffer soundBuffer;
+
+
+    float musicVolume;
+    float soundVolume;
 
     bool ignoreNextClick;
     bool isGamePaused;

@@ -105,6 +105,21 @@
     <ClCompile Include="src\systems\konamiCode.cpp">
       <Filter>Fichiers sources\systems</Filter>
     </ClCompile>
+    <ClCompile Include="src\ui\renderer.cpp">
+      <Filter>Fichiers sources\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\gameOver.cpp">
+      <Filter>Fichiers sources\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\win.cpp">
+      <Filter>Fichiers sources\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\soundManager.cpp">
+      <Filter>Fichiers sources\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\boss.cpp">
+      <Filter>Fichiers sources\entities</Filter>
+     </ClCompile>
     <ClCompile Include="src\objet\masterSword.cpp">
       <Filter>Fichiers sources\objet</Filter>
     </ClCompile>
@@ -166,6 +181,21 @@
     </ClInclude>
     <ClInclude Include="src\systems\KonamiCode.hpp">
       <Filter>Fichiers d%27en-tête\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\Renderer.hpp">
+      <Filter>Fichiers d%27en-tête\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\GameOver.hpp">
+      <Filter>Fichiers d%27en-tête\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\Win.hpp">
+      <Filter>Fichiers d%27en-tête\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\SoundManager.hpp">
+      <Filter>Fichiers d%27en-tête\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Boss.hpp">
+      <Filter>Fichiers d%27en-tête\entities</Filter>
     </ClInclude>
     <ClInclude Include="src\objet\Inventory.hpp">
       <Filter>Fichiers d%27en-tête\objet</Filter>

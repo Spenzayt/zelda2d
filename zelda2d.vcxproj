@@ -156,6 +156,7 @@ sfml-system.lib
     <ClCompile Include="src\entities\archer.cpp" />
     <ClCompile Include="src\entities\arrow.cpp" />
     <ClCompile Include="src\entities\bokoblin.cpp" />
+    <ClCompile Include="src\entities\boss.cpp" />
     <ClCompile Include="src\entities\chaser.cpp" />
     <ClCompile Include="src\entities\Enemy.cpp" />
     <ClCompile Include="src\entities\player.cpp" />
@@ -166,10 +167,14 @@ sfml-system.lib
     <ClCompile Include="src\systems\camera.cpp" />
     <ClCompile Include="src\systems\konamiCode.cpp" />
     <ClCompile Include="src\systems\physics.cpp" />
+    <ClCompile Include="src\systems\soundManager.cpp" />
+    <ClCompile Include="src\ui\gameOver.cpp" />
     <ClCompile Include="src\ui\mainMenu.cpp" />
     <ClCompile Include="src\ui\menu.cpp" />
     <ClCompile Include="src\ui\optionsMenu.cpp" />
     <ClCompile Include="src\ui\pauseMenu.cpp" />
+    <ClCompile Include="src\ui\renderer.cpp" />
+    <ClCompile Include="src\ui\win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp" />
@@ -177,6 +182,7 @@ sfml-system.lib
     <ClInclude Include="src\entities\Archer.hpp" />
     <ClInclude Include="src\entities\Arrow.hpp" />
     <ClInclude Include="src\entities\Bokoblin.hpp" />
+    <ClInclude Include="src\entities\Boss.hpp" />
     <ClInclude Include="src\entities\Chaser.hpp" />
     <ClInclude Include="src\entities\Enemy.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />
@@ -189,10 +195,14 @@ sfml-system.lib
     <ClInclude Include="src\systems\Camera.hpp" />
     <ClInclude Include="src\systems\KonamiCode.hpp" />
     <ClInclude Include="src\systems\Physics.hpp" />
+    <ClInclude Include="src\systems\SoundManager.hpp" />
+    <ClInclude Include="src\ui\GameOver.hpp" />
     <ClInclude Include="src\ui\MainMenu.hpp" />
     <ClInclude Include="src\ui\Menu.hpp" />
     <ClInclude Include="src\ui\OptionsMenu.hpp" />
     <ClInclude Include="src\ui\PauseMenu.hpp" />
+    <ClInclude Include="src\ui\Renderer.hpp" />
+    <ClInclude Include="src\ui\Win.hpp" />
     <ClInclude Include="src\utils\Config.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

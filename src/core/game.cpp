@@ -481,6 +481,7 @@ void Game::resetGame() {
 }
 
 void Game::resetPlayer() {
+    bossAlreadySpawn = false;
     player.reset();
     ennemies.clear();
     initEnemies();

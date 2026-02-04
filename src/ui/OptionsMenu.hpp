@@ -59,8 +59,8 @@ public:
 	void renderChangeKeysMenu(sf::RenderWindow& window);
 	void render(sf::RenderWindow& window) override;
 
-	int getMusicLevel() const;
-	int getSoundLevel() const;
+	float getMusicLevel() const;
+	float getSoundLevel() const;
 
 };
 

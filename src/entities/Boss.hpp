@@ -7,7 +7,6 @@
 #include "ProjectilesBoss.hpp"
 #include "Player.hpp"
 #include <vector>
-#include <string>
 
 class Boss : public Enemy {
 public:
@@ -22,6 +21,9 @@ public:
     void setPath(const std::vector<sf::Vector2f>& points);
     int getDamage() const override;
     void moveToNextPoint(float deltaTime);
+
+    bool isBoss() const override { return true; }
+
 protected:
     sf::Sprite sprite;
     sf::Texture texture;
@@ -31,15 +33,16 @@ protected:
     sf::Vector2f position;
     float shootCooldown = 1.0f;
     float timeSinceLastShot = 0.0f;
-    float visionRadius;
-    bool canShoot;
+    float visionRadius = 1000.f;
+    bool canShoot = false;
 
     float speed;
     float distanceTraveled = 0.f;
-    float distanceThreshold;
-    int size;
+    float distanceThreshold = 5.f;
+    float size;
     std::vector<sf::Vector2f> pathPoints;
-    int currentPointIndex;
+    int currentPointIndex = 0;
+
     void initSprite();
 
 private:

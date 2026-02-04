@@ -2,14 +2,14 @@
 #define ARCHER_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Entity.hpp"
-#include "Enemy.hpp"
 #include "Player.hpp"
+#include "Enemy.hpp"
 #include "Arrow.hpp"
-#include "../core/Game.hpp"
 #include "../systems/SoundManager.hpp"
 #include <vector>
 #include <string>
+
+class Player;
 
 class Archer : public Enemy {
 private:
@@ -18,7 +18,7 @@ private:
 	float speed;
 	float distanceTraveled = 0.f;
 	sf::Vector2f position;
-	int size;
+	float size;
 	Player& player;
 	SoundManager& soundManager;
 

@@ -15,7 +15,7 @@ private:
 	const Player& player;
 	float speed;
 	sf::Vector2f position;
-	int size;
+	float size;
 
 	float visionRadius;
 	bool isChasing;

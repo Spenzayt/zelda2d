@@ -22,7 +22,7 @@ player(playerRef), visionRadius(500), isChasing(false)
 
 	position = p;
 	sprite.setPosition(position);
-	sprite.setScale(0.7, 0.7);
+	sprite.setScale(0.7f, 0.7f);
 }
 
 void Chaser::update(float deltaTime, const std::vector<sf::Sprite>& bushes)

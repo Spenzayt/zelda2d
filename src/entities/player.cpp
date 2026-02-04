@@ -20,22 +20,16 @@ Player::Player(sf::Vector2f spawnposition, float size, const std::string& textur
     initLifeTexture();
 
     for (int i = 0; i < maxHp / 10; i++) {
-        sf::Sprite heart(fullHeartTexture);
-        hearts.push_back(heart);
+        hearts.push_back(sf::Sprite(fullHeartTexture));
     }
 
     player.setTexture(texture);
-    player.setScale(size / static_cast<float>(texture.getSize().x), size / static_cast<float>(texture.getSize().y));
-    sf::FloatRect bounds = player.getLocalBounds();
-    player.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
+    player.setScale(size / static_cast<float>(texture.getSize().x),
+        size / static_cast<float>(texture.getSize().y));
+    player.setOrigin(player.getLocalBounds().width / 2.f, player.getLocalBounds().height / 2.f);
     player.setPosition(position);
 
-    hitbox = sf::FloatRect(
-        position.x - size / 2,
-        position.y - size / 2,
-        size,
-        size
-    );
+    hitbox = sf::FloatRect(position.x - size / 2.f, position.y - size / 2.f, size, size);
 
     physics.loadCollisionImage();
     physics.resizeCollisionImage(1539*4, 2543*4);
@@ -360,12 +354,12 @@ void Player::checkDoor(const std::vector<Map::Door>& doors) {
         }
     }
 }
-void Player::attack(std::vector<std::unique_ptr<Enemy>>& enemies, bool& bossDefeated) {
+void Player::attack(std::vector<std::unique_ptr<Enemy>>& enemies, bool& bossDefeated)
+{
     if (!hasSword()) return;
 
-    float attackRange = 100.0f;
+    float attackRange = 100.f;
 
-    // Supprime les ennemis morts après l'attaque
     enemies.erase(
         std::remove_if(enemies.begin(), enemies.end(),
             [this, attackRange, &bossDefeated](std::unique_ptr<Enemy>& enemy) {
@@ -373,10 +367,9 @@ void Player::attack(std::vector<std::unique_ptr<Enemy>>& enemies, bool& bossDefe
                     enemy->getPosition().y - position.y);
                 if (distance < attackRange) {
                     enemy->takeDamage(10);
-                    std::cout << "Enemy hit!" << std::endl;
 
-                    // Vérifiez si l'ennemi est le boss
-                    if (enemy->isDead() && dynamic_cast<Boss*>(enemy.get()) != nullptr) {
+                    // Détecter si c'est un Boss via la méthode virtuelle
+                    if (enemy->isDead() && enemy->isBoss()) {
                         bossDefeated = true;
                     }
                 }

@@ -31,6 +31,7 @@
 class Map;
 class Player;
 class Patrolling;
+class Player;
 
 class Game {
 public:
@@ -113,6 +114,7 @@ private:
     bool showInventoryUI;
 
     bool bossAlreadySpawn;
+    bool bossDefeated = false;
 };
 
 #endif // GAME_HPP

@@ -28,7 +28,7 @@ public:
 	bool isDead() const;
 	sf::Vector2f getPosition() const { return position; }
 
-
+	virtual bool isBoss() const { return false; }
 };
 
 #endif // ENEMY_HPP

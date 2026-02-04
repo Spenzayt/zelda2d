@@ -10,7 +10,7 @@ public:
 	virtual void draw(sf::RenderWindow& window) = 0;
 
 protected:
-	int speed;
+	float speed;
 	int damage;
 	float heal;
 

@@ -393,12 +393,12 @@ void OptionsMenu::render(sf::RenderWindow& window)
 	}
 }
 
-int OptionsMenu::getMusicLevel() const
+float OptionsMenu::getMusicLevel() const
 {
 	return musicVolumeLevel;
 }
 
-int OptionsMenu::getSoundLevel() const
+float OptionsMenu::getSoundLevel() const
 {
 	return soundVolumeLevel;
 }

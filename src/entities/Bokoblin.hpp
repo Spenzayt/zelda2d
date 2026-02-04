@@ -26,7 +26,7 @@ protected:
     std::vector<sf::Vector2f> pathPoints;
     int currentPointIndex;
     float distanceThreshold;
-    int size;
+    float size;
     void moveToNextPoint(float deltaTime);
 
     void initSprite();

@@ -24,7 +24,7 @@ Bokoblin::Bokoblin(float s, sf::Vector2f p, int hp, int d, float size) : Enemy(s
 
     position = p;
     sprite.setPosition(position);
-    sprite.setScale(size *0.4, size *0.4);
+    sprite.setScale(size *0.4f, size *0.4f);
     
 }
 

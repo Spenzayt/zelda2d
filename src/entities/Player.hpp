@@ -7,8 +7,9 @@
 #include "../objet/Item.hpp"
 #include "../map/Map.hpp"
 #include "../entities/Enemy.hpp"
-#include "Boss.hpp"
 #include "../objet/key.hpp"
+
+class Boss;
 
 class Player : public Entity
 {
@@ -54,7 +55,6 @@ public:
 private :
     Inventory<int>inventory;
     bool sword;
-
     bool BossKill;
 
 protected:
@@ -67,11 +67,12 @@ protected:
    
     sf::Texture textureLife;
     sf::Sprite life;
-    int maxHp;
+    float maxHp;
     float damageCooldown;
 
     Physics physics;
     sf::FloatRect hitbox;
+
     void initHeartTexture();
     void initLifeTexture();
 };

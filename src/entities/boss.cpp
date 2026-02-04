@@ -1,27 +1,16 @@
 #include "Boss.hpp"
 #include <iostream>
+#include <cmath>
 
 void Boss::initSprite()
 {
     if (!texture.loadFromFile("assets/images/characters/boss.png")) {
-        std::cerr << "Error: Unable to load the Boss texture from " << std::endl;
+        std::cerr << "Error: Unable to load the Boss texture" << std::endl;
     }
     sprite.setTexture(texture);
     sprite.setScale(size * 1.2f, size * 1.2f);
-}
 
-Boss::Boss(float s, sf::Vector2f p, int hp, int d, float size, Player& refPlayer)
-    : Enemy(s, p, hp, d), size(size), speed(s), player(refPlayer), canShoot(false), visionRadius(1000.f) {
-    initSprite();
-    position = p;
-    sprite.setPosition(position);
-
-    currentPointIndex = 0;
-    distanceThreshold = 5.f;
-
-	sprite.setPosition(position);
-	sprite.setScale(size *1.2f, size * 1.2f);
-    // Utiliser les dimensions du sprite après la mise à l'échelle
+    // Hitbox
     sf::FloatRect spriteBounds = sprite.getGlobalBounds();
     hitbox.setSize(sf::Vector2f(spriteBounds.width, spriteBounds.height));
     hitbox.setOrigin(hitbox.getSize() / 2.f);
@@ -30,31 +19,30 @@ Boss::Boss(float s, sf::Vector2f p, int hp, int d, float size, Player& refPlayer
     hitbox.setOutlineThickness(1.f);
 }
 
+Boss::Boss(float s, sf::Vector2f p, int hp, int d, float size, Player& refPlayer)
+    : Enemy(s, p, hp, d), size(size), speed(s), player(refPlayer)
+{
+    initSprite();
+    position = p;
+    sprite.setPosition(position);
+}
+
 void Boss::update(float deltaTime, const std::vector<sf::Sprite>& bushes)
 {
-
     hitbox.setPosition(sprite.getPosition());
 
-    
     moveToNextPoint(deltaTime);
+
     sf::Vector2f playerPos = player.getPosition();
-    sf::Vector2f arrowStartPos = sprite.getPosition();
-    sf::Vector2f direction = playerPos - arrowStartPos;
+    sf::Vector2f direction = playerPos - sprite.getPosition();
+    float distance = std::hypot(direction.x, direction.y);
 
-    float distance = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-
-    if (distance <= visionRadius) {
-        canShoot = true;
-    }
-    else {
-        canShoot = false;
-    }
+    canShoot = distance <= visionRadius;
 
     if (canShoot) {
         timeSinceLastShot += deltaTime;
         if (timeSinceLastShot >= shootCooldown) {
             shoot();
-
             timeSinceLastShot = 0.f;
         }
     }
@@ -83,7 +71,7 @@ void Boss::update(float deltaTime, const std::vector<sf::Sprite>& bushes)
 
 void Boss::draw(sf::RenderWindow& window)
 {
-	window.draw(sprite);
+    window.draw(sprite);
     for (auto& projectile : projectiles) {
         projectile.draw(window);
     }
@@ -91,16 +79,11 @@ void Boss::draw(sf::RenderWindow& window)
 
 void Boss::shoot()
 {
-    sf::Vector2f playerPos = player.getPosition();
-    sf::Vector2f projectileStartPos = sprite.getPosition();
-    sf::Vector2f direction = playerPos - projectileStartPos;
+    sf::Vector2f dir = player.getPosition() - sprite.getPosition();
+    float mag = std::hypot(dir.x, dir.y);
+    if (mag != 0) dir /= mag;
 
-    float magnitude = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-
-    if (magnitude != 0) {
-        direction /= magnitude;
-    }
-    projectiles.emplace_back(projectileStartPos, direction, 300.f);
+    projectiles.emplace_back(sprite.getPosition(), dir, 300.f);
 }
 
 sf::FloatRect Boss::getGlobalBounds() const
@@ -116,7 +99,7 @@ void Boss::setPath(const std::vector<sf::Vector2f>& points)
 
 int Boss::getDamage() const
 {
-	return damage;
+    return damage;
 }
 
 void Boss::moveToNextPoint(float deltaTime)
@@ -124,17 +107,15 @@ void Boss::moveToNextPoint(float deltaTime)
     if (pathPoints.empty()) return;
 
     sf::Vector2f target = pathPoints[currentPointIndex];
-    sf::Vector2f direction = target - position;
+    sf::Vector2f dir = target - position;
+    float mag = std::hypot(dir.x, dir.y);
 
-    float magnitude = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-
-    if (magnitude <= distanceThreshold) {
+    if (mag <= distanceThreshold) {
         currentPointIndex = (currentPointIndex + 1) % pathPoints.size();
     }
     else {
-        direction /= magnitude;
-        position += direction * speed;
+        dir /= mag;
+        position += dir * speed * deltaTime;
         sprite.setPosition(position);
     }
 }
-

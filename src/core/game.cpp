@@ -133,7 +133,7 @@ void Game::processEvents() {
             showInventoryUI = !showInventoryUI;
         }
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right) {
-            player.attack(ennemies);
+            player.attack(ennemies, bossDefeated);
         }
         if (event.type == sf::Event::MouseButtonPressed) {
             if (event.mouseButton.button == sf::Mouse::Left) {

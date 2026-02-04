@@ -1,4 +1,4 @@
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b1b63d43-7b4c-4294-a7cc-9e07f3939c1b" /># The Legend of Zelda Like – 3 Players Edition
+# The Legend of Zelda Like – 3 Players Edition
 
 ## Overview
 
@@ -28,6 +28,8 @@
 
 ---
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ebaa6c95-4fbb-4369-9b78-d30ae470125f" />
+
 ## Gameplay
 
 1. **Start the Game**: Begin in Link’s house.  
@@ -37,6 +39,8 @@
 5. **Save Hyrule**: Defeat Ganon and rescue Princess Zelda to win the game.
 
 ---
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9a737985-8a74-4aca-876a-85ec0133a438" />
 
 ## Development & Team
 

@@ -1,4 +1,4 @@
-# The Legend of Zelda Like – 3 Players Edition
+# The Legend of Zelda Like
 
 ## Overview
 

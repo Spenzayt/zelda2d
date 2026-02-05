@@ -4,7 +4,7 @@
 
 **The Legend of Zelda Like** is a 2D adventure game inspired by *The Legend of Zelda: A Link to the Past*. You play as **Link**, exploring Hyrule, fighting enemies, and collecting items to ultimately defeat **Ganon** and save Princess Zelda.  
 
-- Created in 1 week by [Romain](https://github.com/Spenzayt), [Léa](https://github.com/LeaPav) and [Tristan](https://github.com/Tristan94-Germain).
+- Created in 1 week (February 2025) by [Romain](https://github.com/Spenzayt), [Léa](https://github.com/LeaPav) and [Tristan](https://github.com/Tristan94-Germain).
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/88488f96-d5bd-4500-b24f-f3c8e928a367" />
 
